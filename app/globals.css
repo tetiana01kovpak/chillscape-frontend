@@ -1,6 +1,6 @@
-@import 'modern-normalize/modern-normalize.css';
-
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -15,12 +15,12 @@
   --text-brown: #4c2613;
   --button-primary: #cc6534;
   --button-primary-active: #254c24;
-  --button-primary-disabled: rgba(204, 101, 52, 30%);
-  --button-secondary: rgba(0, 0, 0, 5%);
+  --button-primary-disabled: rgba(204, 101, 52, 0.3);
+  --button-secondary: rgba(0, 0, 0, 0.05);
   --red-error: #b00101;
-  --placehoder: rgba(0, 0, 0, 60%);
+  --placeholder: rgba(0, 0, 0, 0.6);
   --slider-arrow: #f2f2f2;
-  --border: rgba(0, 0, 0, 15%);
+  --border: rgba(0, 0, 0, 0.15);
   --link-active: #d8d8d8;
 }
 
@@ -36,11 +36,13 @@ body {
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 a {
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
 }
 
 ul,
@@ -63,16 +65,17 @@ select {
   font: inherit;
 }
 
-.button {
+button {
   cursor: pointer;
-  font-family: var(--font-montserrat);
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.5;
 }
 
 button:disabled {
   cursor: not-allowed;
+}
+
+:focus-visible {
+  outline: 2px solid var(--button-primary);
+  outline-offset: 2px;
 }
 
 .section {
@@ -80,6 +83,7 @@ button:disabled {
 }
 
 .container {
+  width: 100%;
   max-width: 375px;
   margin: 0 auto;
 }
@@ -110,6 +114,7 @@ h4 {
   font-size: 16px;
   line-height: 1.5;
 }
+
 @media only screen and (min-width: 768px) {
   .container {
     max-width: 768px;
@@ -129,20 +134,16 @@ h4 {
 }
 
 @media only screen and (min-width: 1440px) {
+  body {
+    font-size: 18px;
+  }
+
   .section {
     padding: 0 64px;
   }
 
-  .body {
-    font-size: 18px;
-  }
-
   .container {
     max-width: 1440px;
-  }
-
-  .button {
-    font-size: 20px;
   }
 
   h1 {
