@@ -1,11 +1,27 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+@import 'modern-normalize/modern-normalize.css';
 
 * {
+  box-sizing: border-box;
+  padding: 0;
   margin: 0;
+}
+
+:root {
+  --background: #fff2ec;
+  --foreground: #ffe5d9;
+  --text-black: #000000;
+  --text-white: #ffffff;
+  --text-green: #1b391b;
+  --text-brown: #4c2613;
+  --button-primary: #cc6534;
+  --button-primary-active: #254c24;
+  --button-primary-disabled: rgba(204, 101, 52, 30%);
+  --button-secondary: rgba(0, 0, 0, 5%);
+  --red-error: #b00101;
+  --placehoder: rgba(0, 0, 0, 60%);
+  --slider-arrow: #f2f2f2;
+  --border: rgba(0, 0, 0, 15%);
+  --link-active: #d8d8d8;
 }
 
 html {
@@ -14,9 +30,12 @@ html {
 
 body {
   min-height: 100vh;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #fff;
-  color: #000;
+  font-family: var(--montserrat-font), sans-serif;
+  background-color: var(--background);
+  color: var(--text-green);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 a {
@@ -28,6 +47,7 @@ ul,
 ol {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 img {
@@ -41,4 +61,102 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+.button {
+  cursor: pointer;
+  font-family: var(--font-montserrat);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.section {
+  padding: 0 20px;
+}
+
+.container {
+  max-width: 375px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+h4 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+}
+@media only screen and (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+
+  .section {
+    padding: 0 32px;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  h2 {
+    font-size: 44px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .section {
+    padding: 0 64px;
+  }
+
+  .body {
+    font-size: 18px;
+  }
+
+  .container {
+    max-width: 1440px;
+  }
+
+  .button {
+    font-size: 20px;
+  }
+
+  h1 {
+    font-size: 56px;
+  }
+
+  h2 {
+    font-size: 52px;
+  }
+}
+
+@media only screen and (max-width: 374px) {
+  .container {
+    max-width: 100%;
+    margin: 0 auto;
+  }
 }
