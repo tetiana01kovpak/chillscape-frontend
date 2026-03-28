@@ -3,10 +3,9 @@
 .page {
   min-height: 100vh;
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  padding: 64px 16px;
+  padding: 40px 16px;
 }
 
 .card {
@@ -14,7 +13,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  gap: 32px;
+  gap: 24px;
 }
 
 /* Tabs */
@@ -27,10 +26,10 @@
 .tab {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 12px 24px;
-  font-size: 18px;
+  padding: 10px 16px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 150%;
   color: var(--text-black);
@@ -62,35 +61,12 @@
   color: var(--text-black);
 }
 
-/* Subtitle (login only) */
-
-.subtitle {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 150%;
-  text-align: center;
-  color: var(--text-black);
-  margin-top: -8px;
-}
-
-/* Section title wrapper */
-
-.sectionTitle {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  align-self: stretch;
-}
-
 /* Form */
 
 .form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
+  gap: 20px;
   align-self: stretch;
 }
 
@@ -101,42 +77,22 @@
   align-self: stretch;
 }
 
-.fieldLabelRow {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-}
-
 .fieldLabel {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 150%;
-  color: var(--text-black);
-}
-
-.fieldLabelGrow {
-  flex: 1;
-}
-
-.forgotLink {
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 150%;
-  text-decoration: underline;
   color: var(--text-black);
 }
 
 .input {
   width: 100%;
-  height: 43px;
+  height: 40px;
   border: 1px solid var(--border);
   border-radius: 6px;
   background-color: var(--foreground);
   color: var(--text-black);
   padding: 8px;
-  font-size: 18px;
+  font-size: 16px;
   font-family: inherit;
   line-height: 150%;
   transition: outline-color 0.15s ease;
@@ -144,8 +100,6 @@
 
 .input::placeholder {
   color: var(--placeholder);
-  font-size: 18px;
-  line-height: 150%;
 }
 
 .input:focus-visible {
@@ -158,15 +112,6 @@
   color: var(--red-error);
 }
 
-/* Buttons wrapper */
-
-.buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-self: stretch;
-}
-
 .submit {
   width: 100%;
   padding: 6px 12px;
@@ -174,7 +119,7 @@
   border-radius: 6px;
   background-color: var(--button-primary);
   color: var(--text-white);
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   font-family: inherit;
   line-height: 150%;
@@ -186,38 +131,38 @@
   opacity: 0.88;
 }
 
-.secondaryBtn {
-  width: 100%;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
-  background-color: var(--button-secondary);
-  color: var(--text-black);
-  font-size: 20px;
-  font-weight: 500;
-  font-family: inherit;
-  line-height: 150%;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-}
-
-.secondaryBtn:hover {
-  opacity: 0.88;
-}
-
 /* ── Tablet (768px+) ── */
 
 @media (min-width: 768px) {
+  .page {
+    padding: 64px 32px;
+  }
+
   .card {
     max-width: 644px;
+    gap: 32px;
+  }
+
+  .tab {
+    padding: 12px 24px;
+    font-size: 18px;
+  }
+
+  .form {
+    gap: 24px;
+  }
+
+  .fieldLabel {
+    font-size: 18px;
   }
 
   .input {
-    height: 48px;
+    height: 43px;
+    font-size: 18px;
   }
 
-  .subtitle {
-    font-size: 20px;
+  .submit {
+    font-size: 18px;
   }
 }
 
@@ -230,5 +175,13 @@
 
   .card {
     max-width: 644px;
+  }
+
+  .input {
+    height: 48px;
+  }
+
+  .submit {
+    font-size: 20px;
   }
 }
