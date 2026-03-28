@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
 import css from './Footer.module.css';
 import Logo from '@/components/ui/Logo/Logo';
 
@@ -13,16 +11,24 @@ export default function Footer() {
           <Logo className={css.logoCustom} />
           <div className={css.socials}>
             <a href="https://facebook.com" target="_blank">
-              <FaFacebook />
+              <svg className={css.icon} width="32" height="32">
+                <use href="/icons.svg#icon-facebook" />
+              </svg>
             </a>
             <a href="https://instagram.com" target="_blank">
-              <FaInstagram />
+              <svg className={css.icon} width="32" height="32">
+                <use href="/icons.svg#icon-Instagram" />
+              </svg>
             </a>
             <a href="https://x.com" target="_blank">
-              <FaXTwitter />
+              <svg className={css.icon} width="32" height="32">
+                <use href="/icons.svg#icon-X" />
+              </svg>
             </a>
             <a href="https://youtube.com" target="_blank">
-              <FaYoutube />
+              <svg className={css.icon} width="32" height="32">
+                <use href="/icons.svg#icon-youtube" />
+              </svg>
             </a>
           </div>
           <nav className={css.nav}>

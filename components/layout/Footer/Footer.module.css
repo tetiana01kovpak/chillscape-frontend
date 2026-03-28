@@ -22,6 +22,13 @@
   line-height: 0;
 }
 
+.icon {
+  display: block;
+  line-height: 0;
+  color: var(--text-brown);
+  fill: currentColor;
+}
+
 .nav {
   display: flex;
   flex-direction: column;

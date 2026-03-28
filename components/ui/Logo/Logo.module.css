@@ -5,15 +5,10 @@
   text-decoration: none;
 }
 
-.logoIcon {
-  display: block;
-}
-
 .logoText {
-  /* font-family: ; */
   font-weight: 500;
   font-size: 17px;
   line-height: 1;
   letter-spacing: -0.01em;
-  color: #4c2613;
+  color: var(--text-brown);
 }
