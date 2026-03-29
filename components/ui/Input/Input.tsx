@@ -1,3 +1,38 @@
-export default function Input() {
-  return <input placeholder="Input" />;
+import clsx from 'clsx';
+import { InputHTMLAttributes, ReactNode, forwardRef } from 'react';
+import s from './Input.module.css';
+
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: ReactNode;
+  error?: string; 
+  icon?: ReactNode;
 }
+
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ label, error, icon, className, id, type = 'text', ...props }, ref) => {
+    const inputId = id || (label ? `input-${label.toString()}` : 'input');
+
+    return (
+      <div className={clsx(s.inputWrapper, className)}>
+        {label && <label htmlFor={inputId} className={s.label}>{label}</label>}
+        
+        <div className={s.fieldGroup}>
+          <input
+            ref={ref}
+            id={inputId}
+            type={type}
+            className={clsx(s.input, { [s.error]: error })} // TS+clsx в деле
+            {...props}
+          />
+          {icon && <span className={s.iconWrapper}>{icon}</span>}
+        </div>
+        
+        {/* Состояние Error из макета */}
+        {error && <span className={s.errorMessage}>{error}</span>}
+      </div>
+    );
+  }
+);
+
+Input.displayName = 'Input';

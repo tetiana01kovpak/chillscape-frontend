@@ -14,6 +14,7 @@
   --text-green: #1b391b;
   --text-brown: #4c2613;
   --button-primary: #cc6534;
+  --button-primary-hover: #ffe5d9;
   --button-primary-active: #254c24;
   --button-primary-disabled: rgba(204, 101, 52, 0.3);
   --button-secondary: rgba(0, 0, 0, 0.05);
@@ -46,7 +47,27 @@ a {
   color: inherit;
   cursor: pointer;
 }
-
+.link {
+  color: #000;
+  text-decoration: none;
+  font-size: 16px;  
+  display: inline-flex;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid transparent;
+}
+.link:hover, .link:focus {
+  border: 1px solid black;
+  border-radius: 4px;
+}
+.link:active {
+  background-color: #d8d8d8;
+}
+.link:disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 30%;
+}
 ul,
 ol {
   list-style: none;
