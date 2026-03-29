@@ -1,0 +1,281 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--background);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.btnPrimary,
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.btnPrimary {
+  background-color: var(--button-primary);
+  color: var(--text-white);
+}
+
+.btnPrimary:hover,
+.btnPrimary:focus {
+  background-color: var(--foreground);
+  border-color: var(--button-primary);
+  color: var(--text-green);
+}
+
+.btnPrimary:active {
+  background-color: var(--button-primary);
+  color: var(--text-white);
+  border-color: transparent;
+}
+
+.btnPrimary:disabled {
+  background-color: var(--button-primary-disabled);
+  cursor: not-allowed;
+}
+
+.btnSecondary {
+  background-color: var(--button-secondary);
+  color: var(--text-green);
+  border-color: var(--border);
+}
+
+.btnSecondary:hover,
+.btnSecondary:focus {
+  background-color: var(--button-primary);
+  color: var(--text-white);
+  border-color: transparent;
+}
+
+.btnSecondary:active {
+  background-color: var(--button-primary-active);
+  color: var(--text-white);
+  border-color: transparent;
+}
+
+.btnSecondary:disabled {
+  border-color: var(--button-primary-disabled);
+  color: var(--button-primary-disabled);
+  cursor: not-allowed;
+}
+
+.btnFull {
+  width: 100%;
+  font-size: 16px;
+}
+
+.desktopRight {
+  display: none;
+}
+
+.mobileRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.authBtns {
+  display: none;
+}
+
+.navLink {
+  color: var(--text-green);
+  font-size: 16px;
+}
+
+.burgerBtn,
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--button-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.drawer {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px 92px;
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.drawerNav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding-top: 24px;
+  flex: 1;
+}
+
+.drawerLink {
+  font-size: 16px;
+  color: var(--text-green);
+}
+
+.drawerBottom {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.drawerAuthBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.userName {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-green);
+}
+
+.divider {
+  width: 2px;
+  height: 29px;
+  border-radius: 1px;
+  background-color: var(--border);
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: var(--text-brown);
+  transition: color 0.2s;
+}
+
+.icon {
+  fill: var(--text-brown);
+}
+
+.desktopUserMenu {
+  display: none;
+  align-items: center;
+  gap: 16px;
+}
+
+.drawerUserRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+@media (min-width: 768px) {
+  .btnPrimary,
+  .btnSecondary {
+    font-size: 16px;
+  }
+
+  .mobileRight {
+    gap: 16px;
+  }
+
+  .authBtns {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .drawer {
+    top: 72px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .drawerAuthBtns {
+    display: none;
+  }
+}
+
+@media (min-width: 1440px) {
+  .inner {
+    padding: 17px 0;
+  }
+
+  .desktopRight {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    font-size: 20px;
+  }
+
+  .desktopNav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .desktopAuthNav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .desktopUserMenu {
+    display: flex;
+  }
+
+  .navLink {
+    font-size: 18px;
+  }
+
+  .mobileRight {
+    display: none;
+  }
+}

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import 'modern-normalize/modern-normalize.css';
 import './globals.css';
+import Header from '@/components/layout/Header/Header';
+import Footer from '@/components/layout/Footer/Footer';
 
 const montserrat = Montserrat({
   variable: '--montserrat-font',
@@ -19,8 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={montserrat.variable}>{children}</body>
+    <html lang="uk">
+      <body className={montserrat.variable}>
+        <Header />
+        <main style={{ flex: 1 }}>{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }
