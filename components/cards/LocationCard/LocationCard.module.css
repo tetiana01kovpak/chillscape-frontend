@@ -1,0 +1,32 @@
+.card {
+    border: 0px solid rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    background: #ffe5d9;
+
+    width: 335px;
+    height: 520px;
+}
+
+.bottom {
+    padding: 16px;
+
+    & *:not(:last-child) {
+        margin-bottom: 12px;
+    }
+}
+
+.link {
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    padding: 12px;
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    @media screen and (min-width: 1440px) {
+        padding: 9px;
+    }
+}
