@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import css from './Footer.module.css';
 import Logo from '@/components/ui/Logo/Logo';
+import { Icon } from '@/components/ui/Icon/Icon';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,24 +12,16 @@ export default function Footer() {
           <Logo className={css.logoCustom} />
           <div className={css.socials}>
             <a href="https://facebook.com" target="_blank">
-              <svg className={css.icon} width="32" height="32">
-                <use href="/icons.svg#icon-facebook" />
-              </svg>
+              <Icon name="icon-facebook" width={32} height={32} />
             </a>
             <a href="https://instagram.com" target="_blank">
-              <svg className={css.icon} width="32" height="32">
-                <use href="/icons.svg#icon-Instagram" />
-              </svg>
+              <Icon name="icon-Instagram" width={32} height={32} />
             </a>
             <a href="https://x.com" target="_blank">
-              <svg className={css.icon} width="32" height="32">
-                <use href="/icons.svg#icon-X" />
-              </svg>
+              <Icon name="icon-X" width={32} height={32} />
             </a>
             <a href="https://youtube.com" target="_blank">
-              <svg className={css.icon} width="32" height="32">
-                <use href="/icons.svg#icon-youtube" />
-              </svg>
+              <Icon name="icon-youtube" width={32} height={32} />
             </a>
           </div>
           <nav className={css.nav}>

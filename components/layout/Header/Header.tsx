@@ -3,11 +3,12 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/components/ui/Logo/Logo';
+import { Icon } from '@/components/ui/Icon/Icon';
 import css from './Header.module.css';
 
 export default function Header() {
   // для тесту
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   // для тесту
   const user = {
     username: 'Name',
@@ -56,7 +57,7 @@ export default function Header() {
               Місця відпочинку
             </Link>
             {isLoggedIn && (
-              <Link href="/profile" className={css.navLink}>
+              <Link href="/pro" className={css.navLink}>
                 Мій профіль
               </Link>
             )}
@@ -75,9 +76,7 @@ export default function Header() {
               </div>
               <span className={css.divider}></span>
               <button className={css.logoutBtn} aria-label="Вийти">
-                <svg className={css.icon} width="24" height="24">
-                  <use href="/icons.svg#icon-logout" />
-                </svg>
+                <Icon name="icon-logout" width={24} height={24} />
               </button>
             </div>
           ) : (
@@ -115,9 +114,7 @@ export default function Header() {
             onClick={() => setIsMenuOpen(prev => !prev)}
             aria-label={isMenuOpen ? 'Закрити меню' : 'Відкрити меню'}
           >
-            <svg className={css.icon} width="24" height="24">
-              <use href={isMenuOpen ? '/icons.svg#icon-close' : '/icons.svg#icon-menu'} />
-            </svg>
+            <Icon name={isMenuOpen ? 'icon-close' : 'icon-menu'} width={24} height={24} />
           </button>
         </div>
       </div>
@@ -132,7 +129,7 @@ export default function Header() {
               Місця відпочинку
             </Link>
             {isLoggedIn && (
-              <Link href="/profile" className={css.drawerLink} onClick={closeMenu}>
+              <Link href="/pro" className={css.drawerLink} onClick={closeMenu}>
                 Мій профіль
               </Link>
             )}
@@ -155,9 +152,7 @@ export default function Header() {
                   <span className={css.userName}>{user.username}</span>
                   <span className={css.divider}></span>
                   <button className={css.logoutBtn} aria-label="Вийти">
-                    <svg className={css.icon} width="24" height="24">
-                      <use href="/icons.svg#icon-logout" />
-                    </svg>
+                    <Icon name="icon-logout" width={24} height={24} />
                   </button>
                 </div>
               </>

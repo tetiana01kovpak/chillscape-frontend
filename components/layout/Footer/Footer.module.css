@@ -20,6 +20,10 @@
 }
 .socials a {
   line-height: 0;
+  transition: opacity 0.2s;
+}
+.socials a:hover {
+  opacity: 0.7;
 }
 
 .icon {
@@ -40,6 +44,21 @@
   color: var(--text-green);
   font-size: 18px;
   line-height: 1.5;
+  padding: 4px 8px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+
+.navLink:hover {
+  border-color: var(--text-black);
+}
+
+.navLink:active {
+  background-color: var(--link-active);
+  border-color: var(--text-black);
 }
 
 .line {
