@@ -48,7 +48,6 @@ const HeroBlock = () => {
             />
             <Button
               onClick={handleSearch}
-              variant="primary"
               className={styles.heroButton}
             >
               Знайти місце

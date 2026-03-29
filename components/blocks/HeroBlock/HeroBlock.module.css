@@ -1,8 +1,8 @@
 .heroWrapper {
   display: flex;
   justify-content: center;
-  width: 100%;
   max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -10,6 +10,7 @@
   position: relative;
   width: 100%;
   max-width: 1440px;
+  height: auto;
   overflow: hidden;
   padding: 64px 20px;
   display: flex;
@@ -23,15 +24,15 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  width: 100%;
   min-height: 708px;
+  width: 100%;
 }
 
 .background::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.32);
+  background: rgba(0, 0, 0, 0.32); 
 }
 
 .content {
@@ -40,7 +41,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 100%;
+  max-width: 335px;
   margin: 0 auto;
   padding: 108px 0;
   text-align: left;
@@ -48,7 +49,7 @@
 
 .title {
   font-family: var(--montserrat-font);
-  font-size: 32px;
+  font-size: 32px; 
   font-weight: 700;
   color: #fff;
   margin-bottom: 16px;
@@ -58,7 +59,7 @@
 
 .subtitle {
   font-family: var(--montserrat-font);
-  font-size: 14px;
+  font-size: 14px; 
   color: #fff;
   margin-bottom: 24px;
   font-weight: 500;
@@ -68,76 +69,51 @@
 .search {
   display: flex;
   gap: 12px;
-  flex-direction: column;
+  flex-wrap: wrap;
   width: 100%;
-  align-items: center;
+  justify-content: center; 
 }
 
-/* Кастомні стилі для UI Input та Button */
-.heroInput .input {
-  font-size: 14px;
-  padding: 12px 16px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
+.heroInput {
   width: 100%;
-  max-width: 335px;
-  height: 40px;
-  box-sizing: border-box;
+  max-width: 100%;
 }
 
 .heroButton {
   width: 100%;
-  max-width: 335px;
-  padding: 12px 20px;
-  font-size: 14px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  height: 40px;
-  box-sizing: border-box;
+  max-width: 100%;
 }
 
 /* Tablet */
 @media (min-width: 768px) {
   .hero {
-    padding: 105px 0;
+    padding: 64px 32px;
   }
-
   .content {
     align-items: flex-start;
-    padding: 64px 32px;
+    padding: 160px 0;
     text-align: left;
-  }
-
-  .title {
-    font-size: 48px;
-    margin-bottom: 20px;
-  }
-
-  .subtitle {
-    font-size: 16px;
-    margin-bottom: 28px;
+    max-width: 704px;
   }
 
   .search {
+    flex-wrap: nowrap;
     flex-direction: row;
+    display: flex;
     gap: 8px;
     width: 100%;
+    justify-content: flex-start;
   }
 
-  .heroInput .input {
+  .heroInput {
     max-width: 331px;
-    font-size: 16px;
-    padding: 8px 12px;
-    height: 40px;
+   
   }
 
   .heroButton {
     max-width: 137px;
-    padding: 8px 12px;
-    font-size: 16px;
-    height: 40px;
+    white-space: nowrap;
+    text-align: center;
   }
 }
 
@@ -146,22 +122,17 @@
   .hero {
     padding: 72px 64px;
   }
-
   .content {
     padding: 164px 0;
+    max-width: 1312px;
+    align-items: flex-start;
+    text-align: left;
   }
 
-  .title {
-    font-size: 48px;
-    margin-bottom: 24px;
+  .heroInput {
+    max-width: 331px;
   }
-
-  .subtitle {
-    font-size: 18px;
-    margin-bottom: 32px;
-  }
-
-  .heroInput .input {
-    max-width: 500px;
+  .heroButton {
+    max-width: 165px;
   }
 }
