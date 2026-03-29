@@ -195,10 +195,6 @@
   transition: color 0.2s;
 }
 
-.icon {
-  fill: var(--text-brown);
-}
-
 .desktopUserMenu {
   display: none;
   align-items: center;
