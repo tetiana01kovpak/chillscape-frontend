@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
+import AuthProvider from '@/components/auth/AuthProvider';
 import 'modern-normalize/modern-normalize.css';
 import './globals.css';
 
@@ -23,7 +24,7 @@ export default function RootLayout({
     <html lang="uk">
       <body className={montserrat.variable}>
         <Toaster position="top-right" />
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
