@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import s from './Select.module.css';
+import { Icon } from '../Icon/Icon';
 
 interface Option {
   value: string;
@@ -44,7 +45,7 @@ export const Select = ({ label, options, value, onChange, placeholder = 'Select 
         <span className={clsx(s.value, !selectedOption && s.placeholder)}>
           {selectedOption ? selectedOption.label : placeholder}
         </span>
-        <span className={clsx(s.arrow, { [s.arrowUp]: isOpen })} />
+        <Icon name="icon-keyboard-arrow-down" className={clsx(s.arrow, { [s.arrowUp]: isOpen })} />
       </div>
 
       {isOpen && (

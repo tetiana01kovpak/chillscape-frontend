@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, ReactNode } from 'react';
 import s from './Button.module.css';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children?: ReactNode; // Сделали необязательным, если кнопка — только иконка
+  children: ReactNode; // Сделали необязательным, если кнопка — только иконка
   variant?: 'primary' | 'secondary' | 'icon'; 
   icon?: ReactNode; // Пропс для иконки (например, из библиотеки или SVG)
 }

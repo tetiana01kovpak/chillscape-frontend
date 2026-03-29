@@ -20,12 +20,13 @@
 .input {
   width: 100%;
   padding: 12px 16px;
-  background-color: var(--background); /* Исходный цвет фона */
-  border: 1px solid rgba(0, 0, 0, 0.1); /* Легкая рамка */
+  background-color: var(--foreground); /* Исходный цвет фона */
+  border: 1px solid rgba(0, 0, 0, 0.15); /* Легкая рамка */
   border-radius: 12px; /* Уголки как на макете */
   font-size: 16px;
   transition: all 0.2s;
   color: var(--text-black);
+  outline: none;
 }
 
 .input::placeholder {
@@ -45,8 +46,7 @@
 
 /* Состояние Error из макета */
 .error {
-  border-color: var(--red-error); /* #b00101 */
-  background-color: rgba(176, 1, 1, 0.05); /* Легкий красный фон */
+  border-color: var(--red-error); /* Красная рамка */
 }
 
 .errorMessage {

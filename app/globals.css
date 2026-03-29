@@ -45,22 +45,23 @@ a {
   color: inherit;
   cursor: pointer;
 }
-.MyLink {
+.link {
   color: #000;
   text-decoration: none;
   font-size: 16px;  
   display: inline-flex;
   align-items: center;
   padding: 8px;
+  border: 1px solid transparent;
 }
-.MyLink:hover {
+.link:hover, .link:focus {
   border: 1px solid black;
   border-radius: 4px;
 }
-.MyLink:active {
+.link:active {
   background-color: #d8d8d8;
 }
-.MyLink:disabled {
+.link:disabled {
   pointer-events: none;
   cursor: default;
   opacity: 30%;

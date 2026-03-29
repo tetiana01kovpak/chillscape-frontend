@@ -44,13 +44,13 @@ export default function TestPage() {
             </Button>
           </div>
           <div className={s.elementsGroup}>
-            <Link href="#" className='MyLink'>
+            <Link href="#" className='link'>
               <Icon name="icon-bookmark" width={24} height={24} />
             </Link>
-            <Link href="#" className='MyLink'>
+            <Link href="#" className='link'>
               Link
             </Link>
-            <Link href="#" className='MyLink:disabled'>
+            <Link href="#" className='link:disabled'>
              <Icon name="icon-bookmark" width={24} height={24} />
             </Link>
           </div>

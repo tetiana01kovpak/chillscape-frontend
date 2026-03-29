@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { SVGProps } from 'react';
-import s from './Icon.module.css';
+
 
 interface IconProps extends SVGProps<SVGSVGElement> {
   name: string; // id иконки в спрайте, например 'bookmark'
