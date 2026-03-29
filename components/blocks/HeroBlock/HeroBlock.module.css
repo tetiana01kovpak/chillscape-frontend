@@ -1,15 +1,15 @@
 .heroWrapper {
   display: flex;
   justify-content: center;
-  max-width: 1440px;
   width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
 }
+
 .hero {
   position: relative;
   width: 100%;
   max-width: 1440px;
-  height: auto;
   overflow: hidden;
   padding: 64px 20px;
   display: flex;
@@ -23,38 +23,32 @@
   position: absolute;
   inset: 0;
   z-index: 0;
+  width: 100%;
   min-height: 708px;
-  width: 100%;
-}
-.background img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .background::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.32); 
+  background: rgba(0, 0, 0, 0.32);
 }
 
 .content {
   position: relative;
   z-index: 1;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 100%;
   margin: 0 auto;
-  padding: 108.5px 0px;
+  padding: 108px 0;
   text-align: left;
 }
 
 .title {
   font-family: var(--montserrat-font);
-  font-size: 32px; 
+  font-size: 32px;
   font-weight: 700;
   color: #fff;
   margin-bottom: 16px;
@@ -64,97 +58,84 @@
 
 .subtitle {
   font-family: var(--montserrat-font);
-  font-size: 14px; 
+  font-size: 14px;
   color: #fff;
   margin-bottom: 24px;
   font-weight: 500;
-  font-size: 14px;
   line-height: 1.5;
-  
 }
 
 .search {
   display: flex;
   gap: 12px;
-  flex-wrap: wrap;
+  flex-direction: column;
   width: 100%;
   align-items: center;
 }
 
-.input {
-  font-family: var (--montserrat-font);
+/* Кастомні стилі для UI Input та Button */
+.heroInput .input {
+  font-size: 14px;
   padding: 12px 16px;
   border-radius: 6px;
-  border: none;
+  display: flex;
+  align-items: center;
   width: 100%;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.5;
+  max-width: 335px;
+  height: 40px;
+  box-sizing: border-box;
 }
 
-.button {
-  font-family: var (--montserrat-font);
-  background-color: #e86f51;
-  color: #fff;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.5;
-  border: none;
+.heroButton {
+  width: 100%;
+  max-width: 335px;
   padding: 12px 20px;
+  font-size: 14px;
   border-radius: 6px;
-  cursor: pointer;
-  width: 100%;
-  transition: background 250ms ease;
-}
-
-.button:hover {
-  background-color: #d45c3f;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  box-sizing: border-box;
 }
 
 /* Tablet */
 @media (min-width: 768px) {
-
   .hero {
-    padding: 105.5px 0px;
+    padding: 105px 0;
   }
+
   .content {
     align-items: flex-start;
     padding: 64px 32px;
     text-align: left;
   }
-  .background {
-    min-height: 708px;
-  }
 
   .title {
     font-size: 48px;
     margin-bottom: 20px;
-    text-align: left;
   }
 
   .subtitle {
     font-size: 16px;
     margin-bottom: 28px;
-    text-align: left;
   }
 
   .search {
-    flex-wrap: nowrap;
     flex-direction: row;
     gap: 8px;
     width: 100%;
   }
 
-  .input {
+  .heroInput .input {
     max-width: 331px;
     font-size: 16px;
     padding: 8px 12px;
     height: 40px;
   }
-  .button {
+
+  .heroButton {
     max-width: 137px;
     padding: 8px 12px;
-    white-space: nowrap;
     font-size: 16px;
     height: 40px;
   }
@@ -163,18 +144,13 @@
 /* Desktop */
 @media (min-width: 1440px) {
   .hero {
-    max-width: 1440px;
-    margin: 0 auto;
     padding: 72px 64px;
   }
+
   .content {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 164px 0px;
+    padding: 164px 0;
   }
-  .background {
-    min-height: 724px;
-  }
+
   .title {
     font-size: 48px;
     margin-bottom: 24px;
@@ -185,7 +161,7 @@
     margin-bottom: 32px;
   }
 
-  .input {
+  .heroInput .input {
     max-width: 500px;
   }
 }
