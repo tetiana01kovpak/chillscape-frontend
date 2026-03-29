@@ -19,15 +19,15 @@ function ReviewCard({
   locationSlug,
 }: ReviewCardProps) {
   return (
-    <article className={styles["review-card"]}>
-    <div className={styles["review-card__top"]}>
+    <article className={styles.card}>
+    <div className={styles.top}>
         <RatingStars rating={rating} />
-        <p className={styles["review-card__text"]}>{text}</p>
+        <p className={styles.text}>{text}</p>
     </div>
-    <div className={styles["review-card__bottom"]}>
-        <span className={styles["review-card__author-name"]}>{author}</span>
+    <div className={styles.bottom}>
+        <span className={styles.authorName}>{author}</span>
         {locationSlug ? (
-        <Link href={`/locations/${locationSlug}`} className={styles["review-card__author-location"]}>
+        <Link href={`/locations/${locationSlug}`} className={styles.location}>
             {locationName}
         </Link>
         ) : (

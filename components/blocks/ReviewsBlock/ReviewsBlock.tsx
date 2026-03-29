@@ -57,7 +57,7 @@ function ReviewsBlock() {
 
   return (
     <section className={styles.reviews}>
-      <h2 className={styles["reviews__title"]}>Останні відгуки</h2>
+      <h2 className={styles.title}>Останні відгуки</h2>
 
       <Swiper
         onSwiper={(swiper) => {
@@ -73,7 +73,7 @@ function ReviewsBlock() {
         className={styles.slider}
       >
         {localReviews.map((review) => (
-          <SwiperSlide key={review.id} className={styles["reviews__slide"]}>
+          <SwiperSlide key={review.id} className={styles.slider}>
             <ReviewCard
               rating={review.rating}
               text={review.text}
@@ -85,11 +85,11 @@ function ReviewsBlock() {
         ))}
       </Swiper>
 
-      <div className={styles["reviews__actions"]}>
+      <div className={styles.actions}>
         <button
           type="button"
           aria-label="Previous"
-          className={styles["reviews__button"]}
+          className={styles.button}
           onClick={() => swiperRef.current?.slidePrev()}
         >
           <svg
@@ -110,7 +110,7 @@ function ReviewsBlock() {
         <button
           type="button"
           aria-label="Next"
-          className={styles["reviews__button"]}
+          className={styles.button}
           onClick={() => swiperRef.current?.slideNext()}
         >
           <svg
