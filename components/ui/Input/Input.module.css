@@ -1,0 +1,61 @@
+/* Input.module.css */
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Расстояние между лэйблом, полем и ошибкой */
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-black);
+}
+
+.fieldGroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: var(--foreground); /* Исходный цвет фона */
+  border: 1px solid rgba(0, 0, 0, 0.15); /* Легкая рамка */
+  border-radius: 12px; /* Уголки как на макете */
+  font-size: 16px;
+  transition: all 0.2s;
+  color: var(--text-black);
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--placeholder); /* rgba(0, 0, 0, 0.6) */
+}
+
+/* Состояния Hover и Focus */
+.input:hover:not(:disabled):not(.error) {
+  background-color: #ffe5d9; 
+}
+.input:focus:not(.error) {
+  outline: none;
+  border-color: var(--button-primary); /* Оранжевый при фокусе */
+  box-shadow: 0 0 0 2px rgba(204, 101, 52, 0.1); /* Легкое свечение */
+}
+
+/* Состояние Error из макета */
+.error {
+  border-color: var(--red-error); /* Красная рамка */
+}
+
+.errorMessage {
+  font-size: 12px;
+  color: var(--red-error);
+}
+
+/* Disabled */
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.textarea { resize: vertical; min-height: 100px; }
