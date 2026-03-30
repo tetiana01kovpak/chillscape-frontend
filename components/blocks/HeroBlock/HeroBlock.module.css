@@ -1,0 +1,138 @@
+.heroWrapper {
+  display: flex;
+  justify-content: center;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  height: auto;
+  overflow: hidden;
+  padding: 64px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  margin: 0 auto;
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  min-height: 708px;
+  width: 100%;
+}
+
+.background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.32); 
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 335px;
+  margin: 0 auto;
+  padding: 108px 0;
+  text-align: left;
+}
+
+.title {
+  font-family: var(--montserrat-font);
+  font-size: 32px; 
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-family: var(--montserrat-font);
+  font-size: 14px; 
+  color: #fff;
+  margin-bottom: 24px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.search {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center; 
+}
+
+.heroInput {
+  width: 100%;
+  max-width: 100%;
+}
+
+.heroButton {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .hero {
+    padding: 64px 32px;
+  }
+  .content {
+    align-items: flex-start;
+    padding: 160px 0;
+    text-align: left;
+    max-width: 704px;
+  }
+
+  .search {
+    flex-wrap: nowrap;
+    flex-direction: row;
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .heroInput {
+    max-width: 331px;
+   
+  }
+
+  .heroButton {
+    max-width: 137px;
+    white-space: nowrap;
+    text-align: center;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1440px) {
+  .hero {
+    padding: 72px 64px;
+  }
+  .content {
+    padding: 164px 0;
+    max-width: 1312px;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .heroInput {
+    max-width: 331px;
+  }
+  .heroButton {
+    max-width: 165px;
+  }
+}

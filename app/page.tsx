@@ -9,14 +9,12 @@ import ReviewsBlock from '@/components/blocks/ReviewsBlock/ReviewsBlock';
 export default function HomePage() {
   return (
     <>
-      <Header />
       <main>
         <HeroBlock />
         <AdvantagesBlock />
         <PopularLocationsBlock />
         <ReviewsBlock />
       </main>
-      <Footer />
     </>
   );
 }
