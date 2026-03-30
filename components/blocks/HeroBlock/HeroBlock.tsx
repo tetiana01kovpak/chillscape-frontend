@@ -11,14 +11,16 @@ const HeroBlock = () => {
   const [search, setSearch] = useState('');
   const router = useRouter();
 
-  const handleSearch = () => {
-    if (search.trim() !== '') {
-      router.push(`/locations?search=${encodeURIComponent(search)}`);
-    }
-  };
+const handleSearch = () => {
+  const trimmedSearch = search.trim();
+
+  if (trimmedSearch) {
+    router.push(`/locations?search=${encodeURIComponent(trimmedSearch)}`);
+  }
+};
 
   return (
-    <section className={styles.heroWrapper}>
+    <div className={styles.heroWrapper}>
       <section className={styles.hero}>
         <div className={styles.background}>
           <Image
@@ -44,6 +46,11 @@ const HeroBlock = () => {
               placeholder="Введіть назву, тип або регіон..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                 handleSearch();
+                }
+              }}
               className={styles.heroInput}
             />
             <Button
@@ -55,7 +62,7 @@ const HeroBlock = () => {
           </div>
         </div>
       </section>
-    </section>
+    </div>
   );
 };
 
