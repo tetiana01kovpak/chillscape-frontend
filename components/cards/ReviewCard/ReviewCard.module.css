@@ -79,7 +79,7 @@
     }
 }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 1440px) {
     .card {
         padding: 32px 28px;
         min-height: 260px;

@@ -68,7 +68,7 @@ function ReviewsBlock() {
         spaceBetween={32}
         breakpoints={{
           768: { slidesPerView: 2 },
-          1280: { slidesPerView: 3 },
+          1440: { slidesPerView: 3 },
         }}
         className={styles.slider}
       >
