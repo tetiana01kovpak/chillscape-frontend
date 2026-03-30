@@ -35,20 +35,70 @@
     gap: 12px;
 }
 
-.button {
+.arrowButton.arrowButton {
     width: 48px;
     height: 48px;
-    border: 1px solid var(--border);
     border-radius: 14px;
+    padding: 0;
     background-color: var(--foreground);
     color: var(--text-brown);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+
+    border: 1px solid #d8c5bb;
+    /* або твоя змінна для нейтрального бордера */
 }
 
-.button svg {
+.arrowButton.arrowButton:hover,
+.arrowButton.arrowButton:focus-visible {
+    background-color: var(--button-secondary);
+    border-color: var(--button-primary);
+    color: var(--text-brown);
+    outline: none;
+}
+
+.arrowButton.arrowButton:active {
+    background-color: var(--button-primary);
+    border-color: var(--button-primary);
+    color: var(--text-brown);
+}
+
+.arrowButton.arrowButton:disabled {
+    background-color: #efefef;
+    border-color: #dfdfdf;
+    color: #b8b8b8;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* 
+.arrowButton {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    padding: 0;
+    background-color: var(--button-secondary);
+    color: var(--text-brown);
+    border: 1px solid transparent;
+}
+.arrowButton:hover {
+background-color: var(--foreground);
+border-color: var(--button-primary);
+color: var(--text-brown);
+}
+
+.arrowButton:focus-visible {
+    background-color: var(--foreground);
+    border-color: var(--button-primary);
+    color: var(--text-brown);
+    outline: none;
+}
+
+.arrowButton:active {
+    background-color: var(--button-primary-active);
+    border-color: transparent;
+    color: var(--text-white);
+} */
+
+.arrowIcon {
     width: 22px;
     height: 22px;
     flex-shrink: 0;
@@ -64,12 +114,12 @@
         font-size: 40px;
     }
 
-    .button {
+    .arrowButton {
         width: 60px;
         height: 60px;
     }
 
-    .button svg {
+    .arrowIcon {
         width: 24px;
         height: 24px;
     }
@@ -90,13 +140,12 @@
         gap: 16px;
     }
 
-    .button {
+    .arrowButton {
         width: 68px;
         height: 68px;
-        border-radius: 16px;
     }
 
-    .button svg {
+    .arrowIcon {
         width: 28px;
         height: 28px;
     }

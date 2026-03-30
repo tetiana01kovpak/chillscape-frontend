@@ -1,11 +1,12 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import styles from './ReviewsBlock.module.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import ReviewCard from '@/components/cards/ReviewCard/ReviewCard';
+import { Button } from '@/components/ui/Button/Button';
 
 type Review = {
   id: string;
@@ -54,6 +55,13 @@ const localReviews: Review[] = [
 
 function ReviewsBlock() {
   const swiperRef = useRef<SwiperType | null>(null);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+
+  const updateNavigationState = (swiper: SwiperType) => {
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
+  }
 
   return (
     <section className={styles.reviews}>
@@ -62,6 +70,13 @@ function ReviewsBlock() {
       <Swiper
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
+          updateNavigationState(swiper);
+        }}
+        onSlideChange={(swiper) => {
+          updateNavigationState(swiper);
+        }}
+        onResize={(swiper) => {
+          updateNavigationState(swiper);
         }}
         slidesPerView={1}
         slidesPerGroup={1}
@@ -73,7 +88,7 @@ function ReviewsBlock() {
         className={styles.slider}
       >
         {localReviews.map((review) => (
-          <SwiperSlide key={review.id} className={styles.slider}>
+          <SwiperSlide key={review.id} className={styles.slide}>
             <ReviewCard
               rating={review.rating}
               text={review.text}
@@ -86,13 +101,16 @@ function ReviewsBlock() {
       </Swiper>
 
       <div className={styles.actions}>
-        <button
+        <Button
           type="button"
+          variant='secondary'
           aria-label="Previous"
-          className={styles.button}
+          className={styles.arrowButton}
           onClick={() => swiperRef.current?.slidePrev()}
+          disabled={isBeginning}
         >
           <svg
+            className={styles.arrowIcon}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -105,15 +123,18 @@ function ReviewsBlock() {
               d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
             />
           </svg>
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
+          variant='secondary'
           aria-label="Next"
-          className={styles.button}
+          className={styles.arrowButton}
           onClick={() => swiperRef.current?.slideNext()}
+          disabled={isEnd}
         >
           <svg
+            className={styles.arrowIcon}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -126,7 +147,7 @@ function ReviewsBlock() {
               d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
             />
           </svg>
-        </button>
+        </Button>
       </div>
     </section>
   );
