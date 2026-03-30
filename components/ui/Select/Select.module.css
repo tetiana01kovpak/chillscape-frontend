@@ -1,0 +1,78 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 8px;
+  background-color: var(--foreground); /* Твой нежно-розовый */
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.control:hover {
+  border: 1px solid #FFA57A; 
+}
+
+.isOpen {
+  border-color: var(--button-primary);
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom: transparent;
+}
+.isOpen:hover {
+  border-color: var(--button-primary);
+  border-bottom: transparent;
+}
+
+.placeholder {
+  color: var(--placeholder);
+}
+
+/* Выпадающий список */
+.menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: var(--foreground);
+  border: 1px solid var(--button-primary);
+  border-top: none;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  list-style: none;
+  padding: 8px 0;
+  z-index: 10;
+}
+
+.option {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.option:hover {
+  background-color: #FFA57A; /* Цвет при наведении */
+}
+
+/* Оранжевое выделение из твоего макета */
+.isSelected {
+  background-color: #FFA57A;
+}
+.arrow {
+  width: 24px;
+  height: 24px;
+  fill: rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s;
+}
+.arrowUp {
+  transform: rotate(180deg);
+}
