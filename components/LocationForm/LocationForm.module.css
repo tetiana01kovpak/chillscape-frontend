@@ -1,0 +1,97 @@
+/* Основний контейнер сторінки (щоб був кремовий фон навколо) */
+.root {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.pageTitle {
+  font-size: 36px;
+  color: #1b391b;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+
+
+
+/* Секція завантаження зображення */
+.uploadSection {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-weight: 400;
+  margin-bottom: 12px;
+  color: var(--text-green);
+}
+
+.hiddenInput {
+  display: none; /* Приховуємо стандартний input */
+}
+
+/* Сіра область (заглушка) для фото */
+.dropzone {
+  width: 100%;
+  aspect-ratio: 1091 / 726; /* Зберігаємо пропорцію з макета image_7.png */
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Щоб фото не вилазило за закруглені краї */
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 16px;
+  border: 2px dashed transparent; /* Для hover ефекту */
+}
+
+.dropzone:hover {
+  background-color: #e9e9e9;
+  border-color: #ccc;
+}
+
+/* Коли зображення вже є, прибираємо сірий фон */
+.dropzoneWithImage {
+  background-color: transparent;
+  padding: 0;
+}
+
+.placeholderIcon {
+  color: #ccc;
+}
+
+/* Стилі для прев'ю фото */
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Заповнює область, зберігаючи пропорції */
+}
+
+/* Кнопка завантаження - робимо її меншою, ніж основні кнопки */
+.uploadBtn {
+  align-self: flex-start; /* Вирівнюємо ліворуч */
+  padding: 8px 16px !important;
+  font-size: 14px !important;
+}
+
+/* Групування текстових полів */
+.fieldsGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+/* Контейнер для нижніх кнопок */
+.formActions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-start; /* Вирівнюємо ліворуч */
+}
+
+.actionBtn {
+  min-width: 150px;
+}

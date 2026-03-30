@@ -15,9 +15,11 @@ interface SelectProps {
   value?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
+  error?: string;
+  
 }
 
-export const Select = ({ label, options, value, onChange, placeholder = 'Select one...' }: SelectProps) => {
+export const Select = ({ label, options, value, onChange, placeholder = 'Select one...', error }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -37,7 +39,7 @@ export const Select = ({ label, options, value, onChange, placeholder = 'Select 
   return (
     <div className={s.container} ref={containerRef}>
       {label && <label className={s.label}>{label}</label>}
-      
+      {error && <span className={s.errorMessage}>{error}</span>}
       <div 
         className={clsx(s.control, { [s.isOpen]: isOpen })} 
         onClick={() => setIsOpen(!isOpen)}
