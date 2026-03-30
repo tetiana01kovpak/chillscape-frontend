@@ -5,7 +5,7 @@ import styles from './ReviewsBlock.module.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
-import ReviewCard from './ReviewCard/ReviewCard';
+import ReviewCard from '@/components/cards/ReviewCard/ReviewCard';
 
 type Review = {
   id: string;
