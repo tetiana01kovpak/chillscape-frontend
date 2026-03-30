@@ -3,29 +3,24 @@ import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal"
 import { toast } from "react-hot-toast"; 
 import { useRouter } from "next/navigation";
 
+import {api} from "@/lib/api";
+
 export default function LogoutModal() {
 
     const router = useRouter();
 
   const handleLogout = async () => {
     try {
-        const res = await fetch("/api/auth/logout", {
-        method: "POST",
-        });
-
-        if (!res.ok) {
-        throw new Error("Logout failed");
-        }
+        await api.post("/auth/logout");
 
         console.log("Вихід виконано");
-        
         
         router.push("/login");
         router.refresh();
 
     } catch (error) {
+        console.error("Помилка при виході:", error);
         toast.error("Не вдалося вийти. Спробуйте пізніше.");
-        throw error;
     }
     };
 
