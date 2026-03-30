@@ -29,9 +29,7 @@ const LocationSchema = Yup.object().shape({
   name: Yup.string().required('Назва обов’язкова'),
   type: Yup.string().required('Оберіть тип місця'),
   region: Yup.string().required('Оберіть регіон'),
-  description: Yup.string()
-    .min(10, 'Опис має бути не менше 10 символів')
-    .required('Додайте опис'),
+  description: Yup.string().min(10, 'Опис має бути не менше 10 символів').required('Додайте опис'),
   image: Yup.mixed().required('Додайте фото обкладинки'),
 });
 
@@ -47,7 +45,7 @@ export const LocationForm = ({ initialData, title }: LocationFormProps) => {
       image: initialData?.image || null,
     },
     validationSchema: LocationSchema,
-    onSubmit: (values) => {
+    onSubmit: values => {
       // Створюємо FormData для відправки файлу на сервер
       const formData = new FormData();
       formData.append('name', values.name);
@@ -82,23 +80,20 @@ export const LocationForm = ({ initialData, title }: LocationFormProps) => {
             accept="image/*"
             onChange={handleFileChange}
           />
-          <div 
-            className={s.dropzone} 
-            onClick={() => fileInputRef.current?.click()}
-          >
+          <div className={s.dropzone} onClick={() => fileInputRef.current?.click()}>
             {formik.values.image ? (
-              <img 
-                src={URL.createObjectURL(formik.values.image)} 
-                alt="Preview" 
-                className={s.previewImage} 
+              <img
+                src={URL.createObjectURL(formik.values.image)}
+                alt="Preview"
+                className={s.previewImage}
               />
             ) : (
               <Icon name="icon-image" width={64} height={64} className={s.placeholderIcon} />
             )}
           </div>
-          <Button 
-            variant="secondary" 
-            type="button" 
+          <Button
+            variant="secondary"
+            type="button"
             className={s.uploadBtn}
             onClick={() => fileInputRef.current?.click()}
           >
@@ -111,64 +106,77 @@ export const LocationForm = ({ initialData, title }: LocationFormProps) => {
 
         {/* Текстові поля */}
         <div className={s.fieldsGroup}>
-          <Input
-            name="name"
-            label="Назва місця"
-            placeholder="Введіть назву місця"
-            value={formik.values.name}
-            onChange={formik.handleChange} // Formik автоматично дістає value
-            onBlur={formik.handleBlur}
-            error={formik.touched.name ? formik.errors.name : undefined}
-          />
-
-          <Select
-            label="Тип місця"
-            placeholder="Оберіть тип місця"
-            value={formik.values.type}
-            options={[
-              { value: 'nature', label: 'Природа' },
-              { value: 'hotel', label: 'Готель' }
-            ]}
-            onChange={(val) => formik.setFieldValue('type', val)} // Для кастомного Select
-            error={formik.touched.type ? formik.errors.type : undefined}
-          />
-
-          <Select
-            label="Регіон"
-            placeholder="Оберіть регіон"
-            value={formik.values.region}
-            options={[
-              { value: 'kyiv', label: 'Київська обл.' },
-              { value: 'odesa', label: 'Одеська обл.' }
-            ]}
-            onChange={(val) => formik.setFieldValue('region', val)}
-            error={formik.touched.region ? formik.errors.region : undefined}
-          />
-
-          <TextArea
-            name="description"
-            label="Детальний опис"
-            placeholder="Детальний опис локації"
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.description ? formik.errors.description : undefined}
-          />
+          <div className={s.labeledInput}>
+            <label htmlFor="name" className={s.label}>
+              Назва місця
+            </label>
+            <Input
+              name="name"
+              placeholder="Введіть назву місця"
+              value={formik.values.name}
+              onChange={formik.handleChange} // Formik автоматично дістає value
+              onBlur={formik.handleBlur}
+              error={formik.touched.name ? formik.errors.name : undefined}
+            />
+          </div>
+          <div className={s.labeledInput}>
+            <label htmlFor="type" className={s.label}>
+              Тип місця
+            </label>
+            <Select
+              placeholder="Оберіть тип місця"
+              value={formik.values.type}
+              options={[
+                { value: 'nature', label: 'Природа' },
+                { value: 'hotel', label: 'Готель' },
+              ]}
+              onChange={val => formik.setFieldValue('type', val)} // Для кастомного Select
+              error={formik.touched.type ? formik.errors.type : undefined}
+            />
+          </div>
+          <div className={s.labeledInput}>
+            <label htmlFor="region" className={s.label}>
+              Регіон
+            </label>
+            <Select
+              placeholder="Оберіть регіон"
+              value={formik.values.region}
+              options={[
+                { value: 'kyiv', label: 'Київська обл.' },
+                { value: 'odesa', label: 'Одеська обл.' },
+              ]}
+              onChange={val => formik.setFieldValue('region', val)}
+              error={formik.touched.region ? formik.errors.region : undefined}
+            />
+          </div>
+          <div className={s.labeledInput}>
+            <label htmlFor="description" className={s.label}>
+              Детальний опис
+            </label>
+            <TextArea
+              name="description"
+              placeholder="Детальний опис локації"
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.description ? formik.errors.description : undefined}
+            />
+          </div>
         </div>
 
         {/* Кнопки дій */}
         <div className={s.formActions}>
-          <Button 
-            variant="primary" 
-            type="submit" 
+          <Button
+            variant="primary"
+            type="submit"
             className={s.actionBtn}
             disabled={!formik.isValid || formik.isSubmitting}
           >
             Опублікувати
           </Button>
-          <Button 
-            variant="secondary" 
-            type="button" 
+          <Button
+            variant="secondary"
+            type="button"
             className={s.actionBtn}
             onClick={() => formik.resetForm()}
           >
