@@ -1,23 +1,32 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/components/ui/Logo/Logo';
 import { Icon } from '@/components/ui/Icon/Icon';
+import { useAuthStore } from '@/store/authStore';
+import { logoutUser } from '@/lib/clientApi';
 import css from './Header.module.css';
 
 export default function Header() {
-  // для тесту
-  const isLoggedIn = false;
-  // для тесту
-  const user = {
-    username: 'Name',
-    avatar: 'https://ac.goit.global/fullstack/react/default-avatar.jpg',
-  };
+  const router = useRouter();
+  const { user, isLoggedIn, clearUser } = useAuthStore();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+    } catch {
+      // proceed with local logout even if API fails
+    }
+    clearUser();
+    closeMenu();
+    router.push('/');
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -46,11 +55,8 @@ export default function Header() {
   return (
     <header className={`${css.header} section`}>
       <div className={`container ${css.inner}`}>
-        <Link href="/logout" className={css.btnSecondary}>
-                Вихід
-              </Link>
         <Logo />
-
+<Link href="/logout" className={css.btnSecondary}> Вихід </Link>
         <div className={css.desktopRight}>
           <nav className={css.desktopNav}>
             <Link href="/" className={css.navLink}>
@@ -73,12 +79,17 @@ export default function Header() {
               </Link>
               <div className={css.userInfo}>
                 <div className={css.avatar}>
-                  <Image src={user.avatar} alt={user.username} width={32} height={32} />
+                  <Image
+                    src={user?.avatar || 'https://ac.goit.global/fullstack/react/default-avatar.jpg'}
+                    alt={user?.name || ''}
+                    width={32}
+                    height={32}
+                  />
                 </div>
-                <span className={css.userName}>{user.username}</span>
+                <span className={css.userName}>{user?.name}</span>
               </div>
               <span className={css.divider}></span>
-              <button className={css.logoutBtn} aria-label="Вийти">
+              <button className={css.logoutBtn} aria-label="Вийти" onClick={handleLogout}>
                 <Icon name="icon-logout" width={24} height={24} />
               </button>
             </div>
@@ -87,7 +98,7 @@ export default function Header() {
               <Link href="/login" className={css.btnSecondary}>
                 Вхід
               </Link>
-              <Link href="/signup" className={css.btnPrimary}>
+              <Link href="/register" className={css.btnPrimary}>
                 Реєстрація
               </Link>
             </div>
@@ -105,7 +116,7 @@ export default function Header() {
                 <Link href="/login" className={css.btnSecondary}>
                   Вхід
                 </Link>
-                <Link href="/signup" className={css.btnPrimary}>
+                <Link href="/register" className={css.btnPrimary}>
                   Реєстрація
                 </Link>
               </>
@@ -150,11 +161,16 @@ export default function Header() {
                 </Link>
                 <div className={css.drawerUserRow}>
                   <div className={css.avatar}>
-                    <Image src={user.avatar} alt={user.username} width={32} height={32} />
+                    <Image
+                      src={user?.avatar || 'https://ac.goit.global/fullstack/react/default-avatar.jpg'}
+                      alt={user?.name || ''}
+                      width={32}
+                      height={32}
+                    />
                   </div>
-                  <span className={css.userName}>{user.username}</span>
+                  <span className={css.userName}>{user?.name}</span>
                   <span className={css.divider}></span>
-                  <button className={css.logoutBtn} aria-label="Вийти">
+                  <button className={css.logoutBtn} aria-label="Вийти" onClick={handleLogout}>
                     <Icon name="icon-logout" width={24} height={24} />
                   </button>
                 </div>
@@ -169,7 +185,7 @@ export default function Header() {
                   Вхід
                 </Link>
                 <Link
-                  href="/signup"
+                  href="/register"
                   className={`${css.btnPrimary} ${css.btnFull}`}
                   onClick={closeMenu}
                 >

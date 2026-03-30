@@ -1,22 +1,33 @@
 "use client";
 import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
-import { toast } from "react-hot-toast"; // приклад для пуш-повідомлень
+import { toast } from "react-hot-toast"; 
+import { useRouter } from "next/navigation";
 
 export default function LogoutModal() {
+
+    const router = useRouter();
+
   const handleLogout = async () => {
     try {
-      // Імітація запиту до сервера
-      await new Promise((resolve, reject) => {
-        setTimeout(resolve, 1500); 
-        // reject(new Error("Помилка мережі")); // Розкоментуйте для тесту помилки
-      });
-      
-      console.log("Вихід виконано");
+        const res = await fetch("/api/auth/logout", {
+        method: "POST",
+        });
+
+        if (!res.ok) {
+        throw new Error("Logout failed");
+        }
+
+        console.log("Вихід виконано");
+        
+        
+        router.push("/login");
+        router.refresh();
+
     } catch (error) {
-      toast.error("Не вдалося вийти. Спробуйте пізніше.");
-      throw error; // Викидаємо помилку далі в Modal для зупинки лоадера
+        toast.error("Не вдалося вийти. Спробуйте пізніше.");
+        throw error;
     }
-  };
+    };
 
   return (
     <ConfirmationModal

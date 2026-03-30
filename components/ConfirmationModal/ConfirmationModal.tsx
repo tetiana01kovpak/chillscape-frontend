@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import styles from "./ConfirmationModal.module.css";
 
 interface ModalProps {
@@ -32,7 +33,7 @@ export default function ConfirmationModal({
       await onConfirm();
       router.back(); // Закриваємо при успіху
     } catch (error) {
-      alert("Сталася помилка. Спробуйте ще раз."); // Тут може бути ваш Toast
+      toast.error("Сталася помилка. Спробуйте ще раз.");
     } finally {
       setIsLoading(false);
     }
@@ -44,7 +45,7 @@ export default function ConfirmationModal({
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [isLoading]);
+  }, []);
 
   return (
     <div className={styles.backdrop} onClick={handleClose}>

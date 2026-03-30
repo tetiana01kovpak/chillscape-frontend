@@ -19,11 +19,11 @@
 
 .input {
   width: 100%;
-  padding: 12px 16px;
+  padding: 8px;
   background-color: var(--foreground); /* Исходный цвет фона */
   border: 1px solid rgba(0, 0, 0, 0.15); /* Легкая рамка */
   border-radius: 12px; /* Уголки как на макете */
-  font-size: 16px;
+  font-size: 18px;
   transition: all 0.2s;
   color: var(--text-black);
   outline: none;
@@ -35,7 +35,7 @@
 
 /* Состояния Hover и Focus */
 .input:hover:not(:disabled):not(.error) {
-  background-color: #ffe5d9; 
+  background-color: #ffe5d9;
 }
 .input:focus:not(.error) {
   outline: none;
@@ -58,4 +58,7 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
-.textarea { resize: vertical; min-height: 100px; }
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}

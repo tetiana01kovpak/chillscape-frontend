@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
+import { Toaster } from 'react-hot-toast';
+import AuthProvider from '@/components/auth/AuthProvider';
 import 'modern-normalize/modern-normalize.css';
 import './globals.css';
-import Header from '@/components/layout/Header/Header';
-import Footer from '@/components/layout/Footer/Footer';
 
 const montserrat = Montserrat({
   variable: '--montserrat-font',
@@ -25,10 +25,9 @@ export default function RootLayout({
   return (
     <html lang="uk">
       <body className={montserrat.variable}>
-        <Header />
-        <main style={{ flex: 1 }}>{children}</main>
+        <Toaster position="top-right" />
+        <AuthProvider>{children}</AuthProvider>
         {modal}
-        <Footer />
       </body>
     </html>
   );

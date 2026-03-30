@@ -14,7 +14,7 @@
 
 .modal {
   position: relative;
-  background-color: #fffaf5; /* Колір з вашого макета */
+  background-color: #fffaf5; 
   border-radius: 20px;
   padding: 64px 20px;
   width: 100%;
@@ -62,7 +62,7 @@
 }
 
 .confirmBtn {
-  background-color: #ca6a3d; /* Колір з макета */
+  background-color: #ca6a3d; 
   color: white;
 }
 

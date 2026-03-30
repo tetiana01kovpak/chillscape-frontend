@@ -1,0 +1,18 @@
+.title {
+  text-align: center;
+  line-height: 120%;
+  color: var(--text-black);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-self: stretch;
+}
+
+@media (min-width: 768px) {
+  .form {
+    gap: 24px;
+  }
+}
