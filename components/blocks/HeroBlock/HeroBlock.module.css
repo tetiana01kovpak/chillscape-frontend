@@ -1,7 +1,6 @@
 .heroWrapper {
   display: flex;
   justify-content: center;
-  max-width: 1440px;
   width: 100%;
   margin: 0 auto;
 }
@@ -10,14 +9,12 @@
   position: relative;
   width: 100%;
   max-width: 1440px;
-  height: auto;
   overflow: hidden;
   padding: 64px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: left;
-  margin: 0 auto;
 }
 
 .background {
@@ -48,14 +45,14 @@
 
 .title {
   font-family: var(--montserrat-font);
-  color: #fff;
+  color: var(--text-white);
   margin-bottom: 16px;
 }
 
 .subtitle {
   font-family: var(--montserrat-font);
   font-size: 14px; 
-  color: #fff;
+  color: var(--text-white);
   margin-bottom: 24px;
   font-weight: 500;
   line-height: 1.5;
