@@ -1,57 +1,58 @@
 .section {
-    padding: 48px 0 40px;
-    background: #f5ede8;
+    padding: 32px 0;
+    background: var(--background);
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 0 16px;
 }
 
 .header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 28px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 .title {
-    font-size: 32px;
+    font-size: 52px;
     font-weight: 800;
-    color: #1a1008;
+    color: var(--text-black);
     margin: 0;
 }
 
 .allLink {
-    background: #c0522a;
-    color: #fff;
+    background: var(--button-primary);
+    color: var(--text-white);
     font-size: 14px;
     font-weight: 600;
-    padding: 8px 18px;
+    padding: 8px 16px;
     border-radius: 8px;
     text-decoration: none;
     transition: background 0.2s;
 }
 
 .allLink:hover {
-    background: #a84320;
+    background: var(--button-primary);
 }
 
 .navButtons {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
-    margin-top: 20px;
+    margin-top: 16px;
 }
 
 .navBtn {
-    width: 36px;
-    height: 36px;
+    width: 48px;
+    height: 48px;
     border-radius: 8px;
-    border: 1px solid #d9c9c0;
-    background: #FFE5D9;
-    color: #5a3e35;
+    border: 1px solid var(--border);
+    background: var(--foreground);
+    color: var(--text-brown);
     font-size: 16px;
     cursor: pointer;
     display: flex;
@@ -61,11 +62,37 @@
 }
 
 .navBtn:hover {
-    background: #f0e4dc;
-    border-color: #c0a090;
+    background: var(--button-primary-hover);
+    border-color: var(--border);
 }
 
 .navBtn:global(.swiper-button-disabled) {
     opacity: 0.35;
     pointer-events: none;
+    background: var(--button-primary-disabled);
+}
+
+@media (min-width: 768px) {
+
+    .container {
+        padding: 0 24px;
+        max-width: 768px;
+    }
+
+    .header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+}
+
+
+@media (min-width: 1440px) {
+
+    .container {
+        max-width: 1440px;
+        padding: 0 32px;
+    }
+
 }

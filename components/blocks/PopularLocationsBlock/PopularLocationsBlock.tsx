@@ -10,6 +10,7 @@ import Link from 'next/link';
 
 import LocationCard from '@/components/cards/LocationCard/LocationCard';
 import css from './PopularLocationsBlock.module.css';
+import { Button } from '@/components/ui/Button/Button';
 
 interface Location {
   _id: string;
@@ -34,7 +35,7 @@ export default function PopularLocationsBlock() {
 
   useEffect(() => {
     axios
-      .get<LocationsResponse>('http://localhost:3000/api/locations')
+      .get<LocationsResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/locations`)
       .then((res) => setLocations(res.data.locations))
       .catch((err) => console.error(err));
   }, []);
@@ -64,10 +65,11 @@ export default function PopularLocationsBlock() {
             swiper.navigation.update();
           }}
           slidesPerView={1}
-          spaceBetween={16}
+          spaceBetween={24}
           breakpoints={{
-            640: { slidesPerView: 2, spaceBetween: 20 },
-            900: { slidesPerView: 3, spaceBetween: 24 },
+            0: { slidesPerView: 1, spaceBetween: 24},
+            375: { slidesPerView: 3, spaceBetween: 24 },
+            768: { slidesPerView: 3, spaceBetween: 24 },
           }}
         >
           {locations.map((loc) => (
@@ -83,22 +85,20 @@ export default function PopularLocationsBlock() {
         </Swiper>
 
         <div className={css.navButtons}>
-          <button
-            ref={prevRef}
+          <Button
             className={css.navBtn}
             aria-label="Попередній слайд"
             onClick={() => swiperRef.current?.slidePrev()}
           >
             &#8592;
-          </button>
-          <button
-            ref={nextRef}
+          </Button>
+          <Button
             className={css.navBtn}
             aria-label="Наступний слайд"
             onClick={() => swiperRef.current?.slideNext()}
           >
             &#8594;
-          </button>
+          </Button>
         </div>
 
       </div>
