@@ -16,7 +16,7 @@ export default function LocationCard({ src, alt, category, name }: LocationCardT
         <p className={css.category}>{category}Category</p>
         <p>Stars</p>
         <h3 className={css.name}>{name}Name</h3>
-        <Link href={'locations/[id]'} className={css.link}>
+        <Link href={'/locations/[id]'} className={css.link}>
           Переглянути локацію
         </Link>
       </div>
