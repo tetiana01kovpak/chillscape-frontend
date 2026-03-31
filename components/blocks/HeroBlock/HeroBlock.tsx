@@ -11,55 +11,54 @@ const HeroBlock = () => {
   const [search, setSearch] = useState('');
   const router = useRouter();
 
-const handleSearch = () => {
-  const trimmedSearch = search.trim();
+  const handleSearch = () => {
+    const trimmedSearch = search.trim();
 
-  if (trimmedSearch) {
-    router.push(`/locations?search=${encodeURIComponent(trimmedSearch)}`);
-  }
-};
+    if (trimmedSearch) {
+      router.push(`/locations?search=${encodeURIComponent(trimmedSearch)}`);
+    }
+  };
 
   return (
     <div className={styles.heroWrapper}>
       <div className="container">
-        <section className={styles.hero}>
+        <section className={`${styles.hero} section`}>
           <div className={styles.background}>
             <Image
-            src="/hero-bg.jpg"
-            alt="Hero Background"
-            fill
-            style={{ objectFit: 'cover' }}
-            sizes="(max-width: 375px) 100vw, (max-width: 1440px) 1400px, 100vw"
-            priority
+              src="/hero-bg.jpg"
+              alt="Hero Background"
+              fill
+              style={{ objectFit: 'cover' }}
+              sizes="(max-width: 375px) 100vw, (max-width: 1440px) 1400px, 100vw"
+              priority
             />
           </div>
           <div className={styles.content}>
             <h1 className={styles.title}>
               Відкрий для себе Україну. Знайди ідеальне місце для відпочинку
-              </h1>
-              <p className={styles.subtitle}>
-                Тисячі перевірених локацій з реальними фото та відгуками від мандрівників
-              </p>
-              
-              <div className={styles.search}>
-                <Input
+            </h1>
+            <p className={styles.subtitle}>
+              Тисячі перевірених локацій з реальними фото та відгуками від мандрівників
+            </p>
+
+            <div className={styles.search}>
+              <Input
                 placeholder="Введіть назву, тип або регіон..."
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={(e) => {
+                onChange={e => setSearch(e.target.value)}
+                onKeyDown={e => {
                   if (e.key === 'Enter') handleSearch();
                 }}
                 className={styles.heroInput}
-                />
-                <Button onClick={handleSearch} className={styles.heroButton}>
-                  Знайти місце
-                </Button>
-              </div>
+              />
+              <Button onClick={handleSearch} className={styles.heroButton}>
+                Знайти місце
+              </Button>
+            </div>
           </div>
-      </section>
-  </div>
-</div>
-
+        </section>
+      </div>
+    </div>
   );
 };
 
