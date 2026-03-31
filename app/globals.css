@@ -48,20 +48,21 @@ a {
   cursor: pointer;
 }
 .link {
-  color: #000;
+  color: var(--text-black);
   text-decoration: none;
-  font-size: 16px;  
+  font-size: 16px;
   display: inline-flex;
   align-items: center;
   padding: 8px;
   border: 1px solid transparent;
 }
-.link:hover, .link:focus {
-  border: 1px solid black;
+.link:hover,
+.link:focus {
+  border: 1px solid var(--text-black);
   border-radius: 4px;
 }
 .link:active {
-  background-color: #d8d8d8;
+  background-color: var(--link-active);
 }
 .link:disabled {
   pointer-events: none;
@@ -112,6 +113,7 @@ button:disabled {
 }
 
 h1 {
+  font-family: var(--montserrat-font), sans-serif;
   font-weight: 700;
   font-size: 32px;
   line-height: 1.1;
@@ -119,6 +121,7 @@ h1 {
 }
 
 h2 {
+  font-family: var(--montserrat-font), sans-serif;
   font-weight: 700;
   font-size: 28px;
   line-height: 1.2;
@@ -126,6 +129,7 @@ h2 {
 }
 
 h3 {
+  font-family: var(--montserrat-font), sans-serif;
   font-weight: 700;
   font-size: 18px;
   line-height: 1.4;
@@ -133,6 +137,7 @@ h3 {
 }
 
 h4 {
+  font-family: var(--montserrat-font), sans-serif;
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;

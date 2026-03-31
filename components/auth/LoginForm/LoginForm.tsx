@@ -9,7 +9,7 @@ import { loginUser } from '@/lib/clientApi';
 import { useAuthStore } from '@/store/authStore';
 import { Input } from '@/components/ui/Input/Input';
 import { Button } from '@/components/ui/Button/Button';
-import css from './LoginForm.module.css';
+import css from '../AuthForm.module.css';
 
 const loginSchema = Yup.object({
   email: Yup.string().email('Невірний формат пошти').required("Обов'язкове поле"),

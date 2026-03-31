@@ -1,7 +1,6 @@
 .heroWrapper {
   display: flex;
   justify-content: center;
-  max-width: 1440px;
   width: 100%;
   margin: 0 auto;
 }
@@ -9,15 +8,13 @@
 .hero {
   position: relative;
   width: 100%;
-  max-width: 1440px;
-  height: auto;
   overflow: hidden;
-  padding: 64px 20px;
+  padding-top: 64px;
+  padding-bottom: 64px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: left;
-  margin: 0 auto;
 }
 
 .background {
@@ -25,14 +22,13 @@
   inset: 0;
   z-index: 0;
   min-height: 708px;
-  width: 100%;
 }
 
 .background::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.32); 
+  background: rgba(0, 0, 0, 0.32);
 }
 
 .content {
@@ -48,22 +44,15 @@
 }
 
 .title {
-  font-family: var(--montserrat-font);
-  font-size: 32px; 
-  font-weight: 700;
-  color: #fff;
+  color: var(--text-white);
   margin-bottom: 16px;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
 }
 
 .subtitle {
-  font-family: var(--montserrat-font);
-  font-size: 14px; 
-  color: #fff;
+  font-size: 16px;
+  color: var(--text-white);
   margin-bottom: 24px;
   font-weight: 500;
-  line-height: 1.5;
 }
 
 .search {
@@ -71,43 +60,36 @@
   gap: 12px;
   flex-wrap: wrap;
   width: 100%;
-  justify-content: center; 
+  justify-content: center;
 }
 
-.heroInput {
-  width: 100%;
-  max-width: 100%;
-}
-
+.heroInput,
 .heroButton {
   width: 100%;
-  max-width: 100%;
 }
 
 /* Tablet */
 @media (min-width: 768px) {
   .hero {
-    padding: 64px 32px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+    max-width: 768px;
   }
   .content {
     align-items: flex-start;
     padding: 160px 0;
-    text-align: left;
     max-width: 704px;
   }
 
   .search {
     flex-wrap: nowrap;
     flex-direction: row;
-    display: flex;
     gap: 8px;
-    width: 100%;
     justify-content: flex-start;
   }
 
   .heroInput {
     max-width: 331px;
-   
   }
 
   .heroButton {
@@ -120,13 +102,14 @@
 /* Desktop */
 @media (min-width: 1440px) {
   .hero {
-    padding: 72px 64px;
+    padding-top: 72px;
+    padding-bottom: 72px;
+    max-width: 1440px;
   }
   .content {
     padding: 164px 0;
     max-width: 1312px;
     align-items: flex-start;
-    text-align: left;
   }
 
   .heroInput {
@@ -134,5 +117,9 @@
   }
   .heroButton {
     max-width: 165px;
+  }
+
+  .subtitle {
+    font-size: 20px;
   }
 }
