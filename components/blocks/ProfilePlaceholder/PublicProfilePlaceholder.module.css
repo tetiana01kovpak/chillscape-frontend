@@ -1,0 +1,82 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32px 24px;
+  gap: 24px;
+  width: 100%;
+  max-width: 533px;
+  background-color: var(--foreground);
+  border-radius: 24px;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--text-black);
+}
+
+.action {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  height: 48px;
+  background-color: var(--button-primary);
+  color: var(--text-white);
+  border: 1px solid var(--button-primary);
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  background-color: var(--button-primary-hover);
+  color: var(--text-green);
+}
+
+.button:active {
+  background-color: var(--button-primary);
+  color: var(--text-white);
+}
+
+@media only screen and (min-width: 768px) {
+  .card {
+    padding: 36px 28px;
+    gap: 28px;
+  }
+
+  .heading {
+    font-size: 22px;
+  }
+
+  .button {
+    font-size: 18px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .card {
+    padding: 40px 32px;
+    gap: 32px;
+  }
+
+  .heading {
+    font-size: 26px;
+    line-height: 1.4;
+  }
+
+  .button {
+    font-size: 20px;
+  }
+}

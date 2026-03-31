@@ -13,21 +13,25 @@ export interface RegisterCredentials {
   password: string;
 }
 
-type UserResponse = {
-  status: number;
-  message: string;
-  data: User;
-};
+// Backend returns MongoDB _id, frontend expects id
+function normalizeUser(raw: Record<string, unknown>): User {
+  return {
+    id: String(raw._id || raw.id),
+    name: String(raw.name),
+    email: String(raw.email),
+    avatar: raw.avatar ? String(raw.avatar) : undefined,
+  };
+}
 
 // Auth API
 export async function registerUser(credentials: RegisterCredentials): Promise<User> {
-  const { data } = await api.post<User>('/auth/register', credentials);
-  return data;
+  const { data } = await api.post('/auth/register', credentials);
+  return normalizeUser(data);
 }
 
 export async function loginUser(credentials: LoginCredentials): Promise<User> {
-  const { data } = await api.post<User>('/auth/login', credentials);
-  return data;
+  const { data } = await api.post('/auth/login', credentials);
+  return normalizeUser(data);
 }
 
 export async function logoutUser(): Promise<void> {
@@ -35,6 +39,12 @@ export async function logoutUser(): Promise<void> {
 }
 
 export async function getCurrentUser(): Promise<User> {
-  const { data } = await api.get<UserResponse>('/users/current');
-  return data.data;
+  const { data } = await api.get('/users/current');
+  return normalizeUser(data.data);
+}
+
+// Users API
+export async function getUserById(userId: string): Promise<User> {
+  const { data } = await api.get(`/users/${userId}`);
+  return normalizeUser(data.data);
 }

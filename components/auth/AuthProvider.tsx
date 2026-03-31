@@ -7,14 +7,14 @@ import { useAuthStore } from '@/store/authStore';
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const setUser = useAuthStore(state => state.setUser);
   const clearUser = useAuthStore(state => state.clearUser);
-  const setAuthLoading = useAuthStore(state => state.setAuthLoading);
+  const setAuthLoaded = useAuthStore(state => state.setAuthLoaded);
 
   useEffect(() => {
     getCurrentUser()
       .then(user => setUser(user))
       .catch(() => clearUser())
-      .finally(() => setAuthLoading(false));
-  }, [setUser, clearUser, setAuthLoading]);
+      .finally(() => setAuthLoaded());
+  }, [setUser, clearUser, setAuthLoaded]);
 
   return <>{children}</>;
 }
