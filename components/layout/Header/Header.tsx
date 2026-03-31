@@ -56,7 +56,6 @@ export default function Header() {
     <header className={`${css.header} section`}>
       <div className={`container ${css.inner}`}>
         <Logo />
-<Link href="/logout" className={css.btnSecondary}> Вихід </Link>
         <div className={css.desktopRight}>
           <nav className={css.desktopNav}>
             <Link href="/" className={css.navLink}>
