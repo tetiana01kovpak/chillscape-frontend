@@ -9,7 +9,7 @@ import { registerUser } from '@/lib/clientApi';
 import { useAuthStore } from '@/store/authStore';
 import { Input } from '@/components/ui/Input/Input';
 import { Button } from '@/components/ui/Button/Button';
-import css from './RegistrationForm.module.css';
+import css from '../AuthForm.module.css';
 
 const registrationSchema = Yup.object({
   name: Yup.string().min(2, 'Мінімум 2 символи').required("Обов'язкове поле"),
