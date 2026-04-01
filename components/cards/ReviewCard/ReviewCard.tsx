@@ -8,24 +8,19 @@ type ReviewCardProps = {
   locationType: string;
 };
 
-function ReviewCard({
-  rating,
-  text,
-  author,
-  locationType,
-}: ReviewCardProps) {
+function ReviewCard({ rating, text, author, locationType }: ReviewCardProps) {
   return (
     <article className={styles.card}>
-    <div className={styles.top}>
+      <div className={styles.top}>
         <RatingStars rating={rating} />
         <p className={styles.text}>{text}</p>
-    </div>
-    <div className={styles.bottom}>
+      </div>
+      <div className={styles.bottom}>
         <span className={styles.authorName}>{author}</span>
-        <span className={styles.location}>{locationType}</span>
-    </div>
+        <span className={styles.locationType}>{locationType}</span>
+      </div>
     </article>
-);
+  );
 }
 
 export default ReviewCard;

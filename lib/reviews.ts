@@ -1,46 +1,26 @@
 import type { Review } from '@/components/blocks/ReviewsBlock/ReviewsBlock';
+import { api } from './api';
 
-export const fetchReviews = async (): Promise<Review[]> => [
-  {
-    id: '1',
-    rating: 5,
-    text: 'Неймовірне місце для перезавантаження. Природа просто вау!',
-    author: 'Олена Коваль',
-    locationType: 'Море',
-  },
-  {
-    id: '2',
-    rating: 4,
-    text: 'Тихо, спокійно, дуже атмосферно. Обовʼязково повернусь.',
-    author: 'Ігор Петров',
-    locationType: 'Гори',
-  },
-  {
-    id: '3',
-    rating: 5,
-    text: 'Ідеальне місце для відпочинку від міської метушні.',
-    author: 'Марія Шевченко',
-    locationType: 'Ліс',
-  },
-  {
-    id: '4',
-    rating: 5,
-    text: 'Неймовірне місце для перезавантаження. Природа просто вау!',
-    author: 'Олена Коваль',
-    locationType: 'Море',
-  },
-  {
-    id: '5',
-    rating: 4,
-    text: 'Тихо, спокійно, дуже атмосферно. Обовʼязково повернусь.',
-    author: 'Ігор Петров',
-    locationType: 'Гори',
-  },
-  {
-    id: '6',
-    rating: 5,
-    text: 'Ідеальне місце для відпочинку від міської метушні.',
-    author: 'Марія Шевченко',
-    locationType: 'Ліс',
-  },
-];
+type FeedbackApiItem = {
+  _id: string;
+  rating: number;
+  comment: string;
+  user?: {
+    name?: string;
+  };
+  place?: {
+    type?: string;
+  };
+};
+
+export const fetchReviews = async (): Promise<Review[]> => {
+  const { data } = await api.get<FeedbackApiItem[]>('/feedbacks');
+
+  return data.map(item => ({
+    id: item._id,
+    rating: item.rating,
+    text: item.comment,
+    author: item.user?.name || 'Невідомий автор',
+    locationType: item.place?.type || 'Невідомий тип',
+  }));
+};

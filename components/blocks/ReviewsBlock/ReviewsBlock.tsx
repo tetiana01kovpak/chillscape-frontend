@@ -32,6 +32,7 @@ function ReviewsBlock() {
   useEffect(() => {
     const loadReviews = async () => {
       const data = await fetchReviews();
+      console.log(data);
       setReviews(data);
     };
 
@@ -45,7 +46,7 @@ function ReviewsBlock() {
 
   return (
     <section className={`section ${styles.reviews}`}>
-      <div className="container">
+      <div className={'container'}>
         <div className={styles.header}>
           <h2 className={styles.title}>Останні відгуки</h2>
         </div>
@@ -54,7 +55,7 @@ function ReviewsBlock() {
           <>
             <Swiper
               modules={[Pagination]}
-              onSwiper={(swiper) => {
+              onSwiper={swiper => {
                 swiperRef.current = swiper;
                 updateNavigationState(swiper);
               }}
@@ -70,7 +71,7 @@ function ReviewsBlock() {
               breakpoints={{
                 768: {
                   slidesPerView: 2,
-                  spaceBetween: 20,
+                  spaceBetween: 24,
                 },
                 1440: {
                   slidesPerView: 3,
@@ -79,7 +80,7 @@ function ReviewsBlock() {
               }}
               className={styles.slider}
             >
-              {reviews.map((review) => (
+              {reviews.map(review => (
                 <SwiperSlide key={review.id} className={styles.slide}>
                   <ReviewCard
                     rating={review.rating}
