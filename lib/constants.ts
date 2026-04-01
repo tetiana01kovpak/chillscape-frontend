@@ -4,5 +4,6 @@ export const ROUTES = {
   REGISTER: '/register',
   LOCATIONS: '/locations',
   ADD_LOCATION: '/locations/add',
+  PRO: '/pro',
   PROFILE: (userId: string) => `/profile/${userId}`,
 };

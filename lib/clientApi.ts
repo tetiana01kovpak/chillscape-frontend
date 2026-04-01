@@ -1,4 +1,5 @@
 import type { User } from '@/types/user';
+import type { Location } from '@/types/location';
 import { api } from './api';
 
 // Auth types
@@ -47,4 +48,19 @@ export async function getCurrentUser(): Promise<User> {
 export async function getUserById(userId: string): Promise<User> {
   const { data } = await api.get(`/users/${userId}`);
   return normalizeUser(data.data);
+}
+
+// Locations API
+function normalizeLocation(raw: Record<string, unknown>): Location {
+  return {
+    id: String(raw._id || raw.id),
+    name: String(raw.name),
+    imageUrl: raw.imageUrl ? String(raw.imageUrl) : undefined,
+    type: raw.type ? String(raw.type) : undefined,
+  };
+}
+
+export async function getUserLocations(userId: string): Promise<Location[]> {
+  const { data } = await api.get(`/users/${userId}/locations`);
+  return (data.data as Record<string, unknown>[]).map(normalizeLocation);
 }

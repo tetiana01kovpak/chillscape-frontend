@@ -10,8 +10,8 @@
 .heading {
   font-size: 24px;
   font-weight: 600;
+  color: var(--text-green);
   margin-bottom: 24px;
-  color: var(--text-black);
 }
 
 .grid {

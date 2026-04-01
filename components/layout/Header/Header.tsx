@@ -65,7 +65,7 @@ export default function Header() {
               Місця відпочинку
             </Link>
             {isLoggedIn && (
-              <Link href={`/profile/${user?.id}`} className={css.navLink}>
+              <Link href="/pro" className={css.navLink}>
                 Мій профіль
               </Link>
             )}
@@ -144,7 +144,7 @@ export default function Header() {
               Місця відпочинку
             </Link>
             {isLoggedIn && (
-              <Link href={`/profile/${user?.id}`} className={css.drawerLink} onClick={closeMenu}>
+              <Link href="/pro" className={css.drawerLink} onClick={closeMenu}>
                 Мій профіль
               </Link>
             )}
