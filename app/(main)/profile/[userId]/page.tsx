@@ -1,9 +1,9 @@
 'use client';
 
-import { use } from 'react';
+import { use, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
 import PublicProfilePage from './PublicProfilePage';
-import PrivateProfilePage from './PrivateProfilePage';
 
 interface ProfilePageProps {
   params: Promise<{ userId: string }>;
@@ -11,12 +11,17 @@ interface ProfilePageProps {
 
 export default function ProfilePage({ params }: ProfilePageProps) {
   const { userId } = use(params);
-  const { user, isLoggedIn } = useAuthStore();
+  const router = useRouter();
+  const { user, isLoggedIn, isAuthLoaded } = useAuthStore();
 
-  const isOwner = isLoggedIn && user?.id === userId;
+  useEffect(() => {
+    if (isAuthLoaded && isLoggedIn && user?.id === userId) {
+      router.replace('/pro');
+    }
+  }, [isAuthLoaded, isLoggedIn, user, userId, router]);
 
-  if (isOwner) {
-    return <PrivateProfilePage />;
+  if (isAuthLoaded && isLoggedIn && user?.id === userId) {
+    return null;
   }
 
   return <PublicProfilePage userId={userId} />;

@@ -12,7 +12,7 @@ export default function ProfilePage() {
     if (!isAuthLoaded) return;
 
     if (isLoggedIn && user) {
-      router.replace(`/profile/${user.id}`);
+      router.replace('/pro');
     } else {
       router.replace('/login');
     }

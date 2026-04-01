@@ -1,4 +1,5 @@
 import type { User } from '@/types/user';
+import type { Location as SimpleLocation } from '@/types/location';
 import { Location, LocationType } from '@/types/locations';
 import { FeedbacksResponse } from '@/types/feedback';
 import { api } from './api';
@@ -65,6 +66,20 @@ export async function getLocationTypes(): Promise<LocationType[]> {
 export async function getUserById(userId: string): Promise<User> {
   const { data } = await api.get(`/users/${userId}`);
   return normalizeUser(data.data);
+}
+
+function normalizeLocation(raw: Record<string, unknown>): SimpleLocation {
+  return {
+    id: String(raw._id || raw.id),
+    name: String(raw.name),
+    imageUrl: raw.imageUrl ? String(raw.imageUrl) : undefined,
+    type: raw.type ? String(raw.type) : undefined,
+  };
+}
+
+export async function getUserLocations(userId: string): Promise<SimpleLocation[]> {
+  const { data } = await api.get(`/users/${userId}/locations`);
+  return (data.data as Record<string, unknown>[]).map(normalizeLocation);
 }
 
 export async function getFeedbacks(
