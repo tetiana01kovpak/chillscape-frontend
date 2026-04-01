@@ -3,7 +3,7 @@
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import StarRating from '@/components/ui/StarRating/StarRating';
-import styles from './AddReviewModule.module.css';
+import styles from './AddReviewModal.module.css';
 import { Button } from '@/components/ui/Button/Button';
 import { TextArea } from '@/components/ui/TextArea/TextArea';
 
@@ -30,12 +30,25 @@ export default function AddReviewForm({ onClose }: Props) {
     values: FormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
+    setSubmitting(true);
     try {
-      console.log(values);
+  
+      const response = await fetch('/api/feedbacks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
 
-      onClose();
-    } catch (error) {
-      console.error(error);
+      if (!response.ok) {
+        const error = await response.json();
+        console.error('Error sending review:', error.message);
+        return;
+      }
+
+      console.log('Review submitted successfully:', values);
+      onClose(); 
+    } catch (err) {
+      console.error('Network error:', err);
     } finally {
       setSubmitting(false);
     }
@@ -48,7 +61,7 @@ export default function AddReviewForm({ onClose }: Props) {
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, setFieldValue, values }) => (
-        <Form>
+        <Form className={styles.formGroup}>
           
           <div className={styles.starWrapper}>
             <StarRating
@@ -56,7 +69,11 @@ export default function AddReviewForm({ onClose }: Props) {
               readonly={false}
               onChange={(rate) => setFieldValue('rating', rate)}
             />
-            <ErrorMessage name="rating" component="p" />
+            <ErrorMessage
+              name="rating"
+              component="p"
+              className={styles.errorMessage}
+            />
           </div>
 
          
@@ -66,20 +83,24 @@ export default function AddReviewForm({ onClose }: Props) {
               label="Ваш відгук"
               placeholder="Напишіть ваш відгук..."
               value={values.review}
-                          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                              setFieldValue('review', e.target.value)
-}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setFieldValue('review', e.target.value)
+              }
             />
-            <ErrorMessage name="review" component="p" />
+            <ErrorMessage
+              name="review"
+              component="p"
+              className={styles.errorMessage}
+            />
           </div>
 
           
           <div className={styles.buttonsWrapper}>
             <Button type="submit" disabled={isSubmitting}>
-              Надіслати
+              {isSubmitting ? 'Надсилаю...' : 'Надіслати'}
             </Button>
 
-            <Button type="button" onClick={onClose} variant = "secondary">
+            <Button type="button" onClick={onClose} variant="secondary">
               Відмінити
             </Button>
           </div>

@@ -11,17 +11,16 @@ interface Props {
 }
 
 export default function AddReviewModal({ onClose }: Props) {
-  
+
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
-
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, [onClose]);
 
- 
+
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) onClose();
   };
@@ -29,7 +28,7 @@ export default function AddReviewModal({ onClose }: Props) {
   return (
     <div className={styles.backdrop} onClick={handleBackdropClick}>
       <div className={styles.modal}>
-    
+     
         <Button
           variant="icon"
           onClick={onClose}
@@ -39,8 +38,10 @@ export default function AddReviewModal({ onClose }: Props) {
           <Icon name="close" />
         </Button>
 
+      
         <h2 className={styles.title}>Залишити відгук</h2>
 
+        
         <AddReviewForm onClose={onClose} />
       </div>
     </div>
