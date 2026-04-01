@@ -1,0 +1,4 @@
+.loading {
+  color: var(--text-green);
+  opacity: 0.6;
+}

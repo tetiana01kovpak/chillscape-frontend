@@ -1,0 +1,24 @@
+.hero {
+  padding-top: 32px;
+  margin-bottom: 41px;
+  display: flex;
+  flex-direction: column;
+  gap: 33px;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .hero {
+    padding-top: 48px;
+    margin-bottom: 96px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

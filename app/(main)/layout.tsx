@@ -1,5 +1,7 @@
 import Header from '@/components/layout/Header/Header';
 import Footer from '@/components/layout/Footer/Footer';
+import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
+import AuthProvider from '@/components/auth/AuthProvider';
 
 export default function MainLayout({
   children,
@@ -8,9 +10,13 @@ export default function MainLayout({
 }>) {
   return (
     <>
-      <Header />
-      <main style={{ flex: 1 }}>{children}</main>
-      <Footer />
+      <TanStackProvider>
+        <AuthProvider>
+          <Header />
+          <main style={{ flex: 1 }}>{children}</main>
+          <Footer />
+        </AuthProvider>
+      </TanStackProvider>
     </>
   );
 }
