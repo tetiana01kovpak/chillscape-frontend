@@ -49,7 +49,6 @@ a {
 }
 .link {
   color: var(--text-black);
-  text-decoration: none;
   font-size: 16px;
   display: inline-flex;
   align-items: center;
