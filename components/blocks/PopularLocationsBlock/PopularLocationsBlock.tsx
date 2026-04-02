@@ -16,7 +16,7 @@ import { Icon } from '@/components/ui/Icon/Icon';
 
 interface Location {
   _id: string;
-  image: string;
+  images: string[];
   name: string;
   locationType: string;
 }
@@ -45,6 +45,7 @@ export default function PopularLocationsBlock() {
       try {
         const data: LocationsResponse = await getLocations();
         setLocations(data.locations);
+        console.log('locations response', data);
       } catch (err) {
         console.error(err);
         setError('Не вдалося завантажити локації. Спробуйте пізніше.');
@@ -79,7 +80,6 @@ export default function PopularLocationsBlock() {
   return (
     <section className={css.section}>
       <div className={css.container}>
-
         <div className={css.header}>
           <h2 className={css.title}>Популярні локації</h2>
           <Link href="/locations" className={css.linkPrimary}>
@@ -89,10 +89,10 @@ export default function PopularLocationsBlock() {
 
         <Swiper
           modules={[Navigation]}
-          onSwiper={(swiper) => {
+          onSwiper={swiper => {
             swiperRef.current = swiper;
           }}
-          onInit={(swiper) => {
+          onInit={swiper => {
             if (typeof swiper.params.navigation === 'object' && swiper.params.navigation !== null) {
               swiper.params.navigation.prevEl = prevRef.current;
               swiper.params.navigation.nextEl = nextRef.current;
@@ -103,15 +103,16 @@ export default function PopularLocationsBlock() {
           slidesPerView={1}
           spaceBetween={24}
           breakpoints={{
-            0: { slidesPerView: 1, spaceBetween: 24},
+            0: { slidesPerView: 1, spaceBetween: 24 },
             375: { slidesPerView: 3, spaceBetween: 24 },
             768: { slidesPerView: 3, spaceBetween: 24 },
           }}
         >
-          {locations.map((loc) => (
+          {locations.map(loc => (
             <SwiperSlide key={loc._id}>
               <LocationCard
-                src={loc.image}
+                id={loc._id}
+                src={loc.images[0] || '/placeholder.jpg'}
                 alt={loc.name}
                 category={loc.locationType}
                 name={loc.name}
@@ -125,18 +126,17 @@ export default function PopularLocationsBlock() {
             variant="icon"
             className={css.navBtn}
             aria-label="Попередній слайд"
-            icon={<Icon name= "icon-arrow-back" width="16" height="16" />}
+            icon={<Icon name="icon-arrow-back" width="16" height="16" />}
             onClick={() => swiperRef.current?.slidePrev()}
           />
           <Button
             variant="icon"
             className={css.navBtn}
             aria-label="Наступний слайд"
-            icon={<Icon name= "icon-arrow-forward" width="16" height="16" />}
+            icon={<Icon name="icon-arrow-forward" width="16" height="16" />}
             onClick={() => swiperRef.current?.slideNext()}
           />
         </div>
-
       </div>
     </section>
   );
