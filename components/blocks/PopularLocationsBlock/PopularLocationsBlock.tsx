@@ -112,7 +112,7 @@ export default function PopularLocationsBlock() {
             <SwiperSlide key={loc._id}>
               <LocationCard
                 id={loc._id}
-                src={loc.images[0] || '/placeholder.jpg'}
+                src={loc.images?.[0]}
                 alt={loc.name}
                 category={loc.locationType}
                 name={loc.name}

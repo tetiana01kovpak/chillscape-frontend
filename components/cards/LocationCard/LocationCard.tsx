@@ -14,7 +14,11 @@ interface LocationCardTypes {
 export default function LocationCard({ id, src, alt, category, name }: LocationCardTypes) {
   return (
     <div className={css.card}>
-      <Image src={src} alt={alt} width={400} height={300} className={css.img} />
+      {src ? (
+        <Image src={src} alt={alt} width={400} height={300} className={css.img} />
+      ) : (
+        <div className={css.imgPlaceholder} />
+      )}
       <div className={css.bottom}>
         <p className={css.category}>{category}</p>
         <h3 className={css.name}>{name}</h3>

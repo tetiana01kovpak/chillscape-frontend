@@ -1,95 +1,85 @@
 .section {
-    padding: 32px 0;
-    background: var(--background);
+  padding: 64px 0;
+  background: var(--background);
 }
 
 .container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0 16px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
 }
 
 .header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.title {
-    font-size: 52px;
-    font-weight: 800;
-    color: var(--text-black);
-    margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  margin-bottom: 20px;
 }
 
 .linkPrimary {
-    background: var(--button-primary);
-    color: var(--text-white);
-    padding: 8px 16px;
-    border-radius: 8px;
-    transition: background 0.2s;
+  background: var(--button-primary);
+  color: var(--text-white);
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background 0.2s;
 }
 
 .linkPrimary:hover,
 .linkPrimary:focus {
-    background: var(--button-primary-hover);
+  background: var(--button-primary-hover);
 }
 
 .navButtons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
 }
 
 .navBtn {
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--foreground);
-    color: var(--text-brown);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, border-color 0.2s;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--foreground);
+  color: var(--text-brown);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
 }
 
 .navBtn:hover {
-    background: var(--button-primary-hover);
-    border-color: var(--border);
+  background: var(--button-primary-hover);
+  border-color: var(--border);
 }
 
 .navBtn:global(.swiper-button-disabled) {
-    opacity: 0.35;
-    pointer-events: none;
-    background: var(--button-primary-disabled);
+  opacity: 0.35;
+  pointer-events: none;
+  background: var(--button-primary-disabled);
 }
 
 @media (min-width: 768px) {
+  .container {
+    padding: 0 24px;
+  }
 
-    .container {
-        padding: 0 24px;
-        max-width: 768px;
-    }
-
-    .header {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-    }
-
+  .header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 
-
 @media (min-width: 1440px) {
-
-    .container {
-        max-width: 1440px;
-        padding: 0 32px;
-    }
-
+  .container {
+    font-size: 28px;
+    max-width: 1440px;
+    padding: 0 32px;
+  }
 }
