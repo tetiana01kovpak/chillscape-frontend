@@ -1,0 +1,41 @@
+.wrapper {
+  padding-bottom: 74px;
+}
+
+.header {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.title {
+  color: var(--text-brown);
+}
+
+.btnStyle {
+  border-radius: 6px !important;
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 40px 20px;
+  border-radius: 12px;
+  background-color: var(--foreground);
+  text-align: center;
+}
+
+.placeholderText {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text-green);
+}
+
+.placeholderSub {
+  color: var(--text-green);
+  opacity: 0.6;
+}

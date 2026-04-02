@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--button-primary); 
+  color: var(--button-primary);
 }
 
 .spinner {

@@ -7,15 +7,10 @@ interface LoaderProps {
   className?: string;
 }
 
-export  const Loader = ({ size = 24, className }: LoaderProps) => {
+export const Loader = ({ size = 24, className }: LoaderProps) => {
   return (
     <div className={clsx(s.loader, className)}>
-      <Icon 
-        name="icon-spinner" 
-        width={size} 
-        height={size} 
-        className={s.spinner} 
-      />
+      <Icon name="icon-spinner" width={size} height={size} className={s.spinner} />
     </div>
   );
 };
