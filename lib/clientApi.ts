@@ -13,6 +13,12 @@ export interface RegisterCredentials {
   password: string;
 }
 
+type UserResponse = {
+  status: number;
+  message: string;
+  data: User;
+};
+
 // Auth API
 export async function registerUser(credentials: RegisterCredentials): Promise<User> {
   const { data } = await api.post<User>('/auth/register', credentials);
@@ -29,8 +35,8 @@ export async function logoutUser(): Promise<void> {
 }
 
 export async function getCurrentUser(): Promise<User> {
-  const { data } = await api.get<User>('/auth/current');
-  return data;
+  const { data } = await api.get<UserResponse>('/users/current');
+  return data.data;
 }
 
 export async function getLocations() {

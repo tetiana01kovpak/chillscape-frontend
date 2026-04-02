@@ -12,7 +12,6 @@ import css from './Header.module.css';
 export default function Header() {
   const router = useRouter();
   const { user, isLoggedIn, clearUser } = useAuthStore();
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -80,7 +79,9 @@ export default function Header() {
               <div className={css.userInfo}>
                 <div className={css.avatar}>
                   <Image
-                    src={user?.avatar || 'https://ac.goit.global/fullstack/react/default-avatar.jpg'}
+                    src={
+                      user?.avatar || 'https://ac.goit.global/fullstack/react/default-avatar.jpg'
+                    }
                     alt={user?.name || ''}
                     width={32}
                     height={32}
@@ -105,7 +106,7 @@ export default function Header() {
           )}
         </div>
 
-        <div className={css.mobileRight}>
+        <div className={`${css.mobileRight} ${isMenuOpen ? css.mobileRightMenuOpen : ''}`}>
           <div className={css.authBtns}>
             {isLoggedIn ? (
               <Link href="/locations/add" className={css.btnPrimary}>
@@ -162,7 +163,9 @@ export default function Header() {
                 <div className={css.drawerUserRow}>
                   <div className={css.avatar}>
                     <Image
-                      src={user?.avatar || 'https://ac.goit.global/fullstack/react/default-avatar.jpg'}
+                      src={
+                        user?.avatar || 'https://ac.goit.global/fullstack/react/default-avatar.jpg'
+                      }
                       alt={user?.name || ''}
                       width={32}
                       height={32}
