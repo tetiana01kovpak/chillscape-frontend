@@ -1,36 +1,34 @@
 .button {
-    width: 48px;
-    height: 48px;
-    padding: 0;
-    border-radius: 14px;
-    background-color: var(--foreground);
-    color: var(--text-brown);
-    border: 1px solid var(--border);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 8px;
+  background-color: var(--foreground);
+  color: var(--text-black);
+  border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button:hover:not(:disabled),
 .button:focus-visible:not(:disabled) {
-    background-color: var(--button-secondary);
-    border-color: var(--button-primary);
+  background-color: var(--slider-arrow);
+  border-color: var(--arrow-hover-border);
 }
 
 .button:active:not(:disabled) {
-    background-color: var(--button-primary);
+  background-color: var(--arrow-hover-border);
 }
 
 .button:disabled {
-    opacity: 0.5;
-    pointer-events: none;
+  background-color: var(--slider-arrow);
+  border-color: var(--border);
+  pointer-events: none;
+  opacity: 0.4;
 }
 
 .icon {
-    width: 24px;
-    height: 24px;
-}
-
-.iconPrev {
-    transform: rotate(180deg);
+  width: 24px;
+  height: 24px;
 }

@@ -3,24 +3,33 @@ import { api } from './api';
 
 type FeedbackApiItem = {
   _id: string;
-  rating: number;
-  comment: string;
-  user?: {
-    name?: string;
-  };
+  rate: number;
+  description: string;
+  userName?: string;
   place?: {
     type?: string;
   };
 };
 
+type FeedbacksByPlaceResponse = {
+  feedbacks: FeedbackApiItem[];
+};
+
+const mapFeedbackToReview = (item: FeedbackApiItem): Review => ({
+  id: item._id,
+  rating: item.rate,
+  text: item.description,
+  author: item.userName || 'Невідомий автор',
+  locationType: item.place?.type || '',
+});
+
 export const fetchReviews = async (): Promise<Review[]> => {
   const { data } = await api.get<FeedbackApiItem[]>('/feedbacks');
+  return data.map(mapFeedbackToReview);
+};
 
-  return data.map(item => ({
-    id: item._id,
-    rating: item.rating,
-    text: item.comment,
-    author: item.user?.name || 'Невідомий автор',
-    locationType: item.place?.type || 'Невідомий тип',
-  }));
+export const fetchLocationReviews = async (placeId: string): Promise<Review[]> => {
+  const { data } = await api.get<FeedbacksByPlaceResponse>(`/feedbacks/${placeId}`);
+
+  return data.feedbacks.map(mapFeedbackToReview);
 };

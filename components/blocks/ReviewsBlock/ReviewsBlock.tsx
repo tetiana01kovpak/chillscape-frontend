@@ -11,7 +11,7 @@ import 'swiper/css/pagination';
 
 import ReviewCard from '@/components/cards/ReviewCard/ReviewCard';
 import ArrowButton from '@/components/ui/ArrowButton/ArrowButton';
-import { fetchReviews } from '@/lib/reviews';
+import { fetchLocationReviews, fetchReviews } from '@/lib/reviews';
 
 export type Review = {
   id: string;
@@ -21,7 +21,17 @@ export type Review = {
   locationType: string;
 };
 
-function ReviewsBlock() {
+type ReviewsBlockProps = {
+  placeId?: string;
+  title?: string;
+  showLocationType?: boolean;
+};
+
+function ReviewsBlock({
+  placeId,
+  title = 'Останні відгуки',
+  showLocationType = true,
+}: ReviewsBlockProps) {
   const swiperRef = useRef<SwiperType | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isBeginning, setIsBeginning] = useState(true);
@@ -31,13 +41,13 @@ function ReviewsBlock() {
 
   useEffect(() => {
     const loadReviews = async () => {
-      const data = await fetchReviews();
-      console.log(data);
+      const data = placeId ? await fetchLocationReviews(placeId) : await fetchReviews();
+
       setReviews(data);
     };
 
     loadReviews();
-  }, []);
+  }, [placeId]);
 
   const updateNavigationState = (swiper: SwiperType) => {
     setIsBeginning(swiper.isBeginning);
@@ -48,7 +58,7 @@ function ReviewsBlock() {
     <section className={`section ${styles.reviews}`}>
       <div className={'container'}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Останні відгуки</h2>
+          <h2 className={styles.title}>{title}</h2>
         </div>
 
         {hasReviews ? (
@@ -86,7 +96,7 @@ function ReviewsBlock() {
                     rating={review.rating}
                     text={review.text}
                     author={review.author}
-                    locationType={review.locationType}
+                    locationType={showLocationType ? review.locationType : undefined}
                   />
                 </SwiperSlide>
               ))}

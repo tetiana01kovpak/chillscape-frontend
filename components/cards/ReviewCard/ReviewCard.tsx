@@ -5,7 +5,7 @@ type ReviewCardProps = {
   rating: number;
   text: string;
   author: string;
-  locationType: string;
+  locationType?: string;
 };
 
 function ReviewCard({ rating, text, author, locationType }: ReviewCardProps) {

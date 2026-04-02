@@ -27,6 +27,7 @@ export default function LoginForm() {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const user = await loginUser(values);
+        localStorage.setItem('hasSession', 'true');
         setUser(user);
         const redirect = searchParams.get('redirect') || '/';
         router.push(redirect);

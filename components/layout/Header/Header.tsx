@@ -22,6 +22,7 @@ export default function Header() {
     } catch {
       // proceed with local logout even if API fails
     }
+    localStorage.removeItem('hasSession');
     clearUser();
     closeMenu();
     router.push('/');

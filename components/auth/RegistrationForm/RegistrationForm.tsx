@@ -28,6 +28,7 @@ export default function RegistrationForm() {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const user = await registerUser(values);
+        localStorage.setItem('hasSession', 'true');
         setUser(user);
         const redirect = searchParams.get('redirect') || '/';
         router.push(redirect);
