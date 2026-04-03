@@ -56,7 +56,6 @@ export default function Header() {
     <header className={`${css.header} section`}>
       <div className={`container ${css.inner}`}>
         <Logo />
-
         <div className={css.desktopRight}>
           <nav className={css.desktopNav}>
             <Link href="/" className={css.navLink}>

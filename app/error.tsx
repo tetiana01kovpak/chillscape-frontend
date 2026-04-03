@@ -3,22 +3,25 @@ import Link from 'next/link';
 import css from './error-pages.module.css';
 
 interface ErrorProps {
+  error: Error & { digest?: string };
   reset: () => void;
 }
 
-export default function Error({ reset }: ErrorProps) {
+export default function Error({ error, reset }: ErrorProps) {
+  console.error(error); // для дебагу в консолі
+
   return (
     <div className={css.container}>
-      <h2 className={css.title}>Something went wrong</h2>
+      <h2 className={css.title}>Щось пішло не так</h2>
       <p className={css.text}>
-        An unexpected error occurred. Please try again or return to the home page.
+        Виникла непередбачена помилка. Спробуйте оновити сторінку або повернутися на головну.
       </p>
       <div className={css.actions}>
         <button className={css.btn} onClick={reset}>
-          Try again
+          Спробувати ще раз
         </button>
         <Link href="/" className={css.btn}>
-          Back to home
+          Повернутися на головну
         </Link>
       </div>
     </div>

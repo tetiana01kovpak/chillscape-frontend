@@ -1,0 +1,25 @@
+.wrapper {
+  margin-bottom: 64px;
+}
+
+.text {
+  color: var(--text-green);
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    margin-bottom: 72px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .wrapper {
+    max-width: 865px;
+    margin: 0 auto 72px auto;
+  }
+
+  .text {
+    font-size: 18px;
+  }
+}
