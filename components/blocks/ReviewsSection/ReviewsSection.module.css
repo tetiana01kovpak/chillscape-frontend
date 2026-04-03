@@ -1,5 +1,5 @@
 .wrapper {
-  padding: 64px 0;
+  position: relative;
 }
 
 .header {
@@ -16,32 +16,13 @@
 
 .btnStyle {
   border-radius: 6px !important;
-}
-
-.placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 40px 20px;
-  border-radius: 12px;
-  background-color: var(--foreground);
-  text-align: center;
-}
-
-.placeholderText {
-  font-weight: 700;
-  font-size: 18px;
-  color: var(--text-green);
-}
-
-.placeholderSub {
-  color: var(--text-green);
-  opacity: 0.6;
+  position: absolute;
+  top: 64px;
+  right: 0;
 }
 
 @media (min-width: 1440px) {
-  .wrapper {
-    padding: 72px 0;
+  .btnStyle {
+    top: 72px;
   }
 }

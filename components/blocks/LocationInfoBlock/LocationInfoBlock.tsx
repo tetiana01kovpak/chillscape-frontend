@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import StarRating from '@/components/ui/StarRating/StarRating';
+import RatingStars from '@/components/ui/RatingStars/RatingStars';
 import css from './LocationInfoBlock.module.css';
 
 interface Props {
@@ -16,13 +16,13 @@ interface Props {
 }
 
 export default function LocationInfoBlock({ location, typeName, authorName, regionName }: Props) {
-  const { name, rate, region, ownerId } = location;
+  const { name, rate, ownerId } = location;
 
   return (
     <div className={css.wrapper}>
       <div className={css.rating}>
         <div className={css.ratingContainer}>
-          <StarRating value={rate} />
+          <RatingStars rating={rate} />
         </div>
         <span className={css.ratingDivider}>·</span>
         <span className={css.ratingValue}>{rate.toFixed(1)}</span>

@@ -144,7 +144,7 @@ export default function Header() {
               Місця відпочинку
             </Link>
             {isLoggedIn && (
-              <Link href="/pro" className={css.drawerLink} onClick={closeMenu}>
+              <Link href="/profile" className={css.drawerLink} onClick={closeMenu}>
                 Мій профіль
               </Link>
             )}
