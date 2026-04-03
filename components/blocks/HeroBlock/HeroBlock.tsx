@@ -22,7 +22,7 @@ const HeroBlock = () => {
   return (
     <div className={styles.heroWrapper}>
       <div className="container">
-        <section className={`${styles.hero} section`}>
+        <section className={styles.hero}>
           <div className={styles.background}>
             <Image
               src="/hero-bg.jpg"

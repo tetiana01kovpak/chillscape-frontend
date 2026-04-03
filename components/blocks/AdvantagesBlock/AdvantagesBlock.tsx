@@ -24,12 +24,12 @@ const advantages = [
 
 export const AdvantagesBlock = () => {
   return (
-    <section className={styles.advantages}>
+    <section className={`${styles.advantages} section`}>
       <div className="container">
         <h2 className={styles.advntitle}>Ключові переваги</h2>
 
         <div className={styles.advngrid}>
-          {advantages.map((item) => (
+          {advantages.map(item => (
             <div key={item.id} className={`${styles.advncard} ${styles[`div${item.id}`]}`}>
               <Icon name={item.icon} className={styles.advnicon} />
 
