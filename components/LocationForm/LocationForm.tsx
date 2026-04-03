@@ -1,5 +1,5 @@
 'use client';
-
+import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRef } from 'react';
@@ -17,7 +17,7 @@ import Image from 'next/image';
 // 1. Типізація значень форми (для ESLint та TS)
 interface LocationValues {
   name: string;
-  type: string;
+  locationType: string;
   region: string;
   description: string;
   images: File | null;
@@ -32,19 +32,22 @@ interface LocationFormProps {
 // 2. Схема валідації Yup
 const LocationSchema = Yup.object().shape({
   name: Yup.string().required('Назва обов’язкова'),
-  type: Yup.string().required('Оберіть тип місця'),
+  locationType: Yup.string().required('Оберіть тип місця'),
   region: Yup.string().required('Оберіть регіон'),
-  description: Yup.string().min(20, 'Опис має бути не менше 20 символів').max(6000, 'Опис не може перевищувати 6000 символів').required('Додайте опис'),
+  description: Yup.string()
+    .min(20, 'Опис має бути не менше 20 символів')
+    .max(6000, 'Опис не може перевищувати 6000 символів')
+    .required('Додайте опис'),
   images: Yup.mixed().required('Додайте фото обкладинки'),
 });
 
 export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const router = useRouter();
   const formik = useFormik<LocationValues>({
     initialValues: {
       name: initialData?.name || '',
-      type: initialData?.type || '',
+      locationType: initialData?.locationType || '',
       region: initialData?.region || '',
       description: initialData?.description || '',
       images: initialData?.images || null,
@@ -55,7 +58,7 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
       try {
         const formData = new FormData();
         formData.append('name', values.name);
-        formData.append('type', values.type);
+        formData.append('locationType', values.locationType);
         formData.append('region', values.region);
         formData.append('description', values.description);
 
@@ -64,13 +67,24 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
         }
 
         if (id) {
-          // Виклик PATCH або PUT для оновлення
-          await saveLocation(formData, id);
-          toast.success('Локацію оновлено!');
+          // Перехід на сторінку деталей
+          router.push(`/locations/${id}`);
+          router.refresh(); // Оновлюємо кеш серверних компонентів
         } else {
-          // Виклик POST для створення
-          await saveLocation(formData);
+          // РЕЖИМ СТВОРЕННЯ
+          const response = await saveLocation(formData);
           toast.success('Локацію створено!');
+
+          // Отримуємо ID з відповіді твого API
+          const newId = response?.data?._id;
+
+          if (newId) {
+            router.push(`/locations/${newId}`);
+            router.refresh();
+          } else {
+            // Якщо ID чомусь не прийшов, можна кинути на загальний список
+            router.push('/locations');
+          }
         }
       } catch (error) {
         toast.error('Помилка при збереженні');
@@ -158,14 +172,14 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
 
           <Select
             label="Тип місця"
-            value={formik.values.type}
+            value={formik.values.locationType}
             options={[
               { value: 'nature', label: 'Природа' },
               { value: 'hotel', label: 'Готель' },
               { value: 'culture', label: 'Культура' },
             ]}
-            onChange={val => formik.setFieldValue('type', val)}
-            error={formik.touched.type ? formik.errors.type : undefined}
+            onChange={val => formik.setFieldValue('locationType', val)}
+            error={formik.touched.locationType ? formik.errors.locationType : undefined}
           />
 
           <Select
