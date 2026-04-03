@@ -20,7 +20,7 @@ interface LocationValues {
   type: string;
   region: string;
   description: string;
-  image: File | null;
+  images: File | null;
 }
 
 interface LocationFormProps {
@@ -34,8 +34,8 @@ const LocationSchema = Yup.object().shape({
   name: Yup.string().required('Назва обов’язкова'),
   type: Yup.string().required('Оберіть тип місця'),
   region: Yup.string().required('Оберіть регіон'),
-  description: Yup.string().min(10, 'Опис має бути не менше 10 символів').required('Додайте опис'),
-  image: Yup.mixed().required('Додайте фото обкладинки'),
+  description: Yup.string().min(20, 'Опис має бути не менше 20 символів').max(6000, 'Опис не може перевищувати 6000 символів').required('Додайте опис'),
+  images: Yup.mixed().required('Додайте фото обкладинки'),
 });
 
 export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
@@ -47,7 +47,7 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
       type: initialData?.type || '',
       region: initialData?.region || '',
       description: initialData?.description || '',
-      image: initialData?.image || null,
+      images: initialData?.images || null,
     },
     validationSchema: LocationSchema,
     validateOnBlur: true,
@@ -59,8 +59,8 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
         formData.append('region', values.region);
         formData.append('description', values.description);
 
-        if (values.image) {
-          formData.append('image', values.image);
+        if (values.images) {
+          formData.append('images', values.images);
         }
 
         if (id) {
@@ -84,7 +84,7 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      formik.setFieldValue('image', file);
+      formik.setFieldValue('images', file);
     }
   };
 
@@ -111,9 +111,9 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
             onChange={handleFileChange}
           />
           <div className={s.dropzone} onClick={() => fileInputRef.current?.click()}>
-            {formik.values.image ? (
+            {formik.values.images ? (
               <Image
-                src={URL.createObjectURL(formik.values.image as File)}
+                src={URL.createObjectURL(formik.values.images as File)}
                 alt="Preview"
                 width={600} // Або використай fill, якщо контейнер має розміри
                 height={400}
@@ -137,10 +137,10 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
             className={s.uploadBtn}
             onClick={() => fileInputRef.current?.click()}
           >
-            {formik.values.image ? 'Змінити фото' : 'Завантажити фото'}
+            {formik.values.images ? 'Змінити фото' : 'Завантажити фото'}
           </Button>
-          {formik.touched.image && formik.errors.image && (
-            <span className={s.errorText}>{formik.errors.image as string}</span>
+          {formik.touched.images && formik.errors.images && (
+            <span className={s.errorText}>{formik.errors.images as string}</span>
           )}
         </div>
 
