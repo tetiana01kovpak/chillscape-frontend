@@ -4,31 +4,17 @@ import type { User } from '@/types/user';
 interface AuthState {
   user: User | null;
   isLoggedIn: boolean;
-  isAuthLoading: boolean;
+  isAuthLoaded: boolean;
   setUser: (user: User) => void;
   clearUser: () => void;
-  setAuthLoading: (value: boolean) => void;
+  setAuthLoaded: () => void;
 }
 
 export const useAuthStore = create<AuthState>(set => ({
   user: null,
   isLoggedIn: false,
-  isAuthLoading: true,
-
-  setUser: (user: User) =>
-    set({
-      user,
-      isLoggedIn: true,
-    }),
-
-  clearUser: () =>
-    set({
-      user: null,
-      isLoggedIn: false,
-    }),
-
-  setAuthLoading: (value: boolean) =>
-    set({
-      isAuthLoading: value,
-    }),
+  isAuthLoaded: false,
+  setUser: (user: User) => set({ user, isLoggedIn: true, isAuthLoaded: true }),
+  clearUser: () => set({ user: null, isLoggedIn: false, isAuthLoaded: true }),
+  setAuthLoaded: () => set({ isAuthLoaded: true }),
 }));

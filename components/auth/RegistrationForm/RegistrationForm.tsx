@@ -12,9 +12,19 @@ import { Button } from '@/components/ui/Button/Button';
 import css from '../AuthForm.module.css';
 
 const registrationSchema = Yup.object({
-  name: Yup.string().min(2, 'Мінімум 2 символи').required("Обов'язкове поле"),
-  email: Yup.string().email('Невірний формат пошти').required("Обов'язкове поле"),
-  password: Yup.string().min(8, 'Мінімум 8 символів').required("Обов'язкове поле"),
+  name: Yup.string()
+    .min(2, 'Мінімум 2 символи')
+    .max(32, 'Максимум 32 символи')
+    .required("Обов'язкове поле"),
+  email: Yup.string()
+    .email('Невірний формат пошти')
+    .matches(/@.+\..+/, 'Невірний формат пошти')
+    .max(64, 'Максимум 64 символи')
+    .required("Обов'язкове поле"),
+  password: Yup.string()
+    .min(8, 'Мінімум 8 символів')
+    .max(128, 'Максимум 128 символів')
+    .required("Обов'язкове поле"),
 });
 
 export default function RegistrationForm() {
@@ -57,7 +67,7 @@ export default function RegistrationForm() {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.name}
-          error={formik.touched.name && formik.errors.name ? formik.errors.name : undefined}
+          error={(formik.touched.name || formik.submitCount > 0) && formik.errors.name ? formik.errors.name : undefined}
         />
 
         <Input
@@ -69,7 +79,7 @@ export default function RegistrationForm() {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
-          error={formik.touched.email && formik.errors.email ? formik.errors.email : undefined}
+          error={(formik.touched.email || formik.submitCount > 0) && formik.errors.email ? formik.errors.email : undefined}
         />
 
         <Input
@@ -82,7 +92,7 @@ export default function RegistrationForm() {
           onBlur={formik.handleBlur}
           value={formik.values.password}
           error={
-            formik.touched.password && formik.errors.password ? formik.errors.password : undefined
+            (formik.touched.password || formik.submitCount > 0) && formik.errors.password ? formik.errors.password : undefined
           }
         />
 

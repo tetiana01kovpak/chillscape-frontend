@@ -1,0 +1,55 @@
+.page {
+  background-color: var(--background);
+}
+
+.locations {
+  padding-top: 32px;
+  padding-bottom: 48px;
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: var(--text-black);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media only screen and (min-width: 768px) {
+  .locations {
+    padding-top: 40px;
+    padding-bottom: 56px;
+  }
+
+  .heading {
+    font-size: 28px;
+    margin-bottom: 32px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .locations {
+    padding-top: 48px;
+    padding-bottom: 72px;
+  }
+
+  .heading {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+}
