@@ -1,11 +1,9 @@
 .section {
-  padding: 40px 0;
+  background: var(--color-scheme-2-background);
+  padding: 64px 20px;
 }
 
 .container {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
   padding: 0 16px;
 }
 
@@ -19,13 +17,17 @@
 
 .locTitle {
   margin: 0;
-  font-size: clamp(24px, 4vw, 52px);
+  font-family: var(--font-family);
   font-weight: 700;
+  font-size: 28px;
   line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-scheme-1-text);
 }
 
 .allLocBtn {
   flex-shrink: 0;
+  align-self: flex-end;
   padding: 6px 12px;
   font-size: 16px;
   font-weight: 500;
@@ -57,10 +59,18 @@
   .container {
     padding: 0 32px;
   }
+
+  .locTitle {
+    font-size: 36px;
+  }
 }
 
 @media (min-width: 1440px) {
   .container {
     padding: 0 64px;
+  }
+
+  .locTitle {
+    font-size: 52px;
   }
 }

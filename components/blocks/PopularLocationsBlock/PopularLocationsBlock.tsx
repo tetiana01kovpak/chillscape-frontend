@@ -43,7 +43,7 @@ export default function PopularLocations() {
 
   return (
     <section className={css.section} suppressHydrationWarning>
-      <div className={css.container}>
+      <div className="container">
         <div className={css.locHeader}>
           <h2 className={css.locTitle}>Популярні локації</h2>
 
