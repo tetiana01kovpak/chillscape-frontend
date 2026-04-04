@@ -1,0 +1,37 @@
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.cardWrapper {
+    width: 100%;
+    min-width: 0;
+}
+
+.message {
+    text-align: center;
+    color: var(--text-brown);
+}
+
+.buttonWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+@media only screen and (min-width: 768px) {
+    .cardWrapper {
+        width: calc((100% - 24px) / 2);
+    }
+}
+
+@media only screen and (min-width: 1440px) {
+    .cardWrapper {
+        width: calc((100% - 48px) / 3);
+    }
+
+    .buttonWrapper {
+        margin-top: 48px;
+    }
+}
