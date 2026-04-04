@@ -7,11 +7,12 @@ import { Icon } from '@/components/ui/Icon/Icon';
 import { Button } from '../ui/Button/Button';
 
 interface ModalProps {
+  className?: string;
   onClose: () => void;
   children: ReactNode;
 }
 
-export default function Modal({ onClose, children }: ModalProps) {
+export default function Modal({ className, onClose, children }: ModalProps) {
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) onClose();
   };
@@ -32,11 +33,10 @@ export default function Modal({ onClose, children }: ModalProps) {
 
   return createPortal(
     <div className={css.backdrop} role="dialog" aria-modal="true" onClick={handleBackdropClick}>
-      <div className={css.modal}>
-        <Button>
-          <Icon name="icon-x"></Icon>
+      <div className={`${css.modal} ${className}`}>
+        <Button onClick={onClose} variant="icon" className={css.btn}>
+          <Icon name="icon-close" width={32} height={32}></Icon>
         </Button>
-        <Icon name="icon-x" width={32} height={32} className={css.icon}></Icon>
         {children}
       </div>
     </div>,

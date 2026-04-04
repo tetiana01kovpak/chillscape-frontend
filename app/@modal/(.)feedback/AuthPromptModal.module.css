@@ -1,0 +1,44 @@
+.modal {
+  text-align: center;
+}
+
+.title {
+  font-size: 26px;
+
+  margin-bottom: 16px;
+}
+
+.text {
+  margin-bottom: 32px;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-direction: column;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
+
+  & li {
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+  }
+}
+
+.link {
+  display: block;
+
+  @media screen and (min-width: 768px) {
+    min-width: 203px;
+  }
+}
+
+.btn {
+  display: inline-block;
+  width: 100%;
+  padding: 12px;
+}

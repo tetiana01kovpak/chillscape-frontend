@@ -35,7 +35,7 @@
 
 .secondary {
   background-color: var(--button-secondary);
-  color: var(--text-black);
+  color: var(--text-brown);
 }
 .secondary:hover {
   background-color: var(--button-primary); /* #cc6534 */
