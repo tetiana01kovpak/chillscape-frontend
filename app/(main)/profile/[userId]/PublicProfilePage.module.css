@@ -14,12 +14,6 @@
   color: var(--text-black);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
 @media only screen and (min-width: 768px) {
   .locations {
     padding-top: 40px;
@@ -29,11 +23,6 @@
   .heading {
     font-size: 28px;
     margin-bottom: 32px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
   }
 }
 
@@ -46,10 +35,5 @@
   .heading {
     font-size: 32px;
     margin-bottom: 40px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
   }
 }

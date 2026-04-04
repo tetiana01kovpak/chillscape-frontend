@@ -6,10 +6,10 @@ import { useAuthStore } from '@/store/authStore';
 import { getUserLocations } from '@/lib/clientApi';
 import ProfileInfo from '@/components/blocks/ProfileInfo/ProfileInfo';
 import PrivateProfilePlaceholder from '@/components/blocks/ProfilePlaceholder/PrivateProfilePlaceholder';
-import LocationCard from '@/components/cards/LocationCard/LocationCard';
 import { Loader } from '@/components/ui/Loader/Loader';
 import type { Location } from '@/types/location';
 import css from './ProPage.module.css';
+import LocationsGrid from '@/components/blocks/LocationsGrid/LocationsGrid';
 
 export default function ProPage() {
   const router = useRouter();
@@ -37,11 +37,7 @@ export default function ProPage() {
 
   return (
     <div className={css.page}>
-      <ProfileInfo
-        name={user.name}
-        avatar={user.avatar}
-        articleCount={locations.length}
-      />
+      <ProfileInfo name={user.name} avatar={user.avatar} articleCount={locations.length} />
 
       <section className={`${css.locations} section`}>
         <div className="container">
@@ -50,15 +46,7 @@ export default function ProPage() {
           {isLoading ? (
             <Loader />
           ) : locations.length > 0 ? (
-            <div className={css.grid}>
-              {locations.map(location => (
-                <LocationCard
-                  key={location.id}
-                  location={location}
-                  showEditButton
-                />
-              ))}
-            </div>
+            <LocationsGrid locations={locations} showEditButton />
           ) : (
             <PrivateProfilePlaceholder />
           )}

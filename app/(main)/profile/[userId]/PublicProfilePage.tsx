@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 import { getUserById, getUserLocations } from '@/lib/clientApi';
 import ProfileInfo from '@/components/blocks/ProfileInfo/ProfileInfo';
 import PublicProfilePlaceholder from '@/components/blocks/ProfilePlaceholder/PublicProfilePlaceholder';
-import LocationCard from '@/components/cards/LocationCard/LocationCard';
 import { Loader } from '@/components/ui/Loader/Loader';
 import type { User } from '@/types/user';
 import type { Location } from '@/types/location';
 import css from './PublicProfilePage.module.css';
+import LocationsGrid from '@/components/blocks/LocationsGrid/LocationsGrid';
 
 interface PublicProfilePageProps {
   userId: string;
@@ -22,10 +22,7 @@ export default function PublicProfilePage({ userId }: PublicProfilePageProps) {
   useEffect(() => {
     setIsLoading(true);
 
-    Promise.all([
-      getUserById(userId).catch(() => null),
-      getUserLocations(userId).catch(() => []),
-    ])
+    Promise.all([getUserById(userId).catch(() => null), getUserLocations(userId).catch(() => [])])
       .then(([user, locs]) => {
         setProfileUser(user);
         setLocations(locs);
@@ -54,11 +51,7 @@ export default function PublicProfilePage({ userId }: PublicProfilePageProps) {
           <h2 className={css.heading}>Локації</h2>
 
           {locations.length > 0 ? (
-            <div className={css.grid}>
-              {locations.map(location => (
-                <LocationCard key={location.id} location={location} />
-              ))}
-            </div>
+            <LocationsGrid locations={locations} />
           ) : (
             <PublicProfilePlaceholder />
           )}
