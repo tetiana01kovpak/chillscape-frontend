@@ -62,8 +62,8 @@ export async function getLocationById(id: string): Promise<Location> {
 }
 
 export async function getLocationTypes(): Promise<LocationType[]> {
-  const { data } = await api.get<LocationType[]>('/categories/location-types');
-  return data;
+  const { data } = await api.get<{ data: LocationType[] }>('/categories/location-types');
+  return data.data;
 }
 
 // Users API

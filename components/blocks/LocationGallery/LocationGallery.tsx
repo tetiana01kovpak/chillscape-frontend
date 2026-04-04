@@ -9,7 +9,14 @@ interface Props {
 export default function LocationGallery({ image, name }: Props) {
   return (
     <div className={css.wrapper}>
-      <Image src={image} alt={name} fill className={css.image} priority />{' '}
+      <Image
+        src={image}
+        alt={name}
+        fill
+        sizes="(max-width: 767px) 374px, (max-width: 1439px) 768px, 821px"
+        className={css.image}
+        priority
+      />{' '}
     </div>
   );
 }
