@@ -64,21 +64,7 @@ export default function AddReviewForm({ onClose, locationId }: Props) {
     >
       {({ isSubmitting, setFieldValue, values }) => (
         <Form className={styles.formGroup}>
-          
-          <div className={styles.starWrapper}>
-            <StarRating
-              value={values.rating}
-              readonly={false}
-              onChange={(rate) => setFieldValue('rating', rate)}
-            />
-            <ErrorMessage
-              name="rating"
-              component="p"
-              className={styles.errorMessage}
-            />
-          </div>
 
-         
           <div className={styles.textareaWrapper}>
             <TextArea
               name="review"
@@ -96,14 +82,27 @@ export default function AddReviewForm({ onClose, locationId }: Props) {
             />
           </div>
 
+          <div className={styles.starWrapper}>
+            <StarRating
+              value={values.rating}
+              readonly={false}
+              onChange={(rate) => setFieldValue('rating', rate)}
+            />
+            <ErrorMessage
+              name="rating"
+              component="p"
+              className={styles.errorMessage}
+            />
+          </div>
+
           
           <div className={styles.buttonsWrapper}>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Надсилаю...' : 'Надіслати'}
-            </Button>
-
             <Button type="button" onClick={onClose} variant="secondary">
               Відмінити
+            </Button>
+            
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Надсилаю...' : 'Надіслати'}
             </Button>
           </div>
         </Form>

@@ -6,6 +6,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 20px;
 }
 
 .modal {
@@ -19,7 +20,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 .title {
@@ -56,35 +57,41 @@
 
 .errorMessage {
   color: var(--red-error);
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 4px;
 }
 
 .starWrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  justify-content: flex-start;
+  
+  margin-top: 8px;
 }
 
 .textareaWrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 8px;
+  margin: 0;
 }
 
 .buttonsWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 24px;
+  margin-top: 8px;
+}
+.buttonsWrapper button {
+  width: 100%;
 }
 
 /* Планшет */
 @media (min-width: 768px) {
   .modal {
     max-width: 704px;
+    width: 100%;
     padding: 64px 32px;
   }
   .buttonsWrapper {
@@ -92,12 +99,16 @@
     justify-content: center;
     gap: 24px;
   }
+  .buttonsWrapper button {
+    width: 203px;
+}
 }
 
 /* Десктоп */
 @media (min-width: 1440px) {
   .modal {
     max-width: 768px;
+    width: 100%;
     padding: 64px;
   }
   .buttonsWrapper {
@@ -105,4 +116,7 @@
     justify-content: center;
     gap: 24px;
   }
+   .buttonsWrapper button {
+    width: 203px;
+}
 }
