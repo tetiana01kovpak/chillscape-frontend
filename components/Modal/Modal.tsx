@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import css from './Modal.module.css';
 import { useEffect, type ReactNode } from 'react';
 import { Icon } from '@/components/ui/Icon/Icon';
+import { Button } from '../ui/Button/Button';
 
 interface ModalProps {
   onClose: () => void;
@@ -32,6 +33,9 @@ export default function Modal({ onClose, children }: ModalProps) {
   return createPortal(
     <div className={css.backdrop} role="dialog" aria-modal="true" onClick={handleBackdropClick}>
       <div className={css.modal}>
+        <Button>
+          <Icon name="icon-x"></Icon>
+        </Button>
         <Icon name="icon-x" width={32} height={32} className={css.icon}></Icon>
         {children}
       </div>
