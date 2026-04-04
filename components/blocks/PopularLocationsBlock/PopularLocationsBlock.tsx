@@ -7,12 +7,12 @@ import css from '@/components/blocks/PopularLocationsBlock/PopularLocationsBlock
 import { useQuery } from '@tanstack/react-query';
 import { getLocations } from '@/lib/clientApi';
 import { Loader } from '@/components/ui/Loader/Loader';
+import Link from 'next/link';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import { Navigation } from 'swiper/modules';
 import { useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import { Location } from '@/types/locations';
 
 import 'swiper/css';
@@ -31,7 +31,6 @@ export default function PopularLocations() {
 
   const prevRef = useRef<HTMLButtonElement | null>(null);
   const nextRef = useRef<HTMLButtonElement | null>(null);
-  const router = useRouter();
 
   if (isLoading) {
     return <Loader />;
@@ -47,13 +46,11 @@ export default function PopularLocations() {
         <div className={css.locHeader}>
           <h2 className={css.locTitle}>Популярні локації</h2>
 
-          <Button
-            variant="primary"
-            className={css.allLocBtn}
-            onClick={() => router.push('/locations')}
-          >
-            Всі локації
-          </Button>
+          <Link href="/locations">
+            <Button variant="primary" className={css.allLocBtn}>
+              Всі локації
+            </Button>
+          </Link>
         </div>
 
         <Swiper
