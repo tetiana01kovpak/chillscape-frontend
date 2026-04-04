@@ -83,7 +83,7 @@
 }
 
 /* Десктоп */
-@media (min-width: 1158px) {
+@media (min-width: 1440px) {
   .modal {
     width: 768px;
     padding: 64px;
