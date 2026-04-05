@@ -2,29 +2,6 @@
   order: 2;
 }
 
-.rating {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  margin-bottom: 12px;
-}
-
-.ratingContainer {
-  width: 120px;
-  display: flex;
-}
-
-.ratingDivider {
-  font-size: 50px;
-  line-height: 0;
-  padding-bottom: 8px;
-  /* margin-left: -9px; */
-}
-
-.ratingValue {
-  color: var(--text-green);
-}
-
 .title {
   margin-bottom: 12px;
 }
@@ -55,9 +32,6 @@
     order: 1;
   }
 
-  .ratingValue {
-    font-size: 18px;
-  }
   .meta {
     font-size: 18px;
   }
