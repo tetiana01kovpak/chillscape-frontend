@@ -5,7 +5,8 @@ export type Feedback = {
     _id: string;
     name: string;
   };
-  rating: number;
+  rate: number;
+  rating?: number;
   comment: string;
   createdAt: string;
   updatedAt: string;

@@ -13,8 +13,12 @@ function ReviewCard({ rating, text, author, locationType }: ReviewCardProps) {
     <article className={styles.card}>
       <div className={styles.top}>
         <RatingStars rating={rating} />
-        <p className={styles.text}>{text}</p>
+
+        <div className={`${styles.textScroll} customScrollbar`}>
+          <p className={styles.text}>{text}</p>
+        </div>
       </div>
+
       <div className={styles.bottom}>
         <span className={styles.authorName}>{author}</span>
         <span className={styles.locationType}>{locationType}</span>

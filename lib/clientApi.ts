@@ -1,6 +1,6 @@
 import type { User } from '@/types/user';
 import type { Location as SimpleLocation } from '@/types/location';
-import { Location, LocationType } from '@/types/locations';
+import { Location, LocationType, Regions } from '@/types/locations';
 import { FeedbacksResponse } from '@/types/feedback';
 import { api } from './api';
 
@@ -52,7 +52,7 @@ export async function getCurrentUser(): Promise<User> {
 
 // Locations API
 export async function getLocations(): Promise<Location[]> {
-  const { data } = await api.get<LocationsResponse>('/locations', { withCredentials: false });
+  const { data } = await api.get<{ locations: Location[] }>('/locations');
   return data.locations;
 }
 
@@ -62,8 +62,13 @@ export async function getLocationById(id: string): Promise<Location> {
 }
 
 export async function getLocationTypes(): Promise<LocationType[]> {
-  const { data } = await api.get<LocationType[]>('/categories/location-types');
-  return data;
+  const { data } = await api.get<{ data: LocationType[] }>('/categories/location-types');
+  return data.data;
+}
+
+export async function getLocationRegions(): Promise<Regions[]> {
+  const { data } = await api.get<{ data: Regions[] }>('/categories/');
+  return data.data;
 }
 
 // Users API

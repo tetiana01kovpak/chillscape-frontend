@@ -2,10 +2,11 @@
 
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import StarRating from '@/components/ui/StarRating/StarRating';
+import RatingStars from '@/components/ui/RatingStars/RatingStars';
 import styles from './AddReviewModal.module.css';
 import { Button } from '@/components/ui/Button/Button';
 import { TextArea } from '@/components/ui/TextArea/TextArea';
+
 
 interface Props {
   onClose: () => void;
@@ -83,8 +84,8 @@ export default function AddReviewForm({ onClose, locationId }: Props) {
           </div>
 
           <div className={styles.starWrapper}>
-            <StarRating
-              value={values.rating}
+            <RatingStars
+              rating={values.rating}
               readonly={false}
               onChange={(rate) => setFieldValue('rating', rate)}
             />
