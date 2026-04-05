@@ -197,6 +197,8 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
               { value: 'nature', label: 'Природа' },
               { value: 'hotel', label: 'Готель' },
               { value: 'culture', label: 'Культура' },
+              { value: 'entertainment', label: 'Розваги' },
+              { value: 'other', label: 'Інше' },
             ]}
             onChange={val => formik.setFieldValue('locationType', val)}
             error={formik.touched.locationType ? formik.errors.locationType : undefined}
@@ -210,6 +212,8 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
               { value: 'kyiv', label: 'Київська обл.' },
               { value: 'odesa', label: 'Одеська обл.' },
               { value: 'lviv', label: 'Львівська обл.' },
+              { value: 'kharkiv', label: 'Харківська обл.' },
+              { value: 'other', label: 'Інший регіон' },
             ]}
             onChange={val => formik.setFieldValue('region', val)}
             error={formik.touched.region ? formik.errors.region : undefined}

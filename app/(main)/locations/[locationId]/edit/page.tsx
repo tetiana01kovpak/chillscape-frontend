@@ -59,13 +59,6 @@ export default function EditLocationPage() {
     image: location.image,
   };
 
-  // return (
-  //   <LocationForm
-  //     title="Редагувати локацію"
-  //     initialData={initialValues}
-  //     id={location._id} // Передаємо ID, щоб форма знала, що це PATCH, а не POST
-  //   />
-  // );
   return (
     <main className="container">
       <div className="section">
