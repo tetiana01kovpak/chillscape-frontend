@@ -1,47 +1,84 @@
 'use client';
 
+import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+
 import LocationCard from '@/components/cards/LocationCard/LocationCard';
 import ArrowButton from '@/components/ui/ArrowButton/ArrowButton';
-import css from '@/components/blocks/PopularLocationsBlock/PopularLocationsBlock.module.css';
-
-import { useQuery } from '@tanstack/react-query';
-import { getLocations } from '@/lib/clientApi';
+import { Button } from '@/components/ui/Button/Button';
 import { Loader } from '@/components/ui/Loader/Loader';
-import Link from 'next/link';
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import type { Swiper as SwiperType } from 'swiper';
-import { Navigation } from 'swiper/modules';
-import { useRef } from 'react';
-import { Location } from '@/types/locations';
+import {
+  buildLocationTypeMap,
+  getLocations,
+  getLocationTypes,
+  mapLocationToCardData,
+} from '@/lib/clientApi';
+
+import type { Location, LocationType } from '@/types/locations';
+
+import css from './PopularLocationsBlock.module.css';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Button } from '@/components/ui/Button/Button';
 
-export default function PopularLocations() {
+export default function PopularLocationsBlock() {
+  const [prevEl, setPrevEl] = useState<HTMLButtonElement | null>(null);
+  const [nextEl, setNextEl] = useState<HTMLButtonElement | null>(null);
+
   const {
     data: locations = [],
-    isLoading,
-    isError,
+    isLoading: isLocationsLoading,
+    isError: isLocationsError,
   } = useQuery<Location[]>({
     queryKey: ['locations'],
     queryFn: getLocations,
   });
 
-  const prevRef = useRef<HTMLButtonElement | null>(null);
-  const nextRef = useRef<HTMLButtonElement | null>(null);
+  const {
+    data: locationTypes = [],
+    isLoading: isTypesLoading,
+    isError: isTypesError,
+  } = useQuery<LocationType[]>({
+    queryKey: ['locationTypes'],
+    queryFn: getLocationTypes,
+  });
 
-  if (isLoading) {
+  const cards = useMemo(() => {
+    const typeNameMap = buildLocationTypeMap(locationTypes);
+
+    return locations
+      .map(location =>
+        mapLocationToCardData(location as unknown as Record<string, unknown>, typeNameMap)
+      )
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, 6);
+  }, [locations, locationTypes]);
+
+  if (isLocationsLoading || isTypesLoading) {
     return <Loader />;
   }
 
-  if (isError) {
-    return <h2>Не вдалося завантажити локації. Спробуйте пізніше.</h2>;
+  if (isLocationsError || isTypesError) {
+    return (
+      <section className={css.section}>
+        <div className="container">
+          <h2 className={css.locTitle}>Популярні локації</h2>
+          <p>Не вдалося завантажити популярні локації.</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (cards.length === 0) {
+    return null;
   }
 
   return (
-    <section className={css.section} suppressHydrationWarning>
+    <section className={css.section}>
       <div className="container">
         <div className={css.locHeader}>
           <h2 className={css.locTitle}>Популярні локації</h2>
@@ -54,18 +91,18 @@ export default function PopularLocations() {
         </div>
 
         <Swiper
+          key={prevEl && nextEl ? 'popular-swiper-ready' : 'popular-swiper-init'}
           modules={[Navigation]}
+          navigation={
+            prevEl && nextEl
+              ? {
+                  prevEl,
+                  nextEl,
+                }
+              : false
+          }
           spaceBetween={24}
           slidesPerView={1}
-          onBeforeInit={(swiper: SwiperType) => {
-            if (typeof swiper.params.navigation !== 'boolean') {
-              swiper.params.navigation = {
-                ...swiper.params.navigation,
-                prevEl: prevRef.current,
-                nextEl: nextRef.current,
-              };
-            }
-          }}
           breakpoints={{
             768: {
               slidesPerView: 2,
@@ -75,25 +112,18 @@ export default function PopularLocations() {
             },
           }}
         >
-          {locations.map(location => (
-            <SwiperSlide key={location._id}>
+          {cards.map(location => (
+            <SwiperSlide key={location.id}>
               <div className={css.locationCard}>
-                <LocationCard
-                  location={{
-                    id: location._id,
-                    name: location.name,
-                    imageUrl: location.image,
-                    type: location.locationType || location.typeName,
-                  }}
-                />
+                <LocationCard location={location} />
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
 
         <div className={css.btnContainer}>
-          <ArrowButton ref={prevRef} direction="prev" ariaLabel="Previous locations" />
-          <ArrowButton ref={nextRef} direction="next" ariaLabel="Next locations" />
+          <ArrowButton ref={setPrevEl} direction="prev" ariaLabel="Попередній слайд" />
+          <ArrowButton ref={setNextEl} direction="next" ariaLabel="Наступний слайд" />
         </div>
       </div>
     </section>
