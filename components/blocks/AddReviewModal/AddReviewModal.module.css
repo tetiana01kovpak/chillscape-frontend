@@ -54,7 +54,12 @@
   flex-direction: column;
   width: 100%;
 }
-
+.submitMessage {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-green);
+  margin-top: 12px;
+}
 .errorMessage {
   color: var(--red-error);
   font-size: 14px;
@@ -65,7 +70,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  
+
   margin-top: 8px;
 }
 
@@ -101,7 +106,7 @@
   }
   .buttonsWrapper button {
     width: 203px;
-}
+  }
 }
 
 /* Десктоп */
@@ -116,7 +121,7 @@
     justify-content: center;
     gap: 24px;
   }
-   .buttonsWrapper button {
+  .buttonsWrapper button {
     width: 203px;
-}
+  }
 }

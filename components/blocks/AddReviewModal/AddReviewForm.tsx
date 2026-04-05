@@ -1,12 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import RatingStars from '@/components/ui/RatingStars/RatingStars';
 import styles from './AddReviewModal.module.css';
 import { Button } from '@/components/ui/Button/Button';
 import { TextArea } from '@/components/ui/TextArea/TextArea';
-
 
 interface Props {
   onClose: () => void;
@@ -29,13 +29,16 @@ const validationSchema = Yup.object({
 });
 
 export default function AddReviewForm({ onClose, locationId }: Props) {
+  const [message, setMessage] = useState<string | null>(null);
+
   const handleSubmit = async (
     values: FormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     setSubmitting(true);
+    setMessage(null);
+
     try {
-  
       const response = await fetch('/api/feedbacks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -44,13 +47,14 @@ export default function AddReviewForm({ onClose, locationId }: Props) {
 
       if (!response.ok) {
         const error = await response.json();
-        console.error('Error sending review:', error.message);
+        setMessage(`Помилка: ${error.message}`);
         return;
       }
 
-      console.log('Review submitted successfully:', values);
-      onClose(); 
+      setMessage('Відгук відправлено на модерацію');
+      onClose();
     } catch (err) {
+      setMessage('Помилка мережі, спробуйте пізніше');
       console.error('Network error:', err);
     } finally {
       setSubmitting(false);
@@ -65,7 +69,6 @@ export default function AddReviewForm({ onClose, locationId }: Props) {
     >
       {({ isSubmitting, setFieldValue, values }) => (
         <Form className={styles.formGroup}>
-
           <div className={styles.textareaWrapper}>
             <TextArea
               name="review"
@@ -96,16 +99,17 @@ export default function AddReviewForm({ onClose, locationId }: Props) {
             />
           </div>
 
-          
           <div className={styles.buttonsWrapper}>
             <Button type="button" onClick={onClose} variant="secondary">
               Відмінити
             </Button>
-            
+
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? 'Надсилаю...' : 'Надіслати'}
             </Button>
           </div>
+
+          {message && <p className={styles.submitMessage}>{message}</p>}
         </Form>
       )}
     </Formik>
