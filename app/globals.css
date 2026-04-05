@@ -24,6 +24,7 @@
   --border: rgba(0, 0, 0, 0.15);
   --link-active: #d8d8d8;
   --arrow-hover-border: #ffa57a;
+  --modal-backdrop: rgba(0, 0, 0, 0.25);
 }
 
 html {
@@ -79,7 +80,6 @@ ol {
 img {
   display: block;
   max-width: 100%;
-  height: auto;
 }
 
 button,

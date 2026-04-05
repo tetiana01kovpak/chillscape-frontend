@@ -18,7 +18,7 @@
 .allLocBtn {
   width: 114px;
   height: 48px;
-  padding: 0;
+  padding: 6px;
   text-align: center;
   flex: 0 0 114px;
 }
@@ -41,13 +41,14 @@
   margin-top: 24px;
 }
 
-@media (min-width: 768px) {
-}
-
 @media (min-width: 1440px) {
   .sectionWrap {
     padding-top: 72px;
     padding-bottom: 72px;
+  }
+
+  .allLocBtn {
+    width: 136px;
   }
 }
 
@@ -63,5 +64,6 @@
 
   .locTitle {
     text-align: center;
+    padding: 0;
   }
 }

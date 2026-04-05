@@ -4,17 +4,16 @@
   background-color: var(--foreground);
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .imageWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 335px;
   background-color: var(--border);
-}
-
-.image {
-  object-fit: cover;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .placeholder {
@@ -70,6 +69,16 @@
   }
 
   .name {
-    font-size: 20px;
+    font-size: 18px;
+  }
+
+  .imageWrapper {
+    height: 340px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .imageWrapper {
+    height: 421px;
   }
 }

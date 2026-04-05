@@ -22,7 +22,7 @@
   padding: 8px;
   background-color: var(--foreground); /* Исходный цвет фона */
   border: 1px solid rgba(0, 0, 0, 0.15); /* Легкая рамка */
-  border-radius: 12px; /* Уголки как на макете */
+  border-radius: 6px; /* Уголки как на макете */
   font-size: 18px;
   transition: all 0.2s;
   color: var(--text-black);

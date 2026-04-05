@@ -22,6 +22,7 @@ export default function LocationCard({ location, showEditButton = false }: Locat
           sizes="(min-width: 1440px) 400px, (min-width: 768px) 336px, 100vw"
           className={css.image}
           priority
+          style={{ objectFit: 'cover' }}
         />
       </div>
 

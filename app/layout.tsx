@@ -17,13 +17,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  modal
+  modal,
 }: Readonly<{
   children: React.ReactNode;
   modal: React.ReactNode;
 }>) {
   return (
-    <html lang="uk">
+    <html lang="uk" data-scroll-behavior="smooth">
       <body className={montserrat.variable}>
         <Toaster position="top-right" />
         <AuthProvider>{children}</AuthProvider>

@@ -1,9 +1,12 @@
-// import AddReviewModal from '@/components/blocks/AddReviewModal/AddReviewModal';
+'use client';
 
-type Props = {
-  params: Promise<{ locationId: string }>;
-};
+import { useParams, useRouter } from 'next/navigation';
+import AddReviewModal from '@/components/blocks/AddReviewModal/AddReviewModal';
 
-export default async function AddReviewPage({ params }: Props) {
-  return <div></div>;
+export default function AddReviewPage() {
+  const router = useRouter();
+  const params = useParams();
+  const locationId = params.locationId as string;
+
+  return <AddReviewModal locationId={locationId} onClose={() => router.back()} />;
 }

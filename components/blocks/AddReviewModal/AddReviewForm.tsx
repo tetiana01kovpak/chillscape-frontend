@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import RatingStars from '@/components/ui/RatingStars/RatingStars';
 import styles from './AddReviewModal.module.css';
 import { Button } from '@/components/ui/Button/Button';
 import { TextArea } from '@/components/ui/TextArea/TextArea';
+import toast from 'react-hot-toast';
 
 interface Props {
   onClose: () => void;
@@ -16,46 +16,48 @@ interface Props {
 interface FormValues {
   rating: number;
   review: string;
-  locationId: string;
 }
 
 const validationSchema = Yup.object({
-  rating: Yup.number()
-    .min(1, 'Оберіть рейтинг')
-    .required('Оберіть рейтинг'),
-  review: Yup.string()
-    .min(10, 'Мінімум 10 символів')
-    .required('Введіть відгук'),
+  rating: Yup.number().min(1, 'Оберіть рейтинг').required('Оберіть рейтинг'),
+  review: Yup.string().min(10, 'Мінімум 10 символів').required('Введіть відгук'),
 });
 
 export default function AddReviewForm({ onClose, locationId }: Props) {
-  const [message, setMessage] = useState<string | null>(null);
-
   const handleSubmit = async (
     values: FormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
-    setSubmitting(true);
-    setMessage(null);
-
     try {
+      const payload = {
+        place: locationId,
+        rate: values.rating,
+        description: values.review,
+      };
+
       const response = await fetch('/api/feedbacks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
+        body: JSON.stringify(payload),
       });
 
+      let data;
+
+      try {
+        data = await response.json();
+      } catch {
+        data = null;
+      }
+
       if (!response.ok) {
-        const error = await response.json();
-        setMessage(`Помилка: ${error.message}`);
+        toast.error(data?.message || 'Щось пішло не так');
         return;
       }
 
-      setMessage('Відгук відправлено на модерацію');
+      toast.success('Відгук відправлено на модерацію');
       onClose();
-    } catch (err) {
-      setMessage('Помилка мережі, спробуйте пізніше');
-      console.error('Network error:', err);
+    } catch {
+      toast.error('Помилка мережі, спробуйте пізніше');
     } finally {
       setSubmitting(false);
     }
@@ -63,7 +65,7 @@ export default function AddReviewForm({ onClose, locationId }: Props) {
 
   return (
     <Formik<FormValues>
-      initialValues={{ rating: 0, review: '', locationId }}
+      initialValues={{ rating: 0, review: '' }}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
@@ -79,24 +81,16 @@ export default function AddReviewForm({ onClose, locationId }: Props) {
                 setFieldValue('review', e.target.value)
               }
             />
-            <ErrorMessage
-              name="review"
-              component="p"
-              className={styles.errorMessage}
-            />
+            <ErrorMessage name="review" component="p" className={styles.errorMessage} />
           </div>
 
           <div className={styles.starWrapper}>
             <RatingStars
               rating={values.rating}
               readonly={false}
-              onChange={(rate) => setFieldValue('rating', rate)}
+              onChange={rate => setFieldValue('rating', rate)}
             />
-            <ErrorMessage
-              name="rating"
-              component="p"
-              className={styles.errorMessage}
-            />
+            <ErrorMessage name="rating" component="p" className={styles.errorMessage} />
           </div>
 
           <div className={styles.buttonsWrapper}>
@@ -108,8 +102,6 @@ export default function AddReviewForm({ onClose, locationId }: Props) {
               {isSubmitting ? 'Надсилаю...' : 'Надіслати'}
             </Button>
           </div>
-
-          {message && <p className={styles.submitMessage}>{message}</p>}
         </Form>
       )}
     </Formik>

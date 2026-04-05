@@ -12,7 +12,6 @@ interface Props {
 }
 
 export default function AddReviewModal({ onClose, locationId }: Props) {
-
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -21,7 +20,6 @@ export default function AddReviewModal({ onClose, locationId }: Props) {
     return () => window.removeEventListener('keydown', handleEsc);
   }, [onClose]);
 
-
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) onClose();
   };
@@ -29,20 +27,17 @@ export default function AddReviewModal({ onClose, locationId }: Props) {
   return (
     <div className={styles.backdrop} onClick={handleBackdropClick}>
       <div className={styles.modal}>
-     
         <Button
           variant="icon"
           onClick={onClose}
           aria-label="Закрити модальне вікно"
           className={styles.closeBtn}
         >
-          <Icon name="close" />
+          <Icon name="icon-close" className={styles.closeIcon} />
         </Button>
 
-      
         <h2 className={styles.title}>Залишити відгук</h2>
 
-        
         <AddReviewForm onClose={onClose} locationId={locationId} />
       </div>
     </div>
