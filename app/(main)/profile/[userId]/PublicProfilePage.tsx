@@ -21,6 +21,14 @@ interface PublicProfilePageProps {
   userId: string;
 }
 
+const getProfilePageLimit = () => {
+  if (typeof window !== 'undefined' && window.innerWidth >= 1440) {
+    return 6;
+  }
+
+  return 4;
+};
+
 export default function PublicProfilePage({ userId }: PublicProfilePageProps) {
   const [profileUser, setProfileUser] = useState<User | null>(null);
   const [locations, setLocations] = useState<LocationCardData[]>([]);
@@ -28,17 +36,21 @@ export default function PublicProfilePage({ userId }: PublicProfilePageProps) {
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [limit, setLimit] = useState(4);
 
   useEffect(() => {
+    const currentLimit = getProfilePageLimit();
+    setLimit(currentLimit);
+
     async function loadInitialData() {
       setIsLoading(true);
 
       try {
         const [user, rawLocationsData, locationTypes] = await Promise.all([
           getUserById(userId).catch(() => null),
-          getUserLocationsRaw(userId, 1, 6).catch(() => ({
+          getUserLocationsRaw(userId, 1, currentLimit).catch(() => ({
             page: 1,
-            limit: 6,
+            limit: currentLimit,
             totalItems: 0,
             totalPages: 0,
             locations: [],
@@ -72,7 +84,7 @@ export default function PublicProfilePage({ userId }: PublicProfilePageProps) {
       const nextPage = page + 1;
 
       const [rawLocationsData, locationTypes] = await Promise.all([
-        getUserLocationsRaw(userId, nextPage, 6),
+        getUserLocationsRaw(userId, nextPage, limit),
         getLocationTypes(),
       ]);
 
@@ -106,7 +118,7 @@ export default function PublicProfilePage({ userId }: PublicProfilePageProps) {
       />
 
       <section className={`${css.locations} section`}>
-        <div className="container">
+        <div className={`${css.pageWrap} container`}>
           <h2 className={css.heading}>Локації</h2>
 
           {locations.length > 0 ? (
@@ -120,6 +132,7 @@ export default function PublicProfilePage({ userId }: PublicProfilePageProps) {
                     variant="primary"
                     onClick={handleLoadMore}
                     disabled={isLoadingMore}
+                    className={css.button}
                   >
                     {isLoadingMore ? 'Завантаження...' : 'Показати ще'}
                   </Button>

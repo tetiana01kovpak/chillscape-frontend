@@ -19,6 +19,14 @@ import LocationsGrid from '@/components/blocks/LocationsGrid/LocationsGrid';
 import type { LocationType } from '@/types/locations';
 import type { LocationCardData } from '@/types/location';
 
+const getProfilePageLimit = () => {
+  if (typeof window !== 'undefined' && window.innerWidth >= 1440) {
+    return 6;
+  }
+
+  return 4;
+};
+
 export default function ProPage() {
   const router = useRouter();
   const { user, isLoggedIn, isAuthLoaded } = useAuthStore();
@@ -27,6 +35,11 @@ export default function ProPage() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [limit, setLimit] = useState(4);
+
+  useEffect(() => {
+    setLimit(getProfilePageLimit());
+  }, []);
 
   const { data: locationTypes = [], isLoading: isTypesLoading } = useQuery<LocationType[]>({
     queryKey: ['locationTypes'],
@@ -35,9 +48,9 @@ export default function ProPage() {
   });
 
   const { data: initialLocationsData, isLoading: isLocationsLoading } = useQuery({
-    queryKey: ['userLocations', user?.id],
-    queryFn: () => getUserLocationsRaw(user!.id, 1, 6),
-    enabled: !!user,
+    queryKey: ['userLocations', user?.id, limit],
+    queryFn: () => getUserLocationsRaw(user!.id, 1, limit),
+    enabled: !!user && !!limit,
   });
 
   const typeNameMap = useMemo(() => buildLocationTypeMap(locationTypes), [locationTypes]);
@@ -67,7 +80,7 @@ export default function ProPage() {
 
     try {
       const nextPage = page + 1;
-      const rawLocationsData = await getUserLocationsRaw(user.id, nextPage, 6);
+      const rawLocationsData = await getUserLocationsRaw(user.id, nextPage, limit);
 
       const mappedLocations = rawLocationsData.locations.map(location =>
         mapLocationToCardData(location, typeNameMap)

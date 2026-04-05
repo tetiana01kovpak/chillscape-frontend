@@ -50,7 +50,6 @@
 @media only screen and (min-width: 768px) {
   .card {
     padding: 40px 32px;
-    gap: 32px;
     max-width: 533px;
   }
 

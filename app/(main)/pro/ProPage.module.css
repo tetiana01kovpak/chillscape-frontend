@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 24px;
 }
+
 .locations {
   padding-top: 32px;
   padding-bottom: 48px;
@@ -22,6 +23,10 @@
 }
 
 @media only screen and (min-width: 768px) {
+  .pageWrap {
+    gap: 40px;
+  }
+
   .locations {
     padding-top: 40px;
     padding-bottom: 56px;
