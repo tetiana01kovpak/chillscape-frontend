@@ -21,6 +21,7 @@ export default function ProfileInfo({ name, avatar, articleCount }: ProfileInfoP
               width={145}
               height={145}
               className={css.avatarImage}
+              priority
             />
           </div>
           <div className={css.info}>

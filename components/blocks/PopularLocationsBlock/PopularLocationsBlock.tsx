@@ -78,7 +78,7 @@ export default function PopularLocationsBlock() {
   }
 
   return (
-    <section className={css.section}>
+    <section className={`${css.sectionWrap} section`}>
       <div className="container">
         <div className={css.locHeader}>
           <h2 className={css.locTitle}>Популярні локації</h2>
