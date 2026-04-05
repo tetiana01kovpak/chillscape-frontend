@@ -1,33 +1,35 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import type { Location } from '@/types/location';
+import type { LocationCardData } from '@/types/location';
 import { Icon } from '@/components/ui/Icon/Icon';
+import RatingStars from '@/components/ui/RatingStars/RatingStars';
 import css from './LocationCard.module.css';
 
 interface LocationCardProps {
-  location: Location;
+  location: LocationCardData;
   showEditButton?: boolean;
 }
 
-export default function LocationCard({ location, showEditButton }: LocationCardProps) {
+export default function LocationCard({ location, showEditButton = false }: LocationCardProps) {
   return (
-    <div className={css.card}>
+    <article className={css.card}>
       <div className={css.imageWrapper}>
-        {location.imageUrl ? (
-          <Image
-            src={location.imageUrl}
-            alt={location.name}
-            fill
-            sizes="(min-width: 1440px) 400px, (min-width: 768px) 336px, 100vw"
-            className={css.image}
-          />
-        ) : (
-          <div className={css.placeholder} />
-        )}
+        <Image
+          src={location.imageUrl}
+          alt={location.name}
+          fill
+          sizes="(min-width: 1440px) 400px, (min-width: 768px) 336px, 100vw"
+          className={css.image}
+        />
       </div>
 
       <div className={css.content}>
-        {location.type && <span className={css.type}>{location.type}</span>}
+        <span className={css.type}>{location.typeName}</span>
+
+        <div className={css.rating}>
+          <RatingStars rating={location.rating} />
+        </div>
+
         <h3 className={css.name}>{location.name}</h3>
 
         <div className={css.actions}>
@@ -46,6 +48,6 @@ export default function LocationCard({ location, showEditButton }: LocationCardP
           )}
         </div>
       </div>
-    </div>
+    </article>
   );
 }

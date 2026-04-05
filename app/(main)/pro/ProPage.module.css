@@ -1,5 +1,7 @@
-.page {
-  background-color: var(--background);
+.pageWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .locations {
@@ -8,19 +10,23 @@
 }
 
 .heading {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--text-green);
-  margin-bottom: 24px;
+  display: none;
+}
+.loadMoreWrap {
+  display: flex;
+  width: 100%;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+.button {
+  display: flex;
+  width: 100%;
 }
 
 @media only screen and (min-width: 768px) {
+  .pageWrap {
+    gap: 40px;
+  }
+
   .locations {
     padding-top: 40px;
     padding-bottom: 56px;
@@ -30,10 +36,13 @@
     font-size: 28px;
     margin-bottom: 32px;
   }
+  .loadMoreWrap {
+    justify-content: center;
+  }
 
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+  .button {
+    min-width: 133px;
+    width: auto;
   }
 }
 
@@ -48,8 +57,8 @@
     margin-bottom: 40px;
   }
 
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+  .button {
+    min-width: 160px;
+    width: auto;
   }
 }

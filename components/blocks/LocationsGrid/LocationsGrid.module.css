@@ -1,37 +1,19 @@
 .grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-}
-
-.cardWrapper {
-    width: 100%;
-    min-width: 0;
-}
-
-.message {
-    text-align: center;
-    color: var(--text-brown);
-}
-
-.buttonWrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 24px;
 }
 
 @media only screen and (min-width: 768px) {
-    .cardWrapper {
-        width: calc((100% - 24px) / 2);
-    }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 40px;
+    column-gap: 24px;
+  }
 }
 
 @media only screen and (min-width: 1440px) {
-    .cardWrapper {
-        width: calc((100% - 48px) / 3);
-    }
-
-    .buttonWrapper {
-        margin-top: 48px;
-    }
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
