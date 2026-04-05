@@ -21,7 +21,7 @@ interface LocationValues {
   locationType: string;
   region: string;
   description: string;
-  image: File | null;
+  image: File | string | null;
 }
 
 interface LocationFormProps {
@@ -41,7 +41,7 @@ const LocationSchema = Yup.object().shape({
     .required('Додайте опис'),
   image: Yup.mixed().required('Додайте фото обкладинки'),
 });
-
+const PlaceholderImage = '/Placeholder-Image.png'; // Шлях до твоєї картинки-заповнювача
 export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -65,14 +65,17 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
         formData.append('region', values.region);
         formData.append('description', values.description);
 
-        if (values.image) {
+        // Додаємо файл, тільки якщо це новий об'єкт File
+        if (values.image instanceof File) {
           formData.append('image', values.image);
         }
 
         if (id) {
-          // Перехід на сторінку деталей
+          // РЕЖИМ РЕДАГУВАННЯ
+          await saveLocation(formData, id); // ОБОВ'ЯЗКОВО викликаємо API
+          toast.success('Локацію оновлено!');
           router.push(`/locations/${id}`);
-          router.refresh(); // Оновлюємо кеш серверних компонентів
+          router.refresh();
         } else {
           // РЕЖИМ СТВОРЕННЯ
           const response = await saveLocation(formData);
@@ -119,7 +122,9 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
       <form className={s.formCard} onSubmit={formik.handleSubmit}>
         {/* Секція обкладинки */}
         <div className={s.uploadSection}>
-          <label className={s.label}>Обкладинка</label>
+          <label className={s.label}>
+            {!formik.dirty ? 'Обкладинка' : 'Обкладинка статті'} {/* Динамічна назва секції */ }
+          </label>
           <input
             type="file"
             ref={fileInputRef}
@@ -130,10 +135,14 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
           <div className={s.dropzone} onClick={() => fileInputRef.current?.click()}>
             {formik.values.image ? (
               <Image
-                src={URL.createObjectURL(formik.values.image as File)}
+                src={
+                  typeof formik.values.image === 'string'
+                    ? formik.values.image // URL из базы
+                    : URL.createObjectURL(formik.values.image) // Новый выбранный файл
+                }
                 alt="Preview"
-                width={600} // Або використай fill, якщо контейнер має розміри
-                height={400}
+                width={1091}
+                height={726}
                 className={s.previewImage}
                 unoptimized // КРИТИЧНО для blob-посилань
                 onLoad={e => {
@@ -145,7 +154,13 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
                 }}
               />
             ) : (
-              <Icon name="icon-image" width={64} height={64} className={s.placeholderIcon} />
+              <Image
+                src={PlaceholderImage}
+                alt="Placeholder"
+                width={1091}
+                height={726}
+                className={s.placeholderImage}
+              />
             )}
           </div>
           <Button
@@ -209,8 +224,16 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
 
         {/* Кнопки */}
         <div className={s.formActions}>
-          <Button variant="primary" type="submit" disabled={!formik.isValid || formik.isSubmitting}>
-            Опублікувати
+          <Button
+            variant="primary"
+            type="submit"
+            // Кнопка неактивна, якщо:
+            // 1. Форма ще не була змінена (!formik.dirty) — це заблокує "Опублікувати" при старті
+            // 2. АБО є помилки валідації (!formik.isValid)
+            // 3. АБО йде процес відправки (formik.isSubmitting)
+            disabled={!formik.dirty || !formik.isValid || formik.isSubmitting}
+          >
+            {!formik.dirty || !formik.isValid? 'Опублікувати' : id ? 'Зберегти зміни' : 'Зберегти'}
           </Button>
           <Button
             variant="secondary"
@@ -218,7 +241,7 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
             onClick={() => formik.resetForm()}
             disabled={formik.isSubmitting}
           >
-            Відмінити
+            {id ? 'Відмінити зміни' : 'Відмінити'}
           </Button>
         </div>
       </form>

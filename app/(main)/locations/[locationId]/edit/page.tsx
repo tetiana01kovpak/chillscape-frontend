@@ -7,27 +7,33 @@ import { getLocationById } from '@/lib/clientApi';
 import { Loader } from '@/components/ui/Loader/Loader';
 import toast from 'react-hot-toast';
 
-
-// Тип для даних, які ми отримуємо з бекенду
+// 1. Оновлюємо інтерфейс під нову схему бекенду
 interface LocationData {
-  id: string;
+  _id: string;        // MongoDB використовує _id
   name: string;
-  type: string;
+  locationType: string; // Згідно з твоєю моделлю на бекенді
   region: string;
   description: string;
-  images: string[]; // Бекенд зазвичай повертає масив URL
+  image: string;      // Тепер це поодинокий URL (рядок)
 }
 
-export const EditLocation = () => {
-  const { id } = useParams(); // Отримуємо ID з URL (Next.js App Router)
+// 2. Додаємо default export, щоб Next.js міг відрендерити сторінку
+export default function EditLocationPage() {
+  const params = useParams();
+  const id = params.locationId || params.id; // Перевір назву папки в [id] або [locationId]
+  
   const [location, setLocation] = useState<LocationData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        if (typeof id !== 'string') return;
-        const data = await getLocationById(id);
+        if (!id || typeof id !== 'string') return;
+        
+        // Отримуємо дані. Припускаємо, що API повертає { data: { ... } }
+        const response = await getLocationById(id);
+        const data = response.data || response; 
+        
         setLocation(data);
       } catch (error) {
         toast.error('Не вдалося завантажити дані локації');
@@ -41,21 +47,22 @@ export const EditLocation = () => {
   }, [id]);
 
   if (isLoading) return <Loader />;
-  if (!location) return <p>Локацію не знайдено</p>;
+  if (!location) return <p style={{ textAlign: 'center', marginTop: '50px' }}>Локацію не знайдено</p>;
 
-  // Перетворюємо дані з БД у формат, який очікує наша форма
+  // 3. Мапимо дані з БД (location) у формат, який очікує LocationForm (initialValues)
   const initialValues = {
     name: location.name,
-    type: location.type,
+    locationType: location.locationType, // Передаємо locationType, щоб Select його підхопив
     region: location.region,
     description: location.description,
-    image: null, // При редагуванні поле файлу зазвичай null, поки не виберуть нове
+    image: location.image,
   };
 
   return (
     <LocationForm 
       title="Редагувати локацію" 
       initialData={initialValues} 
+      id={location._id} // Передаємо ID, щоб форма знала, що це PATCH, а не POST
     />
   );
-};
+}
