@@ -5,6 +5,7 @@ import FilterPanel from '@/components/blocks/FilterPanel/FilterPanel';
 import LocationsGrid from '@/components/blocks/LocationsGrid/LocationsGrid';
 import Pagination from '@/components/Pagination/Pagination';
 import LocationCard from '@/components/cards/LocationCard/LocationCard';
+import type { Location as LocationCardData } from '@/types/location';
 import styles from './LocationsPageClient.module.css';
 
 import {
@@ -17,7 +18,7 @@ import {
 } from '@/lib/locations';
 
 // к-сть карток за один запит
-const PER_PAGE = 5;
+const PER_PAGE = 3;
 
 export default function LocationsPageClient() {
   // стан фільтрів
@@ -144,16 +145,16 @@ export default function LocationsPageClient() {
           isLoading={isLoadingLocations}
           error={error}
           renderCard={(location) => (
-            <LocationCard
-              id={location.id}
-              src={location.image || '/images/location-placeholder.jpg'}
-              alt={location.name}
-              category={location.locationType}
-              name={location.name}
-            />
-          )}
-        />
-
+          <LocationCard
+            location={{
+              id: location.id,
+              imageUrl: location.image || '',
+              name: location.name,
+              type: location.locationType,
+          } as LocationCardData}
+      />
+)}
+  />
         <Pagination
           totalPages={totalPages}
           currentPage={page}
