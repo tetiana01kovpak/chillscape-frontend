@@ -55,7 +55,7 @@ function ReviewsBlock({
   };
 
   return (
-    <section className={`section ${styles.reviews}`}>
+    <section className={styles.reviews}>
       <div className={'container'}>
         <div className={styles.header}>
           <h2 className={styles.title}>{title}</h2>

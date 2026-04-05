@@ -21,3 +21,11 @@ export type LocationType = {
   slug: string;
   shortDescription: string;
 };
+
+export type Regions = {
+  _id: string;
+  region: string;
+  slug: string;
+  level: string;
+  note: string;
+};
