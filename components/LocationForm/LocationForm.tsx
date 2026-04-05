@@ -17,10 +17,11 @@ import Image from 'next/image';
 // 1. Типізація значень форми (для ESLint та TS)
 interface LocationValues {
   name: string;
+  type: string;
   locationType: string;
   region: string;
   description: string;
-  images: File | null;
+  image: File | null;
 }
 
 interface LocationFormProps {
@@ -38,7 +39,7 @@ const LocationSchema = Yup.object().shape({
     .min(20, 'Опис має бути не менше 20 символів')
     .max(6000, 'Опис не може перевищувати 6000 символів')
     .required('Додайте опис'),
-  images: Yup.mixed().required('Додайте фото обкладинки'),
+  image: Yup.mixed().required('Додайте фото обкладинки'),
 });
 
 export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
@@ -48,9 +49,10 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
     initialValues: {
       name: initialData?.name || '',
       locationType: initialData?.locationType || '',
+      type: initialData?.type || '',
       region: initialData?.region || '',
       description: initialData?.description || '',
-      images: initialData?.images || null,
+      image: initialData?.image || null,
     },
     validationSchema: LocationSchema,
     validateOnBlur: true,
@@ -59,11 +61,12 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
         const formData = new FormData();
         formData.append('name', values.name);
         formData.append('locationType', values.locationType);
+        formData.append('type', values.locationType);
         formData.append('region', values.region);
         formData.append('description', values.description);
 
-        if (values.images) {
-          formData.append('images', values.images);
+        if (values.image) {
+          formData.append('image', values.image);
         }
 
         if (id) {
@@ -98,7 +101,7 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      formik.setFieldValue('images', file);
+      formik.setFieldValue('image', file);
     }
   };
 
@@ -125,9 +128,9 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
             onChange={handleFileChange}
           />
           <div className={s.dropzone} onClick={() => fileInputRef.current?.click()}>
-            {formik.values.images ? (
+            {formik.values.image ? (
               <Image
-                src={URL.createObjectURL(formik.values.images as File)}
+                src={URL.createObjectURL(formik.values.image as File)}
                 alt="Preview"
                 width={600} // Або використай fill, якщо контейнер має розміри
                 height={400}
@@ -151,10 +154,10 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
             className={s.uploadBtn}
             onClick={() => fileInputRef.current?.click()}
           >
-            {formik.values.images ? 'Змінити фото' : 'Завантажити фото'}
+            {formik.values.image ? 'Змінити фото' : 'Завантажити фото'}
           </Button>
-          {formik.touched.images && formik.errors.images && (
-            <span className={s.errorText}>{formik.errors.images as string}</span>
+          {formik.touched.image && formik.errors.image && (
+            <span className={s.errorText}>{formik.errors.image as string}</span>
           )}
         </div>
 
