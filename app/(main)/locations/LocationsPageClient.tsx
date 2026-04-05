@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import FilterPanel from '@/components/blocks/FilterPanel/FilterPanel';
 import LocationsGrid from '@/components/blocks/LocationsGrid/LocationsGrid';
 import Pagination from '@/components/Pagination/Pagination';
-import LocationCard from '@/components/cards/LocationCard/LocationCard';
 import type { Location as LocationCardData } from '@/types/location';
 import styles from './LocationsPageClient.module.css';
 
@@ -126,41 +125,43 @@ export default function LocationsPageClient() {
     });
   };
 
-  return (
-    <section className={`section ${styles.page}`}>
-      <div className="container">
-        <FilterPanel
-          filters={filters}
-          regions={regions}
-          types={types}
-          onFiltersChange={onFiltersChange}
-        />
+  const cardLocations: LocationCardData[] = locations.map((location) => ({
+    id: location.id,
+    imageUrl: location.image || '',
+    name: location.name,
+    typeName: location.locationType,
+    rating: 0,
+  }));
 
-        {isLoadingFilters && (
-          <p className={styles.filtersMessage}>Завантаження фільтрів...</p>
-        )}
-
-        <LocationsGrid
-          locations={locations}
-          isLoading={isLoadingLocations}
-          error={error}
-          renderCard={(location) => (
-          <LocationCard
-            location={{
-              id: location.id,
-              imageUrl: location.image || '',
-              name: location.name,
-              type: location.locationType,
-          } as LocationCardData}
+return (
+  <section className={`section ${styles.page}`}>
+    <div className="container">
+      <FilterPanel
+        filters={filters}
+        regions={regions}
+        types={types}
+        onFiltersChange={onFiltersChange}
       />
-)}
-  />
-        <Pagination
-          totalPages={totalPages}
-          currentPage={page}
-          setCurrentPage={handlePageChange}
-        />
-      </div>
-    </section>
-  );
+
+      {isLoadingFilters && (
+        <p className={styles.filtersMessage}>Завантаження фільтрів...</p>
+      )}
+      {isLoadingLocations ? (
+        <p className={styles.locationsMessage}>Завантаження локацій...</p>
+      ) : error ? (
+        <p className={styles.locationsMessage}>{error}</p>
+      ) : cardLocations.length === 0 ? (
+        <p className={styles.locationsMessage}>За вашим запитом нічого не знайдено.</p>
+      ) : (
+        <LocationsGrid locations={cardLocations} />
+      )}
+
+      <Pagination
+        totalPages={totalPages}
+        currentPage={page}
+        setCurrentPage={handlePageChange}
+      />
+    </div>
+  </section>
+);
 }
