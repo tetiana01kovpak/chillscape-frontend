@@ -1,0 +1,127 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: #00000040;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  position: relative;
+  max-width: 334px;
+  width: 100%;
+  padding: 64px 20px;
+  background-color: var(--background);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  margin: 0;
+  color: var(--text-black);
+  text-align: center;
+}
+
+.textArea {
+  width: 100%;
+}
+.label {
+  text-align: left;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.submitMessage {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-green);
+  margin-top: 12px;
+}
+.errorMessage {
+  color: var(--red-error);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.starWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  margin-top: 8px;
+}
+
+.textareaWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+}
+
+.buttonsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-top: 8px;
+}
+.buttonsWrapper button {
+  width: 100%;
+}
+
+/* Планшет */
+@media (min-width: 768px) {
+  .modal {
+    max-width: 704px;
+    width: 100%;
+    padding: 64px 32px;
+  }
+  .buttonsWrapper {
+    flex-direction: row;
+    justify-content: center;
+    gap: 24px;
+  }
+  .buttonsWrapper button {
+    width: 203px;
+  }
+}
+
+/* Десктоп */
+@media (min-width: 1440px) {
+  .modal {
+    max-width: 768px;
+    width: 100%;
+    padding: 64px;
+  }
+  .buttonsWrapper {
+    flex-direction: row;
+    justify-content: center;
+    gap: 24px;
+  }
+  .buttonsWrapper button {
+    width: 203px;
+  }
+}
