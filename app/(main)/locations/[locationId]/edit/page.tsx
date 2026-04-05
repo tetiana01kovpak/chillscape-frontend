@@ -32,7 +32,7 @@ export default function EditLocationPage() {
         
         // Отримуємо дані. Припускаємо, що API повертає { data: { ... } }
         const response = await getLocationById(id);
-        const data = response.data || response; 
+        const data = response; 
         
         setLocation(data);
       } catch (error) {
