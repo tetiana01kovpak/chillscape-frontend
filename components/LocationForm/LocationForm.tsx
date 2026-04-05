@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/Button/Button';
 import { Input } from '@/components/ui/Input/Input';
 import { Select } from '@/components/ui/Select/Select';
 import { TextArea } from '@/components/ui/TextArea/TextArea';
-import { Icon } from '@/components/ui/Icon/Icon';
 import { Loader } from '@/components/ui/Loader/Loader';
 import { saveLocation } from '@/lib/locationsApi';
 import s from './LocationForm.module.css';
@@ -113,7 +112,9 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
       {/* 3. Наш кастомний Loader поверх форми під час сабміту */}
       {formik.isSubmitting && (
         <div className={s.loaderOverlay}>
-          <Loader />
+          <Loader
+          size={200}
+          className='s.Loader' />
         </div>
       )}
 
@@ -181,7 +182,7 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
           <Input
             name="name"
             label="Назва місця"
-            placeholder="Введіть назву"
+            placeholder="Введіть назву місця"
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -191,6 +192,7 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
           <Select
             label="Тип місця"
             value={formik.values.locationType}
+            placeholder="Оберіть тип місця"
             options={[
               { value: 'nature', label: 'Природа' },
               { value: 'hotel', label: 'Готель' },
@@ -203,6 +205,7 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
           <Select
             label="Регіон"
             value={formik.values.region}
+            placeholder="Оберіть регіон"
             options={[
               { value: 'kyiv', label: 'Київська обл.' },
               { value: 'odesa', label: 'Одеська обл.' },
@@ -215,6 +218,7 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
           <TextArea
             name="description"
             label="Детальний опис"
+            placeholder="Детальний опис локації"
             value={formik.values.description}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -225,7 +229,17 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
         {/* Кнопки */}
         <div className={s.formActions}>
           <Button
+            variant="secondary"
+            className={s.cancelBtn}
+            type="button"
+            onClick={() => formik.resetForm()}
+            disabled={formik.isSubmitting}
+          >
+            {id ? 'Відмінити зміни' : 'Відмінити'}
+          </Button>
+          <Button
             variant="primary"
+            className={s.submitBtn}
             type="submit"
             // Кнопка неактивна, якщо:
             // 1. Форма ще не була змінена (!formik.dirty) — це заблокує "Опублікувати" при старті
@@ -234,14 +248,6 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
             disabled={!formik.dirty || !formik.isValid || formik.isSubmitting}
           >
             {!formik.dirty || !formik.isValid? 'Опублікувати' : id ? 'Зберегти зміни' : 'Зберегти'}
-          </Button>
-          <Button
-            variant="secondary"
-            type="button"
-            onClick={() => formik.resetForm()}
-            disabled={formik.isSubmitting}
-          >
-            {id ? 'Відмінити зміни' : 'Відмінити'}
           </Button>
         </div>
       </form>
