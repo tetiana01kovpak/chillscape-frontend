@@ -15,6 +15,12 @@ type Props = {
 export default async function LocationDetailsPage({ params }: Props) {
   const { locationId } = await params;
 
+  const isValidMongoId = /^[a-f\d]{24}$/i.test(locationId);
+
+  if (!isValidMongoId) {
+    notFound();
+  }
+
   const location = await getLocationById(locationId);
 
   if (!location) return notFound();

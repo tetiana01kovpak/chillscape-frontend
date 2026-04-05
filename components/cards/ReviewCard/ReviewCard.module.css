@@ -6,7 +6,6 @@
   background-color: var(--foreground);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 16px;
 }
 
@@ -14,10 +13,20 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  flex: 1;
+  min-height: 0;
+}
+
+.textScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 6px;
 }
 
 .text {
   color: var(--text-brown);
+  margin: 0;
 }
 
 .bottom {
@@ -43,10 +52,16 @@
     height: 227px;
     padding: 16px;
   }
+
   .text {
     font-size: 20px;
   }
+
   .locationType {
     font-size: 12px;
+  }
+
+  .textScroll::-webkit-scrollbar {
+    width: 10px;
   }
 }
