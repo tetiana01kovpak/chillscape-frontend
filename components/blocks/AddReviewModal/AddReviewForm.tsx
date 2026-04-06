@@ -21,7 +21,10 @@ interface FormValues {
 
 const validationSchema = Yup.object({
   rating: Yup.number().min(1, 'Оберіть рейтинг').required('Оберіть рейтинг'),
-  review: Yup.string().min(10, 'Мінімум 10 символів').required('Введіть відгук'),
+  review: Yup.string()
+    .min(10, 'Мінімум 10 символів')
+    .max(500, 'Максимум 500 символів')
+    .required('Введіть відгук'),
 });
 
 export default function AddReviewForm({ onClose, locationId }: Props) {

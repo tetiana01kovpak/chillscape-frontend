@@ -78,7 +78,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px;
+  padding: 9px;
 }
 
 @media only screen and (min-width: 768px) {
@@ -98,5 +98,9 @@
 @media only screen and (min-width: 1440px) {
   .imageWrapper {
     height: 421px;
+  }
+
+  .editBtn {
+    padding: 10px;
   }
 }

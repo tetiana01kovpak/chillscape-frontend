@@ -28,6 +28,12 @@ const nextConfig: NextConfig = {
         port: '3000',
         pathname: '/uploads/**',
       },
+
+      {
+        protocol: 'https',
+        hostname: 'chillscape-backend.onrender.com',
+        pathname: '/uploads/**',
+      },
     ],
   },
 };
