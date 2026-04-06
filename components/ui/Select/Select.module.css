@@ -19,6 +19,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   padding: 12px 8px;
   background-color: var(--foreground);
   border: 1px solid var(--border);
@@ -50,6 +51,14 @@
 .isOpen:hover {
   border-color: var(--button-primary);
   border-bottom: transparent;
+}
+
+.value {
+  min-width: 0;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .placeholder {
@@ -94,6 +103,7 @@
 .arrow {
   width: 24px;
   height: 24px;
+  flex-shrink: 0;
   fill: var(--placeholder);
   transition: transform var(--motion-base) var(--ease-emphasized);
 }

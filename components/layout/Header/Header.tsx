@@ -143,13 +143,6 @@ export default function Header() {
           <div className={css.drawerBottom}>
             {isLoggedIn ? (
               <>
-                <Link
-                  href="/locations/add"
-                  className={`${css.btnPrimary} ${css.btnFull}`}
-                  onClick={closeMenu}
-                >
-                  Опублікувати статтю
-                </Link>
                 <div className={css.drawerUserRow}>
                   <div className={css.avatar}>
                     <Image

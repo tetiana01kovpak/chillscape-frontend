@@ -30,7 +30,7 @@ const getLocationsPageLimit = () => {
 const dedupeLocationsById = (items: LocationItem[]) => {
   const uniqueLocations = new Map<string, LocationItem>();
 
-  items.forEach((item) => {
+  items.forEach(item => {
     uniqueLocations.set(item.id, item);
   });
 
@@ -38,9 +38,15 @@ const dedupeLocationsById = (items: LocationItem[]) => {
 };
 
 const getStableRatingSortedLocations = (items: LocationItem[]) => {
+  const getSortableRating = (value: number) =>
+    Number.isFinite(value) ? value : Number.NEGATIVE_INFINITY;
+
   return [...items].sort((a, b) => {
-    if (b.rating !== a.rating) {
-      return b.rating - a.rating;
+    const ratingA = getSortableRating(a.rating);
+    const ratingB = getSortableRating(b.rating);
+
+    if (ratingB !== ratingA) {
+      return ratingB - ratingA;
     }
 
     if (a.createdAt && b.createdAt) {
@@ -63,7 +69,7 @@ export default function LocationsPageClient() {
       type: searchParams.get('type') ?? '',
       sort: normalizeSortValue(searchParams.get('sort')),
     }),
-    [searchParams],
+    [searchParams]
   );
 
   const page = useMemo(() => {
@@ -89,14 +95,11 @@ export default function LocationsPageClient() {
 
   const filtersKey = useMemo(() => JSON.stringify(filters), [filters]);
 
-  const requestContextKey = useMemo(
-    () => JSON.stringify({ filters, limit }),
-    [filters, limit],
-  );
+  const requestContextKey = useMemo(() => JSON.stringify({ filters, limit }), [filters, limit]);
 
   const typeLabelMap = useMemo(
-    () => new Map(types.map((typeOption) => [typeOption.value, typeOption.label])),
-    [types],
+    () => new Map(types.map(typeOption => [typeOption.value, typeOption.label])),
+    [types]
   );
 
   useEffect(() => {
@@ -136,10 +139,7 @@ export default function LocationsPageClient() {
     requestIdRef.current = currentRequestId;
 
     const sameFilters = previousRequestContextKeyRef.current === requestContextKey;
-    const shouldAppend =
-      sameFilters &&
-      page > 1 &&
-      page === previousPageRef.current + 1;
+    const shouldAppend = sameFilters && page > 1 && page === previousPageRef.current + 1;
 
     const loadLocations = async () => {
       try {
@@ -169,7 +169,7 @@ export default function LocationsPageClient() {
             return;
           }
 
-          setLocations((prev) => dedupeLocationsById([...prev, ...data.locations]));
+          setLocations(prev => dedupeLocationsById([...prev, ...data.locations]));
           setTotalPages(data.totalPages);
 
           requestAnimationFrame(() => {
@@ -188,7 +188,7 @@ export default function LocationsPageClient() {
           const pagesToLoad = Array.from({ length: page }, (_, index) => index + 1);
 
           const pagesData = await Promise.all(
-            pagesToLoad.map((pageNumber) =>
+            pagesToLoad.map(pageNumber =>
               fetchLocations({
                 search: filters.search,
                 region: filters.region,
@@ -196,8 +196,8 @@ export default function LocationsPageClient() {
                 sort: filters.sort,
                 page: pageNumber,
                 limit,
-              }),
-            ),
+              })
+            )
           );
 
           if (requestIdRef.current !== currentRequestId) {
@@ -206,7 +206,7 @@ export default function LocationsPageClient() {
 
           const lastPage = pagesData.at(-1);
 
-          setLocations(dedupeLocationsById(pagesData.flatMap((data) => data.locations)));
+          setLocations(dedupeLocationsById(pagesData.flatMap(data => data.locations)));
           setTotalPages(lastPage?.totalPages ?? 1);
           pendingScrollIndexRef.current = null;
         }
@@ -257,6 +257,16 @@ export default function LocationsPageClient() {
       }
     });
 
+    requestIdRef.current += 1;
+    previousPageRef.current = 1;
+    previousRequestContextKeyRef.current = '';
+    pendingScrollIndexRef.current = null;
+    setLocations([]);
+    setTotalPages(1);
+    setError('');
+    setIsLoadingLocations(true);
+    setIsLoadingMore(false);
+
     nextParams.set('page', '1');
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
   };
@@ -273,16 +283,17 @@ export default function LocationsPageClient() {
 
   const orderedLocations = useMemo(
     () => (filters.sort === 'rating' ? getStableRatingSortedLocations(locations) : locations),
-    [filters.sort, locations],
+    [filters.sort, locations]
   );
 
-  const cardLocations: LocationCardData[] = orderedLocations.map((location) => ({
+  const cardLocations: LocationCardData[] = orderedLocations.map(location => ({
     id: location.id,
     imageUrl: location.imageUrl || '/images/placeholder.jpg',
     name: location.name,
     typeName: typeLabelMap.get(location.locationType) || location.locationType,
     rating: location.rating,
   }));
+  const isInitialLoading = isLoadingFilters || isLoadingLocations;
 
   return (
     <section className={`section ${styles.page}`}>
@@ -294,13 +305,13 @@ export default function LocationsPageClient() {
           onFiltersChange={onFiltersChange}
         />
 
-        {isLoadingFilters && (
+        {isLoadingFilters && !isLoadingLocations && (
           <div className={styles.filtersLoaderWrap}>
             <Loader />
           </div>
         )}
 
-        {isLoadingLocations ? (
+        {isInitialLoading ? (
           <div className={styles.locationsLoaderWrap}>
             <Loader />
           </div>
@@ -322,7 +333,7 @@ export default function LocationsPageClient() {
           </>
         )}
 
-        {page < totalPages && !error && cardLocations.length > 0 && (
+        {page < totalPages && !error && cardLocations.length > 0 && !isInitialLoading && (
           <div className={styles.loadMoreWrap}>
             <Button
               type="button"
