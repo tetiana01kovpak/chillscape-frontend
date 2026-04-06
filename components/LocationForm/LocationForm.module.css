@@ -89,6 +89,12 @@
   font-size: 14px;
 }
 
+.errorText {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--red-error);
+}
+
 /* Групування текстових полів */
 .fieldsGroup {
   display: flex;

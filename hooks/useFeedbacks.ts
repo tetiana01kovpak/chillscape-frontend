@@ -3,6 +3,9 @@ import { getFeedbacks } from '@/lib/clientApi';
 import { FeedbacksResponse } from '@/types/feedback';
 import { calcAverageRating } from '@/utils/rating';
 
+const FEEDBACKS_STALE_TIME = 5 * 60 * 1000;
+const FEEDBACKS_GC_TIME = 10 * 60 * 1000;
+
 interface UseFeedbacksReturn {
   feedbacks: FeedbacksResponse['feedbacks'];
   rating: number;
@@ -16,6 +19,11 @@ export function useFeedbacks(placeId: string, initialRating?: number): UseFeedba
     queryKey: ['feedbacks', placeId],
     queryFn: () => getFeedbacks(placeId),
     enabled: !!placeId,
+    staleTime: FEEDBACKS_STALE_TIME,
+    gcTime: FEEDBACKS_GC_TIME,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   const feedbacks = data?.feedbacks ?? [];
