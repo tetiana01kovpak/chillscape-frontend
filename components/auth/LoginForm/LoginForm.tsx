@@ -27,6 +27,15 @@ export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setUser = useAuthStore(state => state.setUser);
+  const rawRedirect = searchParams.get('redirect');
+  const redirect =
+    rawRedirect &&
+    rawRedirect !== '/register' &&
+    rawRedirect !== '/login' &&
+    !rawRedirect.startsWith('/register?') &&
+    !rawRedirect.startsWith('/login?')
+      ? rawRedirect
+      : '/';
 
   const formik = useFormik({
     initialValues: { email: '', password: '' },
@@ -36,7 +45,6 @@ export default function LoginForm() {
         const user = await loginUser(values);
         localStorage.setItem('hasSession', 'true');
         setUser(user);
-        const redirect = searchParams.get('redirect') || '/';
         router.push(redirect);
       } catch (err: unknown) {
         const msg =
