@@ -34,7 +34,7 @@ export default function Footer() {
           </nav>
         </div>
         <hr className={css.line} />
-        <p className={css.copyright}>© {currentYear} Природні Мандри. Усі права захищені.</p>
+        <p className={css.copyright}>&copy; {currentYear} Природні Мандри. Усі права захищені.</p>
       </div>
     </footer>
   );

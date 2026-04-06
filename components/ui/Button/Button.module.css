@@ -35,7 +35,7 @@
 
 .secondary {
   background-color: var(--button-secondary);
-  color: var(--text-black);
+  color: var(--text-brown);
   border: 1px solid var(--border);
 }
 .secondary:hover {

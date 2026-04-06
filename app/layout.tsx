@@ -26,8 +26,10 @@ export default function RootLayout({
     <html lang="uk" data-scroll-behavior="smooth">
       <body className={montserrat.variable}>
         <Toaster position="top-right" />
-        <AuthProvider>{children}</AuthProvider>
-        {modal}
+        <AuthProvider>
+          {children}
+          {modal}
+        </AuthProvider>
       </body>
     </html>
   );
