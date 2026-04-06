@@ -36,8 +36,8 @@
 .btn {
   background-color: transparent;
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   color: var(--text-black);
   transition:
     color var(--motion-base) var(--ease-standard),
@@ -53,16 +53,6 @@
 .btn:hover,
 .btn:focus-visible {
   opacity: 0.75;
-}
-
-.closeIcon {
-  width: 24px;
-  height: 24px;
-
-  @media screen and (min-width: 768px) {
-    width: 32px;
-    height: 32px;
-  }
 }
 
 .btn:active {
