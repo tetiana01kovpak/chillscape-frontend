@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
         hostname: 'ftp.goit.study',
         pathname: '/img/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
     ],
   },
 };
