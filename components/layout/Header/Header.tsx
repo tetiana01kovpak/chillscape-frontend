@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/components/ui/Logo/Logo';
@@ -10,8 +10,13 @@ import css from './Header.module.css';
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, isLoggedIn } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const registerHref =
+    pathname && pathname !== '/register' && pathname !== '/login'
+      ? `/register?redirect=${encodeURIComponent(pathname)}`
+      : '/register';
 
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -89,7 +94,7 @@ export default function Header() {
               <Link href="/login" className={css.btnSecondary}>
                 Вхід
               </Link>
-              <Link href="/register" className={css.btnPrimary}>
+              <Link href={registerHref} className={css.btnPrimary}>
                 Реєстрація
               </Link>
             </div>
@@ -107,7 +112,7 @@ export default function Header() {
                 <Link href="/login" className={css.btnSecondary}>
                   Вхід
                 </Link>
-                <Link href="/register" className={css.btnPrimary}>
+                <Link href={registerHref} className={css.btnPrimary}>
                   Реєстрація
                 </Link>
               </>
@@ -169,7 +174,7 @@ export default function Header() {
                   Вхід
                 </Link>
                 <Link
-                  href="/register"
+                  href={registerHref}
                   className={`${css.btnPrimary} ${css.btnFull}`}
                   onClick={closeMenu}
                 >
