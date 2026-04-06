@@ -33,3 +33,5 @@ export const fetchLocationReviews = async (placeId: string): Promise<Review[]> =
 
   return data.feedbacks.map(mapFeedbackToReview);
 };
+
+
