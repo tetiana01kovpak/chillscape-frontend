@@ -20,9 +20,7 @@ export default function LocationCard({
   showEditButton = false,
   eagerImage = false,
 }: LocationCardProps) {
-  const isLocalUploadImage =
-    location.imageUrl.startsWith('http://localhost:3000/uploads/') ||
-    location.imageUrl.startsWith('https://localhost:3000/uploads/');
+  const isLocalUploadImage = location.imageUrl.includes('/uploads/');
 
   return (
     <article className={css.card}>
@@ -34,7 +32,7 @@ export default function LocationCard({
           sizes="(min-width: 1440px) 400px, (min-width: 768px) 336px, 100vw"
           className={css.image}
           loading={eagerImage ? 'eager' : 'lazy'}
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
           unoptimized={isLocalUploadImage}
         />
       </div>

@@ -34,6 +34,9 @@ interface LocationFormProps {
   title: string;
 }
 
+const MAX_IMAGE_SIZE_BYTES = 4 * 1024 * 1024;
+const IMAGE_SIZE_ERROR_MESSAGE = 'Максимальний розмір зображення — 4 MB';
+
 const LocationSchema = Yup.object().shape({
   name: Yup.string().trim().required('Введіть назву місця'),
   locationType: Yup.string().required('Оберіть тип місця'),
@@ -43,7 +46,13 @@ const LocationSchema = Yup.object().shape({
     .required('Додайте опис')
     .min(20, 'Опис має бути не менше 20 символів')
     .max(6000, 'Опис не може перевищувати 6000 символів'),
-  image: Yup.mixed().required('Додайте фото локації'),
+  image: Yup.mixed()
+    .required('Додайте фото локації')
+    .test(
+      'fileSize',
+      IMAGE_SIZE_ERROR_MESSAGE,
+      value => !(value instanceof File) || value.size <= MAX_IMAGE_SIZE_BYTES
+    ),
 });
 
 const PLACEHOLDER_IMAGE = '/images/placeholder.png';
@@ -74,6 +83,7 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
   const router = useRouter();
   const [regionOptions, setRegionOptions] = useState<SelectOption[]>([]);
   const [locationTypeOptions, setLocationTypeOptions] = useState<SelectOption[]>([]);
+  const [imageFileSizeError, setImageFileSizeError] = useState<string | null>(null);
   const resettableRegionOptions: SelectOption[] = [{ value: '', label: 'Усі регіони' }, ...regionOptions];
   const resettableLocationTypeOptions: SelectOption[] = [
     { value: '', label: 'Усі типи місць' },
@@ -111,6 +121,11 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
     validateOnChange: true,
     validateOnMount: true,
     onSubmit: async (values, { setSubmitting }) => {
+      if (imageFileSizeError) {
+        setSubmitting(false);
+        return;
+      }
+
       try {
         const formData = new FormData();
         formData.append('name', values.name.trim());
@@ -159,14 +174,32 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
   const locationTypeError = showFieldError('locationType') ? formik.errors.locationType : undefined;
   const regionError = showFieldError('region') ? formik.errors.region : undefined;
   const descriptionError = showFieldError('description') ? formik.errors.description : undefined;
-  const imageError = showFieldError('image') ? formik.errors.image : undefined;
+  const imageError =
+    imageFileSizeError || (showFieldError('image') ? formik.errors.image : undefined);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     formik.setFieldTouched('image', true, false);
 
-    if (file) {
-      formik.setFieldValue('image', file, true);
+    if (!file) {
+      return;
+    }
+
+    if (file.size > MAX_IMAGE_SIZE_BYTES) {
+      setImageFileSizeError(IMAGE_SIZE_ERROR_MESSAGE);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+
+      return;
+    }
+
+    setImageFileSizeError(null);
+    formik.setFieldValue('image', file, true);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
@@ -288,7 +321,10 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
             variant="secondary"
             className={s.cancelBtn}
             type="button"
-            onClick={() => formik.resetForm()}
+            onClick={() => {
+              setImageFileSizeError(null);
+              formik.resetForm();
+            }}
             disabled={formik.isSubmitting}
           >
             {id ? 'Відмінити зміни' : 'Відмінити'}
@@ -297,7 +333,7 @@ export const LocationForm = ({ initialData, title, id }: LocationFormProps) => {
           <button
             className={`${s.submitBtn} ${s.primarySubmitBtn}`}
             type="submit"
-            disabled={formik.isSubmitting ? true : false}
+            disabled={formik.isSubmitting || Boolean(imageFileSizeError)}
           >
             {submitLabel}
           </button>
