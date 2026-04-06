@@ -23,7 +23,7 @@ export function useFeedbacks(placeId: string, initialRating?: number): UseFeedba
     ? (initialRating ?? 0)
     : feedbacks.length
       ? calcAverageRating(feedbacks)
-      : 0;
+      : (initialRating ?? 0);
 
   return {
     feedbacks,

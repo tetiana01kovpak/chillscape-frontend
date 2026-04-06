@@ -41,14 +41,14 @@ function ReviewsBlock({
 
   const locationReviews = useMemo<Review[]>(
     () =>
-      feedbacks.map((feedback) => ({
+      feedbacks.map(feedback => ({
         id: feedback._id,
         rating: feedback.rate,
-        text: feedback.comment,
-        author: feedback.user?.name || 'Невідомий автор',
+        text: feedback.description,
+        author: feedback.userName || 'Невідомий автор',
         locationType: '',
       })),
-    [feedbacks],
+    [feedbacks]
   );
 
   const displayedReviews = placeId ? locationReviews : reviews;
