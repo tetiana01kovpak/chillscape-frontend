@@ -1,15 +1,16 @@
 import { Suspense } from 'react';
 import AuthNav from '@/components/auth/AuthNav/AuthNav';
 import LoginForm from '@/components/auth/LoginForm/LoginForm';
+import { Loader } from '@/components/ui/Loader/Loader';
 import css from '../authLayout.module.css';
 
 export default function LoginPage() {
   return (
-    <div className={css.card}>
-      <AuthNav />
-      <Suspense>
+    <Suspense fallback={<Loader />}>
+      <div className={css.card}>
+        <AuthNav />
         <LoginForm />
-      </Suspense>
-    </div>
+      </div>
+    </Suspense>
   );
 }
