@@ -1,13 +1,15 @@
 export type Feedback = {
   _id: string;
   place: string;
-  user: {
+  userName?: string;
+  user?: {
     _id: string;
     name: string;
   };
   rate: number;
   rating?: number;
-  comment: string;
+  description: string;
+  comment?: string;
   createdAt: string;
   updatedAt: string;
 };
