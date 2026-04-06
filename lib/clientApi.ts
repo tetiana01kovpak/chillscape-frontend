@@ -26,6 +26,60 @@ function normalizeUser(raw: Record<string, unknown>): User {
   };
 }
 
+function normalizeLocation(raw: Record<string, unknown>): Location {
+  const rawRating =
+    raw.rate ??
+    raw.rating ??
+    raw.averageRating ??
+    raw.avgRating;
+
+  const rate =
+    typeof rawRating === 'number'
+      ? rawRating
+      : typeof rawRating === 'string'
+        ? Number.parseFloat(rawRating) || 0
+        : 0;
+
+  const image =
+    typeof raw.image === 'string'
+      ? raw.image
+      : typeof raw.imageUrl === 'string'
+        ? raw.imageUrl
+        : Array.isArray(raw.images) && typeof raw.images[0] === 'string'
+          ? raw.images[0]
+          : '';
+
+  return {
+    _id: String(raw._id || raw.id || ''),
+    image,
+    name: String(raw.name || ''),
+    locationType:
+      typeof raw.locationType === 'string'
+        ? raw.locationType
+        : typeof raw.type === 'string'
+          ? raw.type
+          : '',
+    region: String(raw.region || ''),
+    rate,
+    description: String(raw.description || ''),
+    coordinates:
+      raw.coordinates &&
+      typeof raw.coordinates === 'object' &&
+      typeof (raw.coordinates as { lat?: unknown }).lat === 'number' &&
+      typeof (raw.coordinates as { lon?: unknown }).lon === 'number'
+        ? {
+            lat: (raw.coordinates as { lat: number }).lat,
+            lon: (raw.coordinates as { lon: number }).lon,
+          }
+        : undefined,
+    ownerId: String(raw.ownerId || ''),
+    feedbacksId: Array.isArray(raw.feedbacksId)
+      ? raw.feedbacksId.map(item => String(item))
+      : [],
+    typeName: String(raw.typeName || ''),
+  };
+}
+
 interface LocationsResponse {
   status: number;
   message: string;
@@ -44,6 +98,19 @@ export function mapLocationToCardData(
   raw: Record<string, unknown>,
   typeNameMap: Map<string, string>
 ): LocationCardData {
+  const rawRating =
+    raw.rate ??
+    raw.rating ??
+    raw.averageRating ??
+    raw.avgRating;
+
+  const rating =
+    typeof rawRating === 'number'
+      ? rawRating
+      : typeof rawRating === 'string'
+        ? Number.parseFloat(rawRating) || 0
+        : 0;
+
   const imageUrl =
     typeof raw.image === 'string'
       ? raw.image
@@ -65,7 +132,7 @@ export function mapLocationToCardData(
     name: String(raw.name || ''),
     imageUrl,
     typeName: typeNameMap.get(locationType) || locationType,
-    rating: typeof raw.rate === 'number' ? raw.rate : 0,
+    rating,
   };
 }
 
@@ -99,7 +166,7 @@ export async function getLocations(): Promise<Location[]> {
 
 export async function getLocationById(id: string): Promise<Location> {
   const { data } = await api.get<{ data: Location }>(`/locations/${id}`);
-  return data.data;
+  return normalizeLocation(data.data as Record<string, unknown>);
 }
 
 export async function getLocationTypes(): Promise<LocationType[]> {

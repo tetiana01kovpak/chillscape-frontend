@@ -10,8 +10,13 @@ type Props = {
 export default function LocationsGrid({ locations, showEditButton = false }: Props) {
   return (
     <div className={css.grid}>
-      {locations.map(location => (
-        <LocationCard key={location.id} location={location} showEditButton={showEditButton} />
+      {locations.map((location, index) => (
+        <LocationCard
+          key={location.id}
+          location={location}
+          showEditButton={showEditButton}
+          eagerImage={index === 0}
+        />
       ))}
     </div>
   );

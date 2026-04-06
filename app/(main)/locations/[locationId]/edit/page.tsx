@@ -7,20 +7,18 @@ import { getLocationById } from '@/lib/clientApi';
 import { Loader } from '@/components/ui/Loader/Loader';
 import toast from 'react-hot-toast';
 
-// 1. Оновлюємо інтерфейс під нову схему бекенду
 interface LocationData {
-  _id: string; // MongoDB використовує _id
+  _id: string;
   name: string;
-  locationType: string; // Згідно з твоєю моделлю на бекенді
+  locationType: string;
   region: string;
   description: string;
-  image: string; // Тепер це поодинокий URL (рядок)
+  image: string;
 }
 
-// 2. Додаємо default export, щоб Next.js міг відрендерити сторінку
 export default function EditLocationPage() {
   const params = useParams();
-  const id = params.locationId || params.id; // Перевір назву папки в [id] або [locationId]
+  const id = params.locationId || params.id;
 
   const [location, setLocation] = useState<LocationData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,11 +28,22 @@ export default function EditLocationPage() {
       try {
         if (!id || typeof id !== 'string') return;
 
-        // Отримуємо дані. Припускаємо, що API повертає { data: { ... } }
         const response = await getLocationById(id);
-        const data = response;
+        const rawLocation = response as Record<string, unknown> & { images?: unknown };
 
-        setLocation(data);
+        setLocation({
+          _id: String(rawLocation._id || id),
+          name: String(rawLocation.name || ''),
+          locationType: String(rawLocation.locationType || rawLocation.type || ''),
+          region: String(rawLocation.region || ''),
+          description: String(rawLocation.description || ''),
+          image:
+            typeof rawLocation.image === 'string'
+              ? rawLocation.image
+              : Array.isArray(rawLocation.images) && typeof rawLocation.images[0] === 'string'
+                ? rawLocation.images[0]
+                : '',
+        });
       } catch (error) {
         toast.error('Не вдалося завантажити дані локації');
         console.error(error);
@@ -47,13 +56,13 @@ export default function EditLocationPage() {
   }, [id]);
 
   if (isLoading) return <Loader />;
-  if (!location)
+  if (!location) {
     return <p style={{ textAlign: 'center', marginTop: '50px' }}>Локацію не знайдено</p>;
+  }
 
-  // 3. Мапимо дані з БД (location) у формат, який очікує LocationForm (initialValues)
   const initialValues = {
     name: location.name,
-    locationType: location.locationType, // Передаємо locationType, щоб Select його підхопив
+    locationType: location.locationType,
     region: location.region,
     description: location.description,
     image: location.image,
@@ -63,9 +72,9 @@ export default function EditLocationPage() {
     <main className="container">
       <div className="section">
         <LocationForm
-          title="Додавання нового місця"
+          title="Редагування місця"
           initialData={initialValues}
-          id={location._id} // Передаємо ID, щоб форма знала, що це PATCH, а не POST
+          id={location._id}
         />
       </div>
     </main>

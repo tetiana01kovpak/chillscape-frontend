@@ -12,8 +12,13 @@
 .heading {
   display: none;
 }
+
 .loadMoreWrap {
   display: flex;
+  width: 100%;
+}
+
+.appendLoaderWrap {
   width: 100%;
 }
 
@@ -36,6 +41,7 @@
     font-size: 28px;
     margin-bottom: 32px;
   }
+
   .loadMoreWrap {
     justify-content: center;
   }

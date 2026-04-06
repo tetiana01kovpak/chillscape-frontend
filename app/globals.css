@@ -25,6 +25,16 @@
   --link-active: #d8d8d8;
   --arrow-hover-border: #ffa57a;
   --modal-backdrop: rgba(0, 0, 0, 0.25);
+  --motion-fast: 160ms;
+  --motion-base: 200ms;
+  --motion-slow: 280ms;
+  --ease-standard: ease;
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --interactive-disabled-opacity: 0.3;
+  --interactive-disabled-opacity-strong: 0.4;
+  --focus-ring-width: 2px;
+  --focus-ring-color: var(--button-primary);
+  --focus-ring-shadow: 0 0 0 2px var(--button-primary-disabled);
 }
 
 html {
@@ -56,11 +66,16 @@ a {
   align-items: center;
   padding: 8px;
   border: 1px solid transparent;
+  border-radius: 4px;
+  transition:
+    color var(--motion-base) var(--ease-standard),
+    background-color var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    opacity var(--motion-base) var(--ease-standard);
 }
 .link:hover,
-.link:focus {
-  border: 1px solid var(--text-black);
-  border-radius: 4px;
+.link:focus-visible {
+  border-color: var(--text-black);
 }
 .link:active {
   background-color: var(--link-active);
@@ -68,7 +83,7 @@ a {
 .link:disabled {
   pointer-events: none;
   cursor: default;
-  opacity: 30%;
+  opacity: var(--interactive-disabled-opacity);
 }
 ul,
 ol {
@@ -98,7 +113,7 @@ button:disabled {
 }
 
 :focus-visible {
-  outline: 2px solid var(--button-primary);
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: 2px;
 }
 

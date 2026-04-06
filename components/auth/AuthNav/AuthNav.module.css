@@ -15,10 +15,14 @@
   color: var(--text-black);
   cursor: pointer;
   border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease;
+  transition:
+    color var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    opacity var(--motion-base) var(--ease-standard);
 }
 
-.tab:hover {
+.tab:hover,
+.tab:focus-visible {
   border-color: var(--border);
 }
 

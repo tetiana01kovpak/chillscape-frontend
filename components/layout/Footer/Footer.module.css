@@ -20,10 +20,17 @@
 }
 .socials a {
   line-height: 0;
-  transition: opacity 0.2s;
+  transition:
+    opacity var(--motion-base) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
 }
-.socials a:hover {
+.socials a:hover,
+.socials a:focus-visible {
   opacity: 0.7;
+}
+
+.socials a:active {
+  transform: translateY(1px);
 }
 
 .icon {
@@ -48,11 +55,14 @@
   border-radius: 5px;
   border: 1px solid transparent;
   transition:
-    border-color 0.2s,
-    background-color 0.2s;
+    color var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    background-color var(--motion-base) var(--ease-standard),
+    opacity var(--motion-base) var(--ease-standard);
 }
 
-.navLink:hover {
+.navLink:hover,
+.navLink:focus-visible {
   border-color: var(--text-black);
 }
 

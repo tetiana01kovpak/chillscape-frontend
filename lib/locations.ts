@@ -14,6 +14,26 @@ export type SelectOption = {
   label: string;
 };
 
+type RegionApiItem = {
+  slug: string;
+  region: string;
+};
+
+type LocationTypeCategoryItem = {
+  slug: string;
+  type: string;
+};
+
+const SORT_VALUES: SortValue[] = ['', 'rating', 'newest', 'alphabet_asc', 'alphabet_desc'];
+
+export const normalizeSortValue = (value: string | null | undefined): SortValue => {
+  if (!value) {
+    return '';
+  }
+
+  return SORT_VALUES.includes(value as SortValue) ? (value as SortValue) : '';
+};
+
 export const sortOptions: SelectOption[] = [
   { value: 'rating', label: 'За рейтингом' },
   { value: 'newest', label: 'Новіші спочатку' },
@@ -31,11 +51,17 @@ type LocationTypeField =
 type LocationApiItem = {
   _id: string;
   name: string;
+  image?: string;
+  imageUrl?: string;
   type?: string;
   locationType?: LocationTypeField;
   region?: string;
   description: string;
   images?: string[];
+  rate?: number;
+  rating?: number | string;
+  averageRating?: number | string;
+  avgRating?: number | string;
   createdAt?: string;
 };
 
@@ -45,6 +71,14 @@ type LocationsApiResponse = {
   totalLocations: number;
   totalPages: number;
   locations: LocationApiItem[];
+};
+
+type RegionsApiResponse = {
+  data: RegionApiItem[];
+};
+
+type LocationTypesApiResponse = {
+  data: LocationTypeCategoryItem[];
 };
 
 export type FetchLocationsParams = {
@@ -62,8 +96,28 @@ export type LocationItem = {
   region: string;
   locationType: string;
   description: string;
-  image: string;
+  imageUrl: string;
+  rating: number;
   createdAt?: string;
+};
+
+const getNumericRating = (item: LocationApiItem): number => {
+  const rawRating =
+    item.rate ??
+    item.rating ??
+    item.averageRating ??
+    item.avgRating;
+
+  if (typeof rawRating === 'number' && Number.isFinite(rawRating)) {
+    return rawRating;
+  }
+
+  if (typeof rawRating === 'string') {
+    const parsed = Number.parseFloat(rawRating);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
+  return 0;
 };
 
 export type FetchLocationsResult = {
@@ -74,24 +128,13 @@ export type FetchLocationsResult = {
   locations: LocationItem[];
 };
 
-const FILTERS_FETCH_LIMIT = 50;
-
-const uniqueStrings = (items: string[]): string[] => {
-  return [...new Set(items.map((item) => item.trim()).filter(Boolean))];
-};
-
 const getNormalizedLocationType = (item: LocationApiItem): string => {
   if (typeof item.locationType === 'string' && item.locationType) {
     return item.locationType;
   }
 
   if (typeof item.locationType === 'object' && item.locationType !== null) {
-    return (
-      item.locationType.name ||
-      item.locationType.type ||
-      item.type ||
-      'Невідомий тип'
-    );
+    return item.locationType.name || item.locationType.type || item.type || 'Невідомий тип';
   }
 
   if (item.type) {
@@ -101,16 +144,22 @@ const getNormalizedLocationType = (item: LocationApiItem): string => {
   return 'Невідомий тип';
 };
 
-const getSafeImage = (images?: string[]): string => {
-  const firstImage = images?.[0]?.trim() || '';
-  if (!firstImage) return '';
+const getSafeImage = (rawImage?: string, rawImageUrl?: string, images?: string[]): string => {
+  const imageCandidate =
+    (typeof rawImage === 'string' && rawImage.trim()) ||
+    (typeof rawImageUrl === 'string' && rawImageUrl.trim()) ||
+    images?.[0]?.trim() ||
+    '';
 
-  if (firstImage.startsWith('/')) {
-    return firstImage;
+  if (!imageCandidate) return '';
+
+  if (imageCandidate.startsWith('/')) {
+    return imageCandidate;
   }
+
   try {
-  new URL(firstImage);
-    return firstImage;
+    new URL(imageCandidate);
+    return imageCandidate;
   } catch {
     return '';
   }
@@ -123,85 +172,40 @@ const mapLocationItem = (item: LocationApiItem): LocationItem => {
     region: item.region ?? '',
     locationType: getNormalizedLocationType(item),
     description: item.description,
-    image: getSafeImage(item.images),
+    imageUrl: getSafeImage(item.image, item.imageUrl, item.images),
+    rating: getNumericRating(item),
     createdAt: item.createdAt,
   };
 };
 
-const fetchAllLocationsForFilters = async (): Promise<LocationApiItem[]> => {
-  const { data: firstPageData } = await api.get<LocationsApiResponse>(
-    '/locations',
-    {
-      params: {
-        page: 1,
-        limit: FILTERS_FETCH_LIMIT,
-      },
-    },
-  );
-
-  const firstPageLocations = firstPageData.locations ?? [];
-  const totalPages = firstPageData.totalPages ?? 1;
-
-  if (totalPages <= 1) {
-    return firstPageLocations;
-  }
-
-  const requests: Promise<{ data: LocationsApiResponse }>[] = [];
-
-  for (let page = 2; page <= totalPages; page += 1) {
-    requests.push(
-      api.get<LocationsApiResponse>('/locations', {
-        params: {
-          page,
-          limit: FILTERS_FETCH_LIMIT,
-        },
-      }),
-    );
-  }
-
-  const responses = await Promise.all(requests);
-
-  const restLocations = responses.flatMap(
-    (response) => response.data.locations ?? [],
-  );
-
-  return [...firstPageLocations, ...restLocations];
-};
-
 export const fetchRegions = async (): Promise<SelectOption[]> => {
-  const locations = await fetchAllLocationsForFilters();
+  const { data } = await api.get<RegionsApiResponse>('/categories');
 
-  const regions = uniqueStrings(
-    locations.map((item) => item.region ?? ''),
-  );
-
-  return regions.map((region) => ({
-    value: region,
-    label: region,
+  return (data.data ?? []).map((region) => ({
+    value: region.slug,
+    label: region.region,
   }));
 };
 
 export const fetchLocationTypes = async (): Promise<SelectOption[]> => {
-  const locations = await fetchAllLocationsForFilters();
+  const { data } = await api.get<LocationTypesApiResponse>('/categories/location-types');
 
-  const types = uniqueStrings(
-    locations.map((item) => getNormalizedLocationType(item)),
-  );
-
-  return types.map((type) => ({
-    value: type,
-    label: type,
+  return (data.data ?? []).map((type) => ({
+    value: type.slug,
+    label: type.type,
   }));
 };
 
 export const fetchLocations = async (
   params: FetchLocationsParams,
 ): Promise<FetchLocationsResult> => {
+  const normalizedSort = normalizeSortValue(params.sort);
+
   const queryParams = {
     ...(params.search?.trim() ? { search: params.search.trim() } : {}),
     ...(params.region ? { region: params.region } : {}),
     ...(params.type ? { type: params.type } : {}),
-    ...(params.sort ? { sort: params.sort } : {}),
+    ...(normalizedSort ? { sort: normalizedSort } : {}),
     ...(params.page ? { page: params.page } : {}),
     ...(params.limit ? { limit: params.limit } : {}),
   };

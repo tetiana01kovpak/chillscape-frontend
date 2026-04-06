@@ -5,6 +5,15 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  transition:
+    transform var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard);
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(76, 38, 19, 0.08);
 }
 
 .imageWrapper {
@@ -14,6 +23,15 @@
   background-color: var(--border);
   overflow: hidden;
   flex-shrink: 0;
+}
+
+.image {
+  transition: transform var(--motion-slow) var(--ease-emphasized);
+}
+
+.card:hover .image,
+.card:focus-within .image {
+  transform: scale(1.02);
 }
 
 .placeholder {

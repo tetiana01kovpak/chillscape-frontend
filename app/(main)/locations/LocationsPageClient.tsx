@@ -1,69 +1,128 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import FilterPanel from '@/components/blocks/FilterPanel/FilterPanel';
 import LocationsGrid from '@/components/blocks/LocationsGrid/LocationsGrid';
-import Pagination from '@/components/Pagination/Pagination';
 import type { Location as LocationCardData } from '@/types/location';
 import { Button } from '@/components/ui/Button/Button';
+import { Loader } from '@/components/ui/Loader/Loader';
 import styles from './LocationsPageClient.module.css';
 
 import {
   fetchRegions,
   fetchLocationTypes,
   fetchLocations,
+  normalizeSortValue,
   type Filters,
   type SelectOption,
   type LocationItem,
 } from '@/lib/locations';
 
-// к-сть карток за один запит
-const PER_PAGE = 9;
+const getLocationsPageLimit = () => {
+  if (typeof window !== 'undefined' && window.innerWidth >= 1440) {
+    return 9;
+  }
 
-export default function LocationsPageClient() {
-  // стан фільтрів
-  const [filters, setFilters] = useState<Filters>({
-    search: '',
-    region: '',
-    type: '',
-    sort: '',
+  return 6;
+};
+
+const dedupeLocationsById = (items: LocationItem[]) => {
+  const uniqueLocations = new Map<string, LocationItem>();
+
+  items.forEach((item) => {
+    uniqueLocations.set(item.id, item);
   });
 
-  // поточна сторінка
-  const [page, setPage] = useState(1);
+  return [...uniqueLocations.values()];
+};
 
-  // загальна к-сть сторінок із бекенду
+const getStableRatingSortedLocations = (items: LocationItem[]) => {
+  return [...items].sort((a, b) => {
+    if (b.rating !== a.rating) {
+      return b.rating - a.rating;
+    }
+
+    if (a.createdAt && b.createdAt) {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    }
+
+    return a.id.localeCompare(b.id);
+  });
+};
+
+export default function LocationsPageClient() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const filters = useMemo<Filters>(
+    () => ({
+      search: searchParams.get('search') ?? '',
+      region: searchParams.get('region') ?? '',
+      type: searchParams.get('type') ?? '',
+      sort: normalizeSortValue(searchParams.get('sort')),
+    }),
+    [searchParams],
+  );
+
+  const page = useMemo(() => {
+    const currentPage = Number(searchParams.get('page') ?? '1');
+    return Number.isInteger(currentPage) && currentPage > 0 ? currentPage : 1;
+  }, [searchParams]);
+
   const [totalPages, setTotalPages] = useState(1);
-
-  // дані для селектів
+  const [limit, setLimit] = useState(6);
   const [regions, setRegions] = useState<SelectOption[]>([]);
   const [types, setTypes] = useState<SelectOption[]>([]);
-
-  // список локацій
   const [locations, setLocations] = useState<LocationItem[]>([]);
-
-  // стани завантаження
   const [isLoadingFilters, setIsLoadingFilters] = useState(false);
   const [isLoadingLocations, setIsLoadingLocations] = useState(false);
-
-  // текст помилки
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState('');
 
-  // Завантаження фільтрів
+  const requestIdRef = useRef(0);
+  const previousPageRef = useRef(1);
+  const previousRequestContextKeyRef = useRef('');
+  const gridSectionRef = useRef<HTMLDivElement | null>(null);
+  const pendingScrollIndexRef = useRef<number | null>(null);
+
+  const filtersKey = useMemo(() => JSON.stringify(filters), [filters]);
+
+  const requestContextKey = useMemo(
+    () => JSON.stringify({ filters, limit }),
+    [filters, limit],
+  );
+
+  const typeLabelMap = useMemo(
+    () => new Map(types.map((typeOption) => [typeOption.value, typeOption.label])),
+    [types],
+  );
+
+  useEffect(() => {
+    const updateLimit = () => {
+      setLimit(getLocationsPageLimit());
+    };
+
+    updateLimit();
+    window.addEventListener('resize', updateLimit);
+
+    return () => {
+      window.removeEventListener('resize', updateLimit);
+    };
+  }, []);
+
   useEffect(() => {
     const loadFilterOptions = async () => {
       try {
         setIsLoadingFilters(true);
 
-        const [regionsData, typesData] = await Promise.all([
-          fetchRegions(),
-          fetchLocationTypes(),
-        ]);
+        const [regionsData, typesData] = await Promise.all([fetchRegions(), fetchLocationTypes()]);
 
         setRegions(regionsData);
         setTypes(typesData);
-      } catch (error) {
-        console.error('Помилка при завантаженні фільтрів:', error);
+      } catch (loadError) {
+        console.error('Помилка при завантаженні фільтрів:', loadError);
       } finally {
         setIsLoadingFilters(false);
       }
@@ -72,105 +131,210 @@ export default function LocationsPageClient() {
     loadFilterOptions();
   }, []);
 
-  // Завантаження локацій при зміні фільтрів, сортування або сторінки
   useEffect(() => {
+    const currentRequestId = requestIdRef.current + 1;
+    requestIdRef.current = currentRequestId;
+
+    const sameFilters = previousRequestContextKeyRef.current === requestContextKey;
+    const shouldAppend =
+      sameFilters &&
+      page > 1 &&
+      page === previousPageRef.current + 1;
+
     const loadLocations = async () => {
       try {
-        setIsLoadingLocations(true);
         setError('');
 
-        const data = await fetchLocations({
-          search: filters.search,
-          region: filters.region,
-          type: filters.type,
-          sort: filters.sort,
-          page,
-          limit: PER_PAGE,
-        });
+        if (shouldAppend) {
+          setIsLoadingMore(true);
+          pendingScrollIndexRef.current = locations.length;
+        } else {
+          setIsLoadingLocations(true);
+          setIsLoadingMore(false);
+          setLocations([]);
+          pendingScrollIndexRef.current = null;
+        }
 
-        setLocations(data.locations);
-        setTotalPages(data.totalPages);
-      } catch (error) {
-        console.error('Помилка при завантаженні локацій:', error);
-        setError('Не вдалося завантажити локації');
-        setLocations([]);
-        setTotalPages(1);
+        if (shouldAppend) {
+          const data = await fetchLocations({
+            search: filters.search,
+            region: filters.region,
+            type: filters.type,
+            sort: filters.sort,
+            page,
+            limit,
+          });
+
+          if (requestIdRef.current !== currentRequestId) {
+            return;
+          }
+
+          setLocations((prev) => dedupeLocationsById([...prev, ...data.locations]));
+          setTotalPages(data.totalPages);
+
+          requestAnimationFrame(() => {
+            const scrollIndex = pendingScrollIndexRef.current;
+            const cards = gridSectionRef.current?.querySelectorAll('article');
+            const nextCard = scrollIndex !== null ? cards?.[scrollIndex] : null;
+
+            nextCard?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+
+            pendingScrollIndexRef.current = null;
+          });
+        } else {
+          const pagesToLoad = Array.from({ length: page }, (_, index) => index + 1);
+
+          const pagesData = await Promise.all(
+            pagesToLoad.map((pageNumber) =>
+              fetchLocations({
+                search: filters.search,
+                region: filters.region,
+                type: filters.type,
+                sort: filters.sort,
+                page: pageNumber,
+                limit,
+              }),
+            ),
+          );
+
+          if (requestIdRef.current !== currentRequestId) {
+            return;
+          }
+
+          const lastPage = pagesData.at(-1);
+
+          setLocations(dedupeLocationsById(pagesData.flatMap((data) => data.locations)));
+          setTotalPages(lastPage?.totalPages ?? 1);
+          pendingScrollIndexRef.current = null;
+        }
+
+        previousRequestContextKeyRef.current = requestContextKey;
+        previousPageRef.current = page;
+      } catch (loadError) {
+        if (requestIdRef.current !== currentRequestId) {
+          return;
+        }
+
+        console.error('Помилка при завантаженні локацій:', loadError);
+
+        if (!shouldAppend) {
+          setError('Не вдалося завантажити локації');
+          setLocations([]);
+          setTotalPages(1);
+        }
+
+        pendingScrollIndexRef.current = null;
       } finally {
+        if (requestIdRef.current !== currentRequestId) {
+          return;
+        }
+
         setIsLoadingLocations(false);
+        setIsLoadingMore(false);
       }
     };
 
     loadLocations();
-  }, [filters.search, filters.region, filters.type, filters.sort, page]);
+  }, [filters, filtersKey, limit, page, requestContextKey]);
 
-  // Оновлення фільтрів
   const onFiltersChange = (next: Partial<Filters>) => {
-    setFilters((prev) => ({
-      ...prev,
+    const nextParams = new URLSearchParams(searchParams.toString());
+    const nextFilters = {
+      ...filters,
       ...next,
-    }));
+    };
 
-    // При зміні будь-якого фільтра повертаємось на першу сторінку
-    setPage(1);
-  };
+    Object.entries(nextFilters).forEach(([key, value]) => {
+      const normalizedValue = value.trim();
 
-  // Зміна сторінки
-  const handlePageChange = (nextPage: number) => {
-    if (nextPage < 1 || nextPage > totalPages || nextPage === page) return;
-
-    setPage(nextPage);
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
+      if (normalizedValue) {
+        nextParams.set(key, normalizedValue);
+      } else {
+        nextParams.delete(key);
+      }
     });
+
+    nextParams.set('page', '1');
+    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
   };
 
-  const cardLocations: LocationCardData[] = locations.map((location) => ({
+  const handlePageChange = (nextPage: number) => {
+    if (nextPage < 1 || nextPage > totalPages || nextPage === page || isLoadingMore) {
+      return;
+    }
+
+    const nextParams = new URLSearchParams(searchParams.toString());
+    nextParams.set('page', String(nextPage));
+    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+  };
+
+  const orderedLocations = useMemo(
+    () => (filters.sort === 'rating' ? getStableRatingSortedLocations(locations) : locations),
+    [filters.sort, locations],
+  );
+
+  const cardLocations: LocationCardData[] = orderedLocations.map((location) => ({
     id: location.id,
-    imageUrl: location.image || '/images/placeholder.jpg',
+    imageUrl: location.imageUrl || '/images/placeholder.jpg',
     name: location.name,
-    typeName: location.locationType,
-    rating: 0,
+    typeName: typeLabelMap.get(location.locationType) || location.locationType,
+    rating: location.rating,
   }));
 
-return (
-  <section className={`section ${styles.page}`}>
-    <div className="container">
-      <FilterPanel
-        filters={filters}
-        regions={regions}
-        types={types}
-        onFiltersChange={onFiltersChange}
-      />
+  return (
+    <section className={`section ${styles.page}`}>
+      <div className="container">
+        <FilterPanel
+          filters={filters}
+          regions={regions}
+          types={types}
+          onFiltersChange={onFiltersChange}
+        />
 
-      {isLoadingFilters && (
-        <p className={styles.filtersMessage}>Завантаження фільтрів...</p>
-      )}
-      {isLoadingLocations ? (
-        <p className={styles.locationsMessage}>Завантаження локацій...</p>
-      ) : error ? (
-        <p className={styles.locationsMessage}>{error}</p>
-      ) : cardLocations.length === 0 ? (
-        <p className={styles.locationsMessage}>За вашим запитом нічого не знайдено.</p>
-      ) : (
-        <LocationsGrid locations={cardLocations} />
-      )}
-      {page < totalPages && !isLoadingLocations && !error && cardLocations.length > 0 && (
-        <Button
-          type='button'
-          className={styles.loadMoreButton}
-          onClick={() => handlePageChange(page + 1)}
-        >
-          Показати ще</Button>
-      )}
+        {isLoadingFilters && (
+          <div className={styles.filtersLoaderWrap}>
+            <Loader />
+          </div>
+        )}
 
-      <Pagination
-        totalPages={totalPages}
-        currentPage={page}
-        setCurrentPage={handlePageChange}
-      />
-    </div>
-  </section>
-);
+        {isLoadingLocations ? (
+          <div className={styles.locationsLoaderWrap}>
+            <Loader />
+          </div>
+        ) : error ? (
+          <p className={styles.locationsMessage}>{error}</p>
+        ) : cardLocations.length === 0 ? (
+          <p className={styles.locationsMessage}>За вашим запитом нічого не знайдено.</p>
+        ) : (
+          <>
+            <div ref={gridSectionRef}>
+              <LocationsGrid locations={cardLocations} />
+            </div>
+
+            {isLoadingMore && (
+              <div className={styles.appendLoaderWrap}>
+                <Loader />
+              </div>
+            )}
+          </>
+        )}
+
+        {page < totalPages && !error && cardLocations.length > 0 && (
+          <div className={styles.loadMoreWrap}>
+            <Button
+              type="button"
+              className={styles.loadMoreButton}
+              onClick={() => handlePageChange(page + 1)}
+              disabled={isLoadingMore}
+            >
+              Показати ще
+            </Button>
+          </div>
+        )}
+      </div>
+    </section>
+  );
 }

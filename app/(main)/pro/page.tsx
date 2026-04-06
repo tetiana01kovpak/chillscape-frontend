@@ -57,7 +57,7 @@ export default function ProPage() {
 
   useEffect(() => {
     if (initialLocationsData) {
-      const mappedLocations = initialLocationsData.locations.map(location =>
+      const mappedLocations = initialLocationsData.locations.map((location) =>
         mapLocationToCardData(location, typeNameMap)
       );
 
@@ -82,11 +82,11 @@ export default function ProPage() {
       const nextPage = page + 1;
       const rawLocationsData = await getUserLocationsRaw(user.id, nextPage, limit);
 
-      const mappedLocations = rawLocationsData.locations.map(location =>
+      const mappedLocations = rawLocationsData.locations.map((location) =>
         mapLocationToCardData(location, typeNameMap)
       );
 
-      setLocations(prev => [...prev, ...mappedLocations]);
+      setLocations((prev) => [...prev, ...mappedLocations]);
       setPage(nextPage);
       setHasMore(rawLocationsData.page < rawLocationsData.totalPages);
     } finally {
@@ -114,6 +114,12 @@ export default function ProPage() {
             <>
               <LocationsGrid locations={locations} showEditButton />
 
+              {isLoadingMore && (
+                <div className={css.appendLoaderWrap}>
+                  <Loader />
+                </div>
+              )}
+
               {hasMore && (
                 <div className={css.loadMoreWrap}>
                   <Button
@@ -123,7 +129,7 @@ export default function ProPage() {
                     disabled={isLoadingMore}
                     className={css.button}
                   >
-                    {isLoadingMore ? 'Завантаження...' : 'Показати ще'}
+                    Показати ще
                   </Button>
                 </div>
               )}

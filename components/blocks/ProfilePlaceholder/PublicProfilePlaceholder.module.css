@@ -35,17 +35,26 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
-  transition: all 0.2s ease;
+  transition:
+    background-color var(--motion-base) var(--ease-standard),
+    color var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    opacity var(--motion-base) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard);
 }
 
-.button:hover {
+.button:hover,
+.button:focus-visible {
   background-color: var(--button-primary-hover);
   color: var(--text-green);
+  box-shadow: var(--focus-ring-shadow);
 }
 
 .button:active {
   background-color: var(--button-primary);
   color: var(--text-white);
+  transform: translateY(1px);
 }
 
 @media only screen and (min-width: 768px) {

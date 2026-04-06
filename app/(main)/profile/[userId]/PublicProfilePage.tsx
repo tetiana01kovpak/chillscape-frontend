@@ -59,7 +59,7 @@ export default function PublicProfilePage({ userId }: PublicProfilePageProps) {
         ]);
 
         const typeNameMap = buildLocationTypeMap(locationTypes);
-        const mappedLocations = rawLocationsData.locations.map(location =>
+        const mappedLocations = rawLocationsData.locations.map((location) =>
           mapLocationToCardData(location, typeNameMap)
         );
 
@@ -89,11 +89,11 @@ export default function PublicProfilePage({ userId }: PublicProfilePageProps) {
       ]);
 
       const typeNameMap = buildLocationTypeMap(locationTypes);
-      const mappedLocations = rawLocationsData.locations.map(location =>
+      const mappedLocations = rawLocationsData.locations.map((location) =>
         mapLocationToCardData(location, typeNameMap)
       );
 
-      setLocations(prev => [...prev, ...mappedLocations]);
+      setLocations((prev) => [...prev, ...mappedLocations]);
       setPage(nextPage);
       setHasMore(rawLocationsData.page < rawLocationsData.totalPages);
     } finally {
@@ -125,6 +125,12 @@ export default function PublicProfilePage({ userId }: PublicProfilePageProps) {
             <>
               <LocationsGrid locations={locations} />
 
+              {isLoadingMore && (
+                <div className={css.appendLoaderWrap}>
+                  <Loader />
+                </div>
+              )}
+
               {hasMore && (
                 <div className={css.loadMoreWrap}>
                   <Button
@@ -134,7 +140,7 @@ export default function PublicProfilePage({ userId }: PublicProfilePageProps) {
                     disabled={isLoadingMore}
                     className={css.button}
                   >
-                    {isLoadingMore ? 'Завантаження...' : 'Показати ще'}
+                    Показати ще
                   </Button>
                 </div>
               )}

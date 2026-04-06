@@ -92,6 +92,13 @@
   width: 100%;
 }
 
+.buttonLoaderContent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
 /* Планшет */
 @media (min-width: 768px) {
   .modal {

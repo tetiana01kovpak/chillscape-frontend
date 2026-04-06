@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: fadeIn var(--motion-base) var(--ease-emphasized);
 
   @media screen and (min-width: 768px) {
     padding: 32px;
@@ -25,6 +26,7 @@
   position: relative;
   z-index: 1001;
   text-align: center;
+  animation: modalEnter var(--motion-slow) var(--ease-emphasized);
 
   @media screen and (min-width: 768px) {
     padding: 64px;
@@ -37,9 +39,44 @@
   top: 20px;
   right: 20px;
   color: var(--text-black);
+  transition:
+    color var(--motion-base) var(--ease-standard),
+    opacity var(--motion-base) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
 
   @media screen and (min-width: 1440px) {
     top: 24px;
     right: 24px;
+  }
+}
+
+.btn:hover,
+.btn:focus-visible {
+  opacity: 0.75;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

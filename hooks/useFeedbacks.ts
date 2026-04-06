@@ -19,7 +19,11 @@ export function useFeedbacks(placeId: string, initialRating?: number): UseFeedba
   });
 
   const feedbacks = data?.feedbacks ?? [];
-  const rating = feedbacks.length ? calcAverageRating(feedbacks) : (initialRating ?? 0);
+  const rating = isLoading
+    ? (initialRating ?? 0)
+    : feedbacks.length
+      ? calcAverageRating(feedbacks)
+      : 0;
 
   return {
     feedbacks,

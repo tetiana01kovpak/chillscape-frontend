@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import type { LocationCardData } from '@/types/location';
@@ -9,9 +11,18 @@ import styles from '../../ui/Button/Button.module.css';
 interface LocationCardProps {
   location: LocationCardData;
   showEditButton?: boolean;
+  eagerImage?: boolean;
 }
 
-export default function LocationCard({ location, showEditButton = false }: LocationCardProps) {
+export default function LocationCard({
+  location,
+  showEditButton = false,
+  eagerImage = false,
+}: LocationCardProps) {
+  const isLocalUploadImage =
+    location.imageUrl.startsWith('http://localhost:3000/uploads/') ||
+    location.imageUrl.startsWith('https://localhost:3000/uploads/');
+
   return (
     <article className={css.card}>
       <div className={css.imageWrapper}>
@@ -21,8 +32,9 @@ export default function LocationCard({ location, showEditButton = false }: Locat
           fill
           sizes="(min-width: 1440px) 400px, (min-width: 768px) 336px, 100vw"
           className={css.image}
-          priority
+          loading={eagerImage ? 'eager' : 'lazy'}
           style={{ objectFit: 'cover' }}
+          unoptimized={isLocalUploadImage}
         />
       </div>
 
@@ -49,7 +61,7 @@ export default function LocationCard({ location, showEditButton = false }: Locat
               className={`${styles.secondary} ${styles.btn} ${css.editBtn}`}
               aria-label="Редагувати локацію"
             >
-              <Icon name="icon-edit" width={20} height={20} />
+              <Icon name="icon-edit" width={24} height={24} />
             </Link>
           )}
         </div>

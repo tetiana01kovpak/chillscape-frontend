@@ -13,12 +13,14 @@ export const Button = ({
   variant = 'primary', 
   icon,
   className, 
+  disabled = false,
   ...props 
 }: ButtonProps) => {
   return (
     <button 
       className={clsx(s.btn, s[variant], className)} 
       {...props}
+      disabled={Boolean(disabled)}
     >
       {icon && <span className={s.iconWrapper}>{icon}</span>}
       {children}

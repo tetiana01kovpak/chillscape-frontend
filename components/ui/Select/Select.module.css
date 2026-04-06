@@ -1,9 +1,18 @@
 .container {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
+}
+
+.selectBlock {
+  position: relative;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-black);
 }
 
 .control {
@@ -11,22 +20,33 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 8px;
-  background-color: var(--foreground); /* Твой нежно-розовый */
+  background-color: var(--foreground);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition:
+    border-color var(--motion-base) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard),
+    background-color var(--motion-base) var(--ease-standard);
 }
+
 .control:hover {
-  border: 1px solid #FFA57A; 
+  border: 1px solid var(--arrow-hover-border);
+}
+
+.control:focus-visible {
+  outline: none;
+  border-color: var(--button-primary);
+  box-shadow: var(--focus-ring-shadow);
 }
 
 .isOpen {
   border-color: var(--button-primary);
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   border-bottom: transparent;
 }
+
 .isOpen:hover {
   border-color: var(--button-primary);
   border-bottom: transparent;
@@ -36,7 +56,6 @@
   color: var(--placeholder);
 }
 
-/* Выпадающий список */
 .menu {
   position: absolute;
   top: 100%;
@@ -50,29 +69,52 @@
   list-style: none;
   padding: 8px 0;
   z-index: 10;
+  max-height: 240px;
+  overflow-y: auto;
+  animation: dropdownEnter var(--motion-base) var(--ease-emphasized);
 }
 
 .option {
   padding: 10px 16px;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.2s;
+  transition:
+    background-color var(--motion-fast) var(--ease-standard),
+    color var(--motion-fast) var(--ease-standard);
 }
 
 .option:hover {
-  background-color: #FFA57A; /* Цвет при наведении */
+  background-color: var(--arrow-hover-border);
 }
 
-/* Оранжевое выделение из твоего макета */
 .isSelected {
-  background-color: #FFA57A;
+  background-color: var(--arrow-hover-border);
 }
+
 .arrow {
   width: 24px;
   height: 24px;
-  fill: rgba(0, 0, 0, 0.6);
-  transition: transform 0.2s;
+  fill: var(--placeholder);
+  transition: transform var(--motion-base) var(--ease-emphasized);
 }
+
 .arrowUp {
   transform: rotate(180deg);
+}
+
+.errorMessage {
+  font-size: 12px;
+  color: var(--red-error);
+}
+
+@keyframes dropdownEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

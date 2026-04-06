@@ -6,26 +6,18 @@ import Image from 'next/image';
 import Logo from '@/components/ui/Logo/Logo';
 import { Icon } from '@/components/ui/Icon/Icon';
 import { useAuthStore } from '@/store/authStore';
-import { logoutUser } from '@/lib/clientApi';
 import css from './Header.module.css';
 
 export default function Header() {
   const router = useRouter();
-  const { user, isLoggedIn, clearUser } = useAuthStore();
+  const { user, isLoggedIn } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
 
-  const handleLogout = async () => {
-    try {
-      await logoutUser();
-    } catch {
-      // proceed with local logout even if API fails
-    }
-    localStorage.removeItem('hasSession');
-    clearUser();
+  const openLogoutModal = () => {
     closeMenu();
-    router.push('/');
+    router.push('/logout');
   };
 
   useEffect(() => {
@@ -74,14 +66,12 @@ export default function Header() {
           {isLoggedIn ? (
             <div className={css.desktopUserMenu}>
               <Link href="/locations/add" className={css.btnPrimary}>
-                Поділитись локацією
+                Поділитися локацією
               </Link>
               <div className={css.userInfo}>
                 <div className={css.avatar}>
                   <Image
-                    src={
-                      user?.avatar || 'https://ac.goit.global/fullstack/react/default-avatar.jpg'
-                    }
+                    src={user?.avatar || 'https://ac.goit.global/fullstack/react/default-avatar.jpg'}
                     alt={user?.name || ''}
                     width={32}
                     height={32}
@@ -90,7 +80,7 @@ export default function Header() {
                 <span className={css.userName}>{user?.name}</span>
               </div>
               <span className={css.divider}></span>
-              <button className={css.logoutBtn} aria-label="Вийти" onClick={handleLogout}>
+              <button className={css.logoutBtn} aria-label="Вийти" onClick={openLogoutModal}>
                 <Icon name="icon-logout" width={24} height={24} />
               </button>
             </div>
@@ -126,7 +116,7 @@ export default function Header() {
 
           <button
             className={css.burgerBtn}
-            onClick={() => setIsMenuOpen(prev => !prev)}
+            onClick={() => setIsMenuOpen((prev) => !prev)}
             aria-label={isMenuOpen ? 'Закрити меню' : 'Відкрити меню'}
           >
             <Icon name={isMenuOpen ? 'icon-close' : 'icon-menu'} width={24} height={24} />
@@ -135,7 +125,7 @@ export default function Header() {
       </div>
 
       {isMenuOpen && (
-        <div className={css.drawer} onClick={e => e.stopPropagation()}>
+        <div className={css.drawer} onClick={(e) => e.stopPropagation()}>
           <nav className={css.drawerNav}>
             <Link href="/" className={css.drawerLink} onClick={closeMenu}>
               Головна
@@ -163,9 +153,7 @@ export default function Header() {
                 <div className={css.drawerUserRow}>
                   <div className={css.avatar}>
                     <Image
-                      src={
-                        user?.avatar || 'https://ac.goit.global/fullstack/react/default-avatar.jpg'
-                      }
+                      src={user?.avatar || 'https://ac.goit.global/fullstack/react/default-avatar.jpg'}
                       alt={user?.name || ''}
                       width={32}
                       height={32}
@@ -173,7 +161,7 @@ export default function Header() {
                   </div>
                   <span className={css.userName}>{user?.name}</span>
                   <span className={css.divider}></span>
-                  <button className={css.logoutBtn} aria-label="Вийти" onClick={handleLogout}>
+                  <button className={css.logoutBtn} aria-label="Вийти" onClick={openLogoutModal}>
                     <Icon name="icon-logout" width={24} height={24} />
                   </button>
                 </div>

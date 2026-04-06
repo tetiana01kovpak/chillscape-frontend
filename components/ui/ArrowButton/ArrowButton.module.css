@@ -9,23 +9,31 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition:
+    background-color var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    opacity var(--motion-base) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard);
 }
 
 .button:hover:not(:disabled),
 .button:focus-visible:not(:disabled) {
   background-color: var(--slider-arrow);
   border-color: var(--arrow-hover-border);
+  box-shadow: var(--focus-ring-shadow);
 }
 
 .button:active:not(:disabled) {
   background-color: var(--arrow-hover-border);
+  transform: translateY(1px);
 }
 
 .button:disabled {
   background-color: var(--slider-arrow);
   border-color: var(--border);
   pointer-events: none;
-  opacity: 0.4;
+  opacity: var(--interactive-disabled-opacity-strong);
 }
 
 .icon {

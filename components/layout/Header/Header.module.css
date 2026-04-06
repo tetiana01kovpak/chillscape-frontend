@@ -25,9 +25,12 @@
   line-height: 1.5;
   white-space: nowrap;
   transition:
-    background-color 0.2s,
-    color 0.2s,
-    border-color 0.2s;
+    background-color var(--motion-base) var(--ease-standard),
+    color var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    opacity var(--motion-base) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard);
 }
 
 .btnPrimary {
@@ -45,11 +48,13 @@
   background-color: var(--button-primary);
   color: var(--text-white);
   border-color: transparent;
+  transform: translateY(1px);
 }
 
 .btnPrimary:disabled {
   background-color: var(--button-primary-disabled);
   cursor: not-allowed;
+  opacity: var(--interactive-disabled-opacity);
 }
 
 .btnSecondary {
@@ -68,12 +73,19 @@
   background-color: var(--button-primary-active);
   color: var(--text-white);
   border-color: transparent;
+  transform: translateY(1px);
 }
 
 .btnSecondary:disabled {
   border-color: var(--button-primary-disabled);
   color: var(--button-primary-disabled);
   cursor: not-allowed;
+  opacity: var(--interactive-disabled-opacity);
+}
+
+.btnPrimary:focus-visible,
+.btnSecondary:focus-visible {
+  box-shadow: var(--focus-ring-shadow);
 }
 
 .btnFull {
@@ -103,12 +115,16 @@
   border-radius: 5px;
   border: 1px solid transparent;
   transition:
-    border-color 0.2s,
-    background-color 0.2s;
+    color var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    background-color var(--motion-base) var(--ease-standard),
+    opacity var(--motion-base) var(--ease-standard);
 }
 
 .navLink:hover,
-.drawerLink:hover {
+.drawerLink:hover,
+.navLink:focus-visible,
+.drawerLink:focus-visible {
   border-color: var(--text-black);
 }
 
@@ -128,12 +144,25 @@
   background-color: var(--button-secondary);
   border: 1px solid var(--border);
   border-radius: 6px;
-  transition: opacity 0.2s;
+  transition:
+    opacity var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard);
 }
 
 .burgerBtn:hover,
-.closeBtn:hover {
+.closeBtn:hover,
+.burgerBtn:focus-visible,
+.closeBtn:focus-visible {
   opacity: 0.7;
+  border-color: var(--arrow-hover-border);
+  box-shadow: var(--focus-ring-shadow);
+}
+
+.burgerBtn:active,
+.closeBtn:active {
+  transform: translateY(1px);
 }
 
 .drawer {
@@ -209,11 +238,18 @@
   background: none;
   border: none;
   color: var(--text-brown);
-  transition: opacity 0.2s;
+  transition:
+    opacity var(--motion-base) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
 }
 
-.logoutBtn:hover {
+.logoutBtn:hover,
+.logoutBtn:focus-visible {
   opacity: 0.7;
+}
+
+.logoutBtn:active {
+  transform: translateY(1px);
 }
 
 .desktopUserMenu {

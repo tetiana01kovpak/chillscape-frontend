@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import RatingStars from '@/components/ui/RatingStars/RatingStars';
 import styles from './AddReviewModal.module.css';
 import { Button } from '@/components/ui/Button/Button';
+import { Loader } from '@/components/ui/Loader/Loader';
 import { TextArea } from '@/components/ui/TextArea/TextArea';
 import toast from 'react-hot-toast';
 
@@ -99,7 +100,14 @@ export default function AddReviewForm({ onClose, locationId }: Props) {
             </Button>
 
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Надсилаю...' : 'Надіслати'}
+              {isSubmitting ? (
+                <span className={styles.buttonLoaderContent}>
+                  <Loader size={18} inline />
+                  <span>Надсилаю</span>
+                </span>
+              ) : (
+                'Надіслати'
+              )}
             </Button>
           </div>
         </Form>

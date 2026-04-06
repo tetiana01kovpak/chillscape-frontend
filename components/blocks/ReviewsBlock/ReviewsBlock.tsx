@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './ReviewsBlock.module.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
@@ -11,7 +11,8 @@ import 'swiper/css/pagination';
 
 import ReviewCard from '@/components/cards/ReviewCard/ReviewCard';
 import ArrowButton from '@/components/ui/ArrowButton/ArrowButton';
-import { fetchLocationReviews, fetchReviews } from '@/lib/reviews';
+import { fetchReviews } from '@/lib/reviews';
+import { useFeedbacks } from '@/hooks/useFeedbacks';
 
 export type Review = {
   id: string;
@@ -36,12 +37,30 @@ function ReviewsBlock({
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+  const { feedbacks } = useFeedbacks(placeId ?? '');
 
-  const hasReviews = reviews.length > 0;
+  const locationReviews = useMemo<Review[]>(
+    () =>
+      feedbacks.map((feedback) => ({
+        id: feedback._id,
+        rating: feedback.rate,
+        text: feedback.comment,
+        author: feedback.user?.name || 'Невідомий автор',
+        locationType: '',
+      })),
+    [feedbacks],
+  );
+
+  const displayedReviews = placeId ? locationReviews : reviews;
+  const hasReviews = displayedReviews.length > 0;
 
   useEffect(() => {
+    if (placeId) {
+      return;
+    }
+
     const loadReviews = async () => {
-      const data = placeId ? await fetchLocationReviews(placeId) : await fetchReviews();
+      const data = await fetchReviews();
 
       setReviews(data);
     };
@@ -55,7 +74,7 @@ function ReviewsBlock({
   };
 
   return (
-    <section className={styles.reviews}>
+    <section className={`section ${styles.reviews}`}>
       <div className={'container'}>
         <div className={styles.header}>
           <h2 className={styles.title}>{title}</h2>
@@ -90,7 +109,7 @@ function ReviewsBlock({
               }}
               className={styles.slider}
             >
-              {reviews.map(review => (
+              {displayedReviews.map(review => (
                 <SwiperSlide key={review.id} className={styles.slide}>
                   <ReviewCard
                     rating={review.rating}

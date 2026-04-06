@@ -25,7 +25,7 @@ export default function AuthPromptModal() {
         </Link>
         <Link className={css.link} href="/register">
           <Button className={css.btn} variant="primary">
-            Зараєструватись
+            Зареєструватись
           </Button>
         </Link>
       </div>

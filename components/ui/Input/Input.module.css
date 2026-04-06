@@ -2,7 +2,7 @@
 .inputWrapper {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Расстояние между лэйблом, полем и ошибкой */
+  gap: 8px;
 }
 
 .label {
@@ -20,32 +20,35 @@
 .input {
   width: 100%;
   padding: 8px;
-  background-color: var(--foreground); /* Исходный цвет фона */
-  border: 1px solid rgba(0, 0, 0, 0.15); /* Легкая рамка */
-  border-radius: 6px; /* Уголки как на макете */
+  background-color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 6px;
   font-size: 18px;
-  transition: all 0.2s;
+  transition:
+    border-color var(--motion-base) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard),
+    background-color var(--motion-base) var(--ease-standard),
+    opacity var(--motion-base) var(--ease-standard);
   color: var(--text-black);
   outline: none;
 }
 
 .input::placeholder {
-  color: var(--placeholder); /* rgba(0, 0, 0, 0.6) */
+  color: var(--placeholder);
 }
 
-/* Состояния Hover и Focus */
 .input:hover:not(:disabled):not(.error) {
-  background-color: #ffe5d9;
-}
-.input:focus:not(.error) {
-  outline: none;
-  border-color: var(--button-primary); /* Оранжевый при фокусе */
-  box-shadow: 0 0 0 2px rgba(204, 101, 52, 0.1); /* Легкое свечение */
+  border-color: var(--arrow-hover-border);
 }
 
-/* Состояние Error из макета */
+.input:focus-visible:not(.error) {
+  outline: none;
+  border-color: var(--button-primary);
+  box-shadow: var(--focus-ring-shadow);
+}
+
 .error {
-  border-color: var(--red-error); /* Красная рамка */
+  border-color: var(--red-error);
 }
 
 .errorMessage {
@@ -53,11 +56,11 @@
   color: var(--red-error);
 }
 
-/* Disabled */
 .input:disabled {
-  opacity: 0.5;
+  opacity: var(--interactive-disabled-opacity);
   cursor: not-allowed;
 }
+
 .textarea {
   resize: vertical;
   min-height: 100px;
