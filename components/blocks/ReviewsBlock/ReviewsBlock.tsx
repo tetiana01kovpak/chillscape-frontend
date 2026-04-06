@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './ReviewsBlock.module.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
@@ -11,8 +11,7 @@ import 'swiper/css/pagination';
 
 import ReviewCard from '@/components/cards/ReviewCard/ReviewCard';
 import ArrowButton from '@/components/ui/ArrowButton/ArrowButton';
-import { fetchReviews } from '@/lib/reviews';
-import { useFeedbacks } from '@/hooks/useFeedbacks';
+import { fetchLocationReviews } from '@/lib/reviews';
 
 export type Review = {
   id: string;
@@ -22,14 +21,23 @@ export type Review = {
   locationType: string;
 };
 
+type Feedback = {
+  _id: string;
+  rate: number;
+  description: string;
+  userName?: string;
+};
+
 type ReviewsBlockProps = {
   placeId?: string;
+  feedbacks?: Feedback[];
   title?: string;
   showLocationType?: boolean;
 };
 
 function ReviewsBlock({
   placeId,
+  feedbacks,
   title = 'Останні відгуки',
   showLocationType = true,
 }: ReviewsBlockProps) {
@@ -37,36 +45,29 @@ function ReviewsBlock({
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
-  const { feedbacks } = useFeedbacks(placeId ?? '');
 
-  const locationReviews = useMemo<Review[]>(
-    () =>
-      feedbacks.map(feedback => ({
-        id: feedback._id,
-        rating: feedback.rate,
-        text: feedback.description,
-        author: feedback.userName || 'Невідомий автор',
-        locationType: '',
-      })),
-    [feedbacks]
-  );
+  const locationReviews: Review[] = (feedbacks ?? []).map(feedback => ({
+    id: feedback._id,
+    rating: feedback.rate,
+    text: feedback.description,
+    author: feedback.userName || 'Невідомий автор',
+    locationType: '',
+  }));
 
-  const displayedReviews = placeId ? locationReviews : reviews;
+  const displayedReviews = feedbacks ? locationReviews : reviews;
   const hasReviews = displayedReviews.length > 0;
 
   useEffect(() => {
-    if (placeId) {
-      return;
-    }
+    if (feedbacks) return;
+    if (!placeId) return;
 
     const loadReviews = async () => {
-      const data = await fetchReviews();
-
+      const data = await fetchLocationReviews(placeId); // ← замінити
       setReviews(data);
     };
 
     loadReviews();
-  }, [placeId]);
+  }, [feedbacks, placeId]);
 
   const updateNavigationState = (swiper: SwiperType) => {
     setIsBeginning(swiper.isBeginning);
@@ -93,19 +94,10 @@ function ReviewsBlock({
               slidesPerView={1}
               slidesPerGroup={1}
               spaceBetween={32}
-              pagination={{
-                clickable: true,
-                dynamicBullets: true,
-              }}
+              pagination={{ clickable: true, dynamicBullets: true }}
               breakpoints={{
-                768: {
-                  slidesPerView: 2,
-                  spaceBetween: 24,
-                },
-                1440: {
-                  slidesPerView: 3,
-                  spaceBetween: 24,
-                },
+                768: { slidesPerView: 2, spaceBetween: 24 },
+                1440: { slidesPerView: 3, spaceBetween: 24 },
               }}
               className={styles.slider}
             >

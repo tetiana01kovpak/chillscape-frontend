@@ -7,7 +7,6 @@ import { Icon } from '@/components/ui/Icon/Icon';
 import RatingStars from '@/components/ui/RatingStars/RatingStars';
 import css from './LocationCard.module.css';
 import styles from '../../ui/Button/Button.module.css';
-import DynamicRating from '@/components/ui/DynamicRating/DynamicRating';
 
 interface LocationCardProps {
   location: LocationCardData;
@@ -41,11 +40,7 @@ export default function LocationCard({
         <span className={css.type}>{location.typeName}</span>
 
         <div className={css.rating}>
-          <DynamicRating
-            locationId={location.id}
-            initialRating={location.rating}
-            showValue={false}
-          />
+          <RatingStars rating={location.rating} />
         </div>
 
         <h3 className={css.name}>{location.name}</h3>
