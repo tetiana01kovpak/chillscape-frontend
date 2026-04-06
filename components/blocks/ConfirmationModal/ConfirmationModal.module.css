@@ -32,14 +32,12 @@
 .buttons {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   gap: 24px;
-  width: 100%;
 }
 
 .btn {
-  width: 100%;
+  width: 203px;
   height: 48px;
   font-size: 16px;
   padding: 6px 12px;
