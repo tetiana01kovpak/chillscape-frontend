@@ -43,7 +43,7 @@ export default function Modal({ className, onClose, children }: ModalProps) {
     <div className={css.backdrop} role="dialog" aria-modal="true" onClick={handleBackdropClick}>
       <div className={`${css.modal} ${className}`}>
         <Button onClick={onClose} variant="icon" className={css.btn}>
-          <Icon name="icon-close" className={css.closeIcon} />
+          <Icon name="icon-close" width={24} height={24} />
         </Button>
         {children}
       </div>
