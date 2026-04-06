@@ -6,6 +6,23 @@
   margin-bottom: 12px;
 }
 
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+.ratingDivider {
+  font-size: 50px;
+  line-height: 0;
+  padding-bottom: 8px;
+}
+
+.ratingValue {
+  color: var(--text-green);
+}
+
 .meta {
   display: flex;
   flex-direction: column;
@@ -33,6 +50,10 @@
   }
 
   .meta {
+    font-size: 18px;
+  }
+
+  .ratingValue {
     font-size: 18px;
   }
 }

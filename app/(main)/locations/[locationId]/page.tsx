@@ -5,6 +5,7 @@ import {
   getUserById,
   getLocationTypes,
   getLocationRegions,
+  getFeedbacks,
 } from '@/lib/clientApi';
 
 import LocationInfoBlock from '@/components/blocks/LocationInfoBlock/LocationInfoBlock';
@@ -24,6 +25,7 @@ export default async function LocationDetailsPage({ params }: Props) {
     getLocationById(locationId),
     getLocationTypes(),
     getLocationRegions(),
+    getFeedbacks(locationId),
   ]);
   const isValidMongoId = /^[a-f\d]{24}$/i.test(locationId);
 
