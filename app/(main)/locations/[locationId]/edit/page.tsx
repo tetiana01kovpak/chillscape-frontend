@@ -69,8 +69,8 @@ export default function EditLocationPage() {
   };
 
   return (
-    <main className="container">
-      <div className="section">
+    <main className="section">
+      <div className="container">
         <LocationForm
           title="Редагування місця"
           initialData={initialValues}

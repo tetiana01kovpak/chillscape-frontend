@@ -3,7 +3,16 @@
   flex-direction: column;
   align-items: center;
   gap: 32px;
-  padding: 64px 20px;
+  max-width: 375px;
+  text-align: center;
+
+  @media screen and (min-width: 768px) {
+    max-width: 704px;
+  }
+
+  @media only screen and (min-width: 1440px) {
+    max-width: 768px;
+  }
 }
 
 .sectionTitle {
@@ -15,64 +24,49 @@
 
 .title {
   font-size: 26px;
-  font-weight: 700;
-  line-height: 120%;
-  letter-spacing: -0.01em;
-  text-align: center;
   color: var(--text-black);
+
+  @media screen and (min-width: 768px) {
+    font-size: 32px;
+  }
+
+  @media only screen and (min-width: 1440px) {
+    font-size: 48px;
+  }
 }
 
-.content {
+.text {
   font-size: 16px;
-  line-height: 150%;
-  text-align: center;
+  line-height: 1.5;
   color: var(--text-black);
+
+  @media only screen and (min-width: 1440px) {
+    font-size: 20px;
+  }
 }
 
 .buttons {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   gap: 24px;
+  flex-direction: column;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 
 .btn {
-  width: 203px;
-  height: 48px;
+  width: 100%;
   font-size: 16px;
-  padding: 6px 12px;
-}
+  font-weight: 400;
 
-@media only screen and (min-width: 768px) {
-  .title {
-    font-size: 32px;
+  @media screen and (min-width: 768px) {
+    min-width: 203px;
   }
 
-  .content {
-    font-size: 18px;
-  }
-
-  .buttons {
-    flex-direction: row;
-    width: auto;
-  }
-
-  .btn {
-    width: 203px;
-    font-size: 18px;
-  }
-}
-
-@media only screen and (min-width: 1440px) {
-  .title {
-    font-size: 48px;
-  }
-
-  .content {
-    font-size: 20px;
-  }
-
-  .btn {
+  @media only screen and (min-width: 1440px) {
     font-size: 20px;
   }
 }

@@ -182,22 +182,19 @@
     justify-content: flex-end;
     gap: 16px;
   }
-  .submitBtn, .cancelBtn {
+  .submitBtn,
+  .cancelBtn {
     width: 203px;
     height: 48px;
   }
-
 }
 
 @media only screen and (min-width: 1440px) {
   .root {
-    margin: 0 64px;
-    padding-bottom:72px;
+    padding-bottom: 72px;
     width: 1091px;
   }
   .pageTitle {
-
     margin: 48px 0;
   }
-
 }

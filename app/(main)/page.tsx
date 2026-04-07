@@ -7,9 +7,11 @@ export default function HomePage() {
   return (
     <>
       <HeroBlock />
-      <AdvantagesBlock />
-      <PopularLocationsBlock />
-      <ReviewsBlock />
+      <div className="section">
+        <AdvantagesBlock />
+        <PopularLocationsBlock />
+        <ReviewsBlock />
+      </div>
     </>
   );
 }

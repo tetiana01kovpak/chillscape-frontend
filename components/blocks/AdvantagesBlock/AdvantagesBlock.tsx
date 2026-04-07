@@ -24,7 +24,7 @@ const advantages = [
 
 export const AdvantagesBlock = () => {
   return (
-    <section className={`${styles.advantages} section`}>
+    <section className={styles.advantages}>
       <div className="container">
         <h2 className={styles.advntitle}>Ключові переваги</h2>
 
