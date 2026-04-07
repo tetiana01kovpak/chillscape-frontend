@@ -1,4 +1,5 @@
 'use client';
+
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
 import ReviewsBlock from '../ReviewsBlock/ReviewsBlock';
@@ -23,10 +24,14 @@ export default function ReviewsSection({ locationId }: Props) {
 
   return (
     <section className={css.wrapper}>
-      <ReviewsBlock placeId={locationId} title="Відгуки" showLocationType={false} />
-      <Button onClick={handleReviewClick} className={css.btnStyle}>
-        Залишити відгук
-      </Button>
+      <div className={`container ${css.header}`}>
+        <h2 className={css.title}>Відгуки</h2>
+        <Button onClick={handleReviewClick} className={css.btnStyle}>
+          Залишити відгук
+        </Button>
+      </div>
+
+      <ReviewsBlock placeId={locationId} showTitle={false} showLocationType={false} />
     </section>
   );
 }

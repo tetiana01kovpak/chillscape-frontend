@@ -3,6 +3,12 @@
   flex-direction: column;
   align-items: center;
   gap: 32px;
+  max-width: 375px;
+  text-align: center;
+
+  @media screen and (min-width: 768px) {
+    max-width: 704px;
+  }
 }
 
 .sectionTitle {
@@ -13,23 +19,47 @@
 }
 
 .title {
-  font-size: 48px;
+  font-size: 26px;
   color: var(--text-black);
+
+  @media screen and (min-width: 768px) {
+    font-size: 32px;
+  }
+
+  @media only screen and (min-width: 1440px) {
+    font-size: 48px;
+  }
 }
 
 .text {
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.5;
   color: var(--text-black);
+
+  @media only screen and (min-width: 1440px) {
+    font-size: 20px;
+  }
+}
+
+.btn {
+  width: 100%;
+  font-size: 16px;
+  font-weight: 400;
+
+  @media only screen and (min-width: 1440px) {
+    font-size: 20px;
+  }
 }
 
 .buttons {
   display: flex;
   gap: 24px;
   flex-direction: column;
+  width: 100%;
 
   @media screen and (min-width: 768px) {
     flex-direction: row;
+    justify-content: center;
   }
 }
 
@@ -39,10 +69,4 @@
   @media screen and (min-width: 768px) {
     min-width: 203px;
   }
-}
-
-.btn {
-  width: 100%;
-  padding: 6px 12px;
-  font-size: 20px;
 }

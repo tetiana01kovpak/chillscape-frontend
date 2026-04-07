@@ -6,7 +6,6 @@ import Modal from '@/components/Modal/Modal';
 import { Button } from '@/components/ui/Button/Button';
 import { Loader } from '@/components/ui/Loader/Loader';
 import css from './ConfirmationModal.module.css';
-import styles from '../../ui/Button/Button.module.css';
 
 interface ConfirmationModalProps {
   title: string;
@@ -60,12 +59,12 @@ export default function ConfirmationModal({
     <Modal onClose={handleCancel} className={css.modal}>
       <div className={css.sectionTitle}>
         <h2 className={css.title}>{title}</h2>
-        {children ? <div className={css.content}>{children}</div> : null}
+        {children ? <div className={css.text}>{children}</div> : null}
       </div>
 
       <div className={css.buttons}>
         <Button
-          className={`${css.btn} ${styles.secondary}`}
+          className={css.btn}
           variant="secondary"
           onClick={handleCancel}
           disabled={isLoading}
@@ -73,7 +72,7 @@ export default function ConfirmationModal({
           {cancelButtonText}
         </Button>
         <Button
-          className={`${css.btn} ${styles.primary}`}
+          className={css.btn}
           variant="primary"
           onClick={handleConfirm}
           disabled={isLoading}
